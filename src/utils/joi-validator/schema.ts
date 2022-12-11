@@ -1,7 +1,7 @@
 // import joi from "joi";
-import { Request, Response } from "express";
+// import { Request, Response } from "express";
 
-// export your midddleware validations middlleware here
+// export your route validations middlleware here
 
 // export const option = {
 //   abortEarly: false,
