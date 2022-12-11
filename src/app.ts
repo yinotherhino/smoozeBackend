@@ -1,5 +1,5 @@
 import createError from 'http-errors';
-import express, { Request, Express, Response } from 'express';
+import express, { Request, Express, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
@@ -21,7 +21,7 @@ app.use('/users', usersRouter);
 
 const port = process.env.PORT || 3000;
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function(req:Request, res:Response, next:NextFunction) {
   next(createError(404));
 });
 
