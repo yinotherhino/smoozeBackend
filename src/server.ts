@@ -8,10 +8,10 @@ const app = express();
 //:::contollers:::
 import { protect } from "./middleware/auth/auth";
 import { musicRouter, playlistRoute, usersRoute } from "./routes/index";
-import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
+// import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
-import signup from "./routes/users";
+import signup from "./routes/register";
 
 // ::::initalise database:::
 db.sync({})
@@ -28,19 +28,18 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 // :::: end globals::::
 
+app.post("/api/user/signup", signup);
 swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
-app.post("/user/signup", signup);
+
 // app.post("/signin", signin);
-app.get('/test',(req,res)=>{res.status(200).json({code:200,message:"welcome to"})}),
+app.get('/test',(req,res)=>{res.status(200).json({code:200,message:"welcome to"})})
 
 
 app.use("/api/user", usersRoute);
 
-app.use("/api/user", usersRoute);
-
-app.use(errorRouterHandler);
-app.use(errorHandler);
+// app.use(errorRouterHandler);
+// app.use(errorHandler);
 
 export default app;

@@ -64,7 +64,6 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
       
 
   }catch(err){
- console.log(err)
     res.status(500).json({
         Error: 'Internal server error occured'
     })
