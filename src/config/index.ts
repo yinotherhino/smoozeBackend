@@ -18,9 +18,17 @@ if (stage === "production") {
 export default merge(
   {
     //default setting of app in dev
+
     stage,
     env: process.env.NODE_ENV,
-    port: 3000,
+    DATABASE_URL: "",
+    APP_SECRETE: "",
+    JWT_SECRETE: "",
+    DATABASE_USERNAME: "postgres",
+    DATABASE_HOST: "localhost",
+    DATABASE_DATABASE_NAME: "postgres",
+    DATABASE_PASSWORD: "1234",
+    DATABASE_PORT: 5432,
     secrete: {
       JWT: process.env.JWT_SECRETE,
       dbURL: process.env.DATABASE_URL,

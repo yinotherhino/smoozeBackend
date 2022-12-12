@@ -10,13 +10,21 @@ import { protect } from "./middleware/auth/auth";
 import { musicRouter, playlistRoute } from "./routes/index";
 import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { signin, signup } from "./handlers/userHandler";
+import { db } from "./config/db";
 
+// ::::initalise database:::
+db.sync({}).then(()=>{
+    console.log("connected to db")
+}).catch(error=>{
+    console.log(error)
+})
 // ::::globals::::
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 // ::::globals::::
+
 
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
