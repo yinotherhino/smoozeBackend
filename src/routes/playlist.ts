@@ -4,7 +4,12 @@ export const playlistRoute = Router();
 
 /**
  * @swagger
- * playlist
+ * /:
+ *   get:
+ *     description: Testing for get api
+ *     responses:
+ *       200:
+ *         description: Returns hello playlist
  */
 playlistRoute
   .get("/", (req, res) => {
