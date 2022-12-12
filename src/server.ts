@@ -25,14 +25,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-// ::::globals::::
-
-// ::::globals::::
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-// ::::globals::::
+// :::: end globals::::
 
 swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
