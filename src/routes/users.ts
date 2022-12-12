@@ -1,4 +1,5 @@
 import express, {Response, Request} from 'express';
+import { RegisterUser } from '../controllers/user';
 
 
 var router = express.Router();
@@ -7,5 +8,7 @@ var router = express.Router();
 router.get('/', (req:Request, res:Response) => {
   res.send('users page');
 });
+
+router.post('/signup', RegisterUser )
 
 export default router;
