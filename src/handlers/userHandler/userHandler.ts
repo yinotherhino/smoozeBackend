@@ -15,9 +15,8 @@ export const signin = async (
   res: Response,
   next: NextFunction
 ) => {
-
-    res.status(200).json({
-        code: 200,
-        data: {},
-      });
+  res.status(200).json({
+    code: 200,
+    data: {},
+  });
 };
