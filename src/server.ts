@@ -11,6 +11,7 @@ import { musicRouter, playlistRoute, usersRoute } from "./routes/index";
 import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
+import signup from "./routes/users";
 
 // ::::initalise database:::
 db.sync({})
@@ -30,8 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
-app.post("/signup", signup);
-app.post("/signin", signin);
+app.post("/user/signup", signup);
+// app.post("/signin", signin);
 app.get('/test',(req,res)=>{res.status(200).json({code:200,message:"welcome to"})}),
 
 

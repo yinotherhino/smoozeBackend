@@ -4,7 +4,7 @@ import {v4 as UUID} from 'uuid';
 
 // import httpStatus from 'http-status';
 import {registerSchema, options, generateToken,} from '../utils/utils';
-import jwt from 'jsonwebtoken';
+
 import { UserInstance, UserAttributes } from '../model/userModel';
 
 
@@ -12,7 +12,7 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
  
   try{
         const userId = UUID();
-        const {userName, email, phoneNumber,gender, password, confirm_password} = req.body;
+        const {userName, email, phoneNumber,gender, password} = req.body;
     
         const validateResult =  registerSchema.validate(req.body, options);
         if (validateResult.error) {
@@ -31,7 +31,7 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
             return res.status(400).json({message: 'Email or phone number already exists'})
           };
         
-        const passwordHash = await bcrypt.hash(req.body.password, 10);
+        const passwordHash = await bcrypt.hash(password, 10);
           
         // console.log(passwordHash,"hello")
         if(!userEmail && !userPhoneNumber){
