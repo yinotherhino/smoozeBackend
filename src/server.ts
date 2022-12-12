@@ -37,6 +37,7 @@ app.get('/test',(req,res)=>{res.status(200).json({code:200,message:"welcome to"}
 
 app.use("/api/user", usersRoute);
 
+app.use("/api/user", usersRoute);
 app.use(errorRouterHandler);
 app.use(errorHandler);
 

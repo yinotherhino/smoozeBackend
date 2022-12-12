@@ -1,6 +1,8 @@
 import express, {Response, Request} from 'express';
 import { RegisterUser } from '../controllers/user';
+import { signin, signup } from "../handlers/userHandler";
 
+export const usersRoute = express.Router();
 
 var router = express.Router();
 
@@ -12,3 +14,5 @@ router.get('/', (req:Request, res:Response) => {
 router.post('/signup', RegisterUser )
 
 export default router;
+usersRoute.post("/signup", signup);
+usersRoute.post("/signin", signin);

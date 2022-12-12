@@ -1,11 +1,4 @@
-import express, {Response, Request} from 'express';
+export { usersRoute } from "./users";
 
-
-var router = express.Router();
-
-/* GET home page. */
-router.get('/', (req:Request, res:Response) => {
-  res.send('index page');
-});
-
-export default router;
+export { musicRouter } from "./music";
+export { playlistRoute } from "./playlist";
