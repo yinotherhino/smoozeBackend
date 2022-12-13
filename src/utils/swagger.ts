@@ -7,9 +7,9 @@ const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Swagger API Documentation for Smoove App",
+      title: "Swagger API Documentation for Smooze App",
       version: "1.0.0",
-      description: "Documenting various apis for Smoove App",
+      description: "Documenting various apis for Smooze App",
     },
     components: {
       securitySchemas: {
@@ -25,10 +25,10 @@ const options: swaggerJSDoc.Options = {
         bearerAuth: [],
       },
     ],
-    host: "localhost:3000",
+    host: "localhost:7000",
     basePath: "/",
   },
-  apis: ["../src/routes/playlist"],
+  apis: ["../../src/routes/playlist.ts"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -43,3 +43,5 @@ export const swaggerDocs = (app: Application) => {
 
   console.log(`Docs available at http://localhost:${config.port}/api-docs`);
 };
+
+
