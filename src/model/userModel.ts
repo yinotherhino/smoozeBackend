@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import {db} from "../db/index";
+import {db} from "../config/db";
 // import { patientInstance } from "../model/reportModel";
 
 export interface UserAttributes {
@@ -18,7 +18,7 @@ export class UserInstance extends Model<UserAttributes>{}
 UserInstance.init(
   {
     id: {
-      type: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
       allowNull: false,
     },
@@ -53,7 +53,6 @@ UserInstance.init(
     },
     date_birth: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
 
     password: {
