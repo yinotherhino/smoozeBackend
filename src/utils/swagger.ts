@@ -7,9 +7,9 @@ const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Swagger API Documentation for Smoove App",
+      title: "Smoove Api Doc",
       version: "1.0.0",
-      description: "Documenting various apis for Smoove App",
+      description: "Documentaion for Smoove App",
     },
     components: {
       securitySchemas: {
@@ -25,7 +25,7 @@ const options: swaggerJSDoc.Options = {
         bearerAuth: [],
       },
     ],
-    host: "localhost:3000",
+    host: "localhost:7000",
     basePath: "/",
   },
   apis: ["../src/routes/playlist"],
