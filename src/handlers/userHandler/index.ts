@@ -1,1 +1,1 @@
-export {signup,signin} from './userHandler'
+export {signup,signin,update} from './userHandler'
