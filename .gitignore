@@ -3,6 +3,7 @@
 .git
 /node_modules
  *.vscode
+ .vscode
 ### macOS ###
 # General
 .DS_Store
