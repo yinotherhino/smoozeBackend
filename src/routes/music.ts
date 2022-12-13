@@ -2,7 +2,12 @@ import express from "express";
 export const musicRouter = express.Router();
 /**
  * @swagger
- * music
+  * /api/music:
+ *   get:
+ *     description: Testing for get api
+ *     responses:
+ *       200:
+ *         description: Returns hello music
  */
 musicRouter
   .get("/", (req, res) => {

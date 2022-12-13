@@ -2,6 +2,11 @@ import config from "../config";
 import { Request, Response, Application } from "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import path from "path";
+
+const playlist = path.resolve(__dirname, "../../src/routes/playlist.ts");
+const music = path.resolve(__dirname, "../../src/routes/music.ts");
+const user = path.resolve(__dirname, "../../src/routes/users.ts");
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -28,7 +33,7 @@ const options: swaggerJSDoc.Options = {
     host: "localhost:7000",
     basePath: "/",
   },
-  apis: ["../../src/routes/playlist.ts"],
+  apis: [playlist, music, user],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
