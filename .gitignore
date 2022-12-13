@@ -2,7 +2,9 @@
 /github
 .git
 /node_modules
+/src/config
  *.vscode
+ .vscode
 ### macOS ###
 # General
 .DS_Store

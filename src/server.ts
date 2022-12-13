@@ -32,6 +32,7 @@ swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
 app.use("/api/user", usersRoute);
+
 app.use(errorRouterHandler);
 app.use(errorHandler);
 

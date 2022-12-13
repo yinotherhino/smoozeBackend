@@ -1,16 +1,8 @@
-import express from "express";
-import { signin, signup } from "../handlers/userHandler";
+import express from 'express';
+import { Register} from '../handlers/userHandler';
+import { RegisterUser } from '../utils/joi-validator';
 
 export const usersRoute = express.Router();
 
-/**
- * @swagger
- * /api/user/signup:
- *   post:
- *     description: Testing for get api
- *     responses:
- *       200:
- *         description: Returns user details
- */
-usersRoute.post("/signup", signup);
-usersRoute.post("/signin", signin);
+usersRoute.post('/signup',RegisterUser,Register);
+
