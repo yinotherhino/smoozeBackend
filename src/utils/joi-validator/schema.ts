@@ -1,6 +1,5 @@
 import joi from "joi";
 import { NextFunction, Request, Response } from "express";
-
 // export your route validations middlleware here
 
 export const option = {
@@ -62,7 +61,31 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
      } else {
        next();
      }
+
+
+     
      
 };
+
+
+export const RegisterUser = (req:Request,res:Response,next:NextFunction)=>{
+  const registerSchema = joi.object().keys({
+    email : joi.string().email().required(),
+    userName : joi.string().min(5).required(),
+    gender : joi.string().required(),
+    date_birth : joi.string().required(),
+    password: joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+    // confirm_password: joi.any().equal(joi.ref('password')).required()
+    // .label('confirm password').messages({'any.only': '{{#label}} does not match'})
+    
+  })
+
+  const check = registerSchema.validate(req.body, option);
+  if (check.error) {
+    return res.status(400).json({ code: 400, error: check.error.message });
+  } else {
+    next();
+  } 
+}
 
 

@@ -1,2 +1,2 @@
 // export { createUser } from "./schema";
-export {updateUser} from "./schema";
+export {updateUser,RegisterUser,loginUser} from "./schema";
