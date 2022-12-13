@@ -12,7 +12,7 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
  
   try{
         const userId = UUID();
-        const {userName, email, phoneNumber,gender, password} = req.body;
+        const {userName, email,gender, date_birth, password} = req.body;
     
         const validateResult =  registerSchema.validate(req.body, options);
         if (validateResult.error) {
@@ -25,24 +25,25 @@ export async function RegisterUser(req:Request, res:Response, next:NextFunction)
           if (userEmail) {
             return res.status(400).json({message: 'Email or Phone number already exists'})
           }
-        const userPhoneNumber = await UserInstance.findOne({where: {phoneNumber: phoneNumber},
-          })as unknown as UserAttributes;
-          if (userPhoneNumber) {
-            return res.status(400).json({message: 'Email or phone number already exists'})
-          };
+        // const userPhoneNumber = await UserInstance.findOne({where: {phoneNumber: phoneNumber},
+        //   })as unknown as UserAttributes;
+        //   if (userPhoneNumber) {
+        //     return res.status(400).json({message: 'Email or phone number already exists'})
+        //   };
         
         const passwordHash = await bcrypt.hash(password, 10);
           
         // console.log(passwordHash,"hello")
-        if(!userEmail && !userPhoneNumber){
+        if(!userEmail){
 
             
             const Users = {
                 id:userId,
                 userName,
+                phoneNumber: '',
                 email,
-                phoneNumber,
                 gender,
+                date_birth,
                 password: passwordHash,
                 
             }

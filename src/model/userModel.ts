@@ -6,20 +6,14 @@ export interface UserAttributes {
   id: string;
   userName: string;
   email: string; // no duplicates allowed.
-  phoneNumber: string;
+ 
   gender: string;
+  date_birth: string;
   password: string;
 }
-/**
- * id:userId,
-            usersName,
-            email,
-            phoneNumber,
-            gender,
-            password:
- */
 
-export class UserInstance extends Model<UserAttributes> {}
+
+export class UserInstance extends Model<UserAttributes>{}
 
 UserInstance.init(
   {
@@ -57,19 +51,11 @@ UserInstance.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    phoneNumber: {
-      type: DataTypes.NUMBER,
+    date_birth: {
+      type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        notNull: {
-          msg: "Phone number is required",
-        },
-        isNumeric: {
-          msg: "Provide the valid phone number",
-        },
-      },
     },
+
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -82,13 +68,3 @@ UserInstance.init(
   }
 );
 
-// Linking doctor to all patient report
-// DoctorsInstance.hasMany(patientInstance, {
-//   foreignKey: "doctorId",
-//   as: "Patient Report",
-// });
-
-// patientInstance.belongsTo(DoctorsInstance, {
-//   foreignKey: "doctorId",
-//   as: "Doctors",
-// });

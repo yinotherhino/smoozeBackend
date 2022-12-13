@@ -6,7 +6,7 @@ import { secret } from '../db'
 export const registerSchema = Joi.object().keys({
     email : Joi.string().email().required(),
     userName : Joi.string().min(5).required(),
-    phoneNumber: Joi.string().required(),
+    phoneNumber: Joi.string(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
     confirm_password: Joi.any().equal(Joi.ref('password')).required()
     .label('confirm password').messages({'any.only': '{{#label}} does not match'})
