@@ -2,14 +2,19 @@ import config from "../config";
 import { Request, Response, Application } from "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import path from "path";
+
+const playlist = path.resolve(__dirname, "../../src/routes/playlist.ts");
+const music = path.resolve(__dirname, "../../src/routes/music.ts");
+const user = path.resolve(__dirname, "../../src/routes/users.ts");
 
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Smoove Api Doc",
+      title: "Swagger API Documentation for Smoove App",
       version: "1.0.0",
-      description: "Documentaion for Smoove App",
+      description: "Documenting various apis for Smoove App",
     },
     components: {
       securitySchemas: {
@@ -25,10 +30,10 @@ const options: swaggerJSDoc.Options = {
         bearerAuth: [],
       },
     ],
-    host: "localhost:7000",
+    host: "localhost:3000",
     basePath: "/",
   },
-  apis: ["../src/routes/playlist"],
+  apis: [playlist, music, user],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -43,3 +48,5 @@ export const swaggerDocs = (app: Application) => {
 
   console.log(`Docs available at http://localhost:${config.port}/api-docs`);
 };
+
+

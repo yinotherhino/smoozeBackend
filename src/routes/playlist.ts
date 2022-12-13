@@ -4,7 +4,7 @@ export const playlistRoute = Router();
 
 /**
  * @swagger
- * /:
+ * /api/playlist:
  *   get:
  *     description: Testing for get api
  *     responses:
