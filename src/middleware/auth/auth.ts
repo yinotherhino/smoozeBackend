@@ -1,7 +1,9 @@
-import{ Request, Response, NextFunction} from "express";
+import{  Response, NextFunction} from "express";
 
 import jwt, { JwtPayload } from "jsonwebtoken"
-import {UserInstances, UserAttributes} from "../../model";
+import { UserInstance } from "../../model";
+// import UserInstance  from "../../model";
+import { UserAttributes } from "../../model/interface/UserAttributes";
 
 export const protect = async (req: any, res: any, next: any) => {
   try {
@@ -37,7 +39,7 @@ export const auth=async(req:JwtPayload, res:Response, next:NextFunction)=>{
      
     const {id} =verified as  JwtPayload 
     
-    const user = (await UserInstances.findOne({
+    const user = (await UserInstance.findOne({
         where: { id: id },
       })) as unknown as UserAttributes;
 
