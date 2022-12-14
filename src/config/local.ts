@@ -1,5 +1,5 @@
 export default {
-  port: 4003,
+  port: 7000,
   DATABASE_URL: "",
   APP_SECRETE: "blablabla",
   JWT_SECRETE: "blablabla",
