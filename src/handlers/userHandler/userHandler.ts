@@ -16,7 +16,6 @@ export const Register = async (req: Request, res: Response,next:NextFunction) =>
     const userPassword = await GeneratePassword(password, salt);    
     //check if user already exists using key value pairs in the object
     const userCheck = await UserInstance.findOne({ where: { email: email } });
-
     //Create User
     if (!userCheck) {
       let newUser = await UserInstance.create({
@@ -37,11 +36,13 @@ export const Register = async (req: Request, res: Response,next:NextFunction) =>
 
     }else{
     //User already exists
-    throw new Error("User already exists");
+    return res.status(400).json({Error: "User already exists"})
     }
   } catch (err) {
-    next(err)
-  }
+    res.status(500).json({
+      Error: "Internal server error",
+  })
+}
 };
 
 
