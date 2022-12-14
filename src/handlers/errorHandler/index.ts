@@ -6,10 +6,10 @@ export const errorHandler = async (
   next: NextFunction
 ) => {
   // console.log(error);
-  res.json({ code: 500, error: error.message });
+  res.json({ code: error.code, error: error.message });
 };
 
 export const errorRouterHandler = express.Router();
 errorRouterHandler.all("/*", () => {
-  throw "End of Page";
+  throw { code: 404, message: "End of Page" };
 });
