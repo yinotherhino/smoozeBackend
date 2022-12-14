@@ -4,6 +4,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { UserInstance } from "../../model";
 // import UserInstance  from "../../model";
 import { UserAttributes } from "../../interface/UserAttributes";
+import config from "../../config";
 
 export const protect = async (req: any, res: any, next: any) => {
   try {
@@ -28,7 +29,7 @@ export const auth = async (
     }
 
     const token = authorization.slice(7, authorization.length);
-    let verified = jwt.verify(token, process.env.APP_SECRET as string);
+    let verified = jwt.verify(token, config.APP_SECRETE as string);
 
     if (!verified) {
       return res.status(401).json({

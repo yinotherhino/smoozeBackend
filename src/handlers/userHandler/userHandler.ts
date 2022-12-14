@@ -99,8 +99,8 @@ export const signin = async (req: Request, res: Response,next:NextFunction) => {
 };
 
 /* =============UPDATE=======================. */
-export const update = async (req: JwtPayload, res: Response) => {
-  const { firstName, lastName, country, password } = req.body;
+export const update = async (req: JwtPayload, res: Response, next:NextFunction) => {
+  const { firstName, lastName, country, password,address,currency} = req.body;
   const id = req.user.id;
   try {
     const User = (await UserInstance.findOne({
@@ -119,6 +119,11 @@ export const update = async (req: JwtPayload, res: Response) => {
         lastName,
         country,
         password,
+        address,
+        currency,
+      
+     
+      
       },
       { where: { id: id } }
     )) as unknown as UserAttributes;
@@ -137,9 +142,6 @@ export const update = async (req: JwtPayload, res: Response) => {
       Error: "Error occurred",
     });
   } catch (error) {
-    res.status(500).json({
-      Error: "Internal server error",
-      route: "/users/update",
-    });
+   next(error)
   }
 };
