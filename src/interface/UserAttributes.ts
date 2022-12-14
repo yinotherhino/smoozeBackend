@@ -17,7 +17,7 @@ export interface UserAttributes {
     profileImage?: string
     gender: string,
     date_birth: Date,
-    // createdAt: Date,
+   
     country?: string,
     lan?: string,
     currency?: string,
