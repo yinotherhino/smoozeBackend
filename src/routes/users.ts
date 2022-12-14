@@ -1,7 +1,8 @@
-import express from "express";
-import { signin, signup } from "../handlers/userHandler";
+import express from 'express';
+import { Register} from '../handlers/userHandler';
+import { RegisterUser } from '../utils/joi-validator';
 
 export const usersRoute = express.Router();
 
-usersRoute.post("/signup", signup);
-usersRoute.post("/signin", signin);
+usersRoute.post('/signup',RegisterUser,Register);
+

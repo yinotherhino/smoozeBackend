@@ -5,8 +5,8 @@ export const errorHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(error);
-  res.json({ code: 500, error: error });
+  // console.log(error);
+  res.json({ code: 500, error: error.message });
 };
 
 export const errorRouterHandler = express.Router();

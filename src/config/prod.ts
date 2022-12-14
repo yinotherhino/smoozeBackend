@@ -1,8 +1,8 @@
 export default {
   port: process.env.PORT,
   DATABASE_URL: "",
-  APP_SECRETE: "",
-  JWT_SECRETE: "",
+  APP_SECRETE: "blablabla",
+  JWT_SECRETE: "blablabla",
   STAGE: "production",
   DATABASE_USERNAME: "postgres",
   DATABASE_HOST: "localhost",
