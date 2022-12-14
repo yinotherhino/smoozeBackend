@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import { HttpError } from "http-errors";
 import * as dotenv from "dotenv";
 dotenv.config();
 const app = express();
@@ -17,7 +18,7 @@ db.sync({})
   .then(() => {
     console.log("connected to db");
   })
-  .catch((error) => {
+  .catch((error: HttpError) => {
     console.log(error);
   });
 // ::::globals::::

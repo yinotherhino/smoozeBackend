@@ -1,24 +1,34 @@
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { UserInstance } from "../../model";
-import { GenerateSalt, GenerateSignature, validatePassword ,GeneratePassword} from "../../utils/auth-utils";
-import { UserAttributes } from "../../model/interface";
-import {v4 as UUID} from 'uuid';
+import {
+  GenerateSalt,
+  GenerateSignature,
+  // validatePassword,
+  GeneratePassword,
+  validatePassword,
+} from "../../utils/auth-utils";
+import { UserAttributes } from "../../interface";
+import { v4 as UUID } from "uuid";
 
 /* =============SIGNUP=======================. */
 
-export const Register = async (req: Request, res: Response,next:NextFunction) => {
+export const Register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const { email, userName, password,gender,date_birth } = req.body;
+    const { email, userName, password, gender, date_birth } = req.body;
     const uuiduser = UUID();
 
     const salt = await GenerateSalt();
-    const userPassword = await GeneratePassword(password, salt);    
+    const userPassword = await GeneratePassword(password, salt);
     //check if user already exists using key value pairs in the object
     const userCheck = await UserInstance.findOne({ where: { email: email } });
     //Create User
     if (!userCheck) {
-      let newUser = await UserInstance.create({
+      let newUser = (await UserInstance.create({
         id: uuiduser,
         email,
         userName,
@@ -27,108 +37,108 @@ export const Register = async (req: Request, res: Response,next:NextFunction) =>
         password: userPassword,
         salt,
         verified: false,
-      })as unknown as UserAttributes;
-     const token = await GenerateSignature({id: newUser.id ,email:newUser.email,verified:newUser.verified}) 
-      return res.status(201).json({
-        message: "User created successfully, check your email to activate you account",
-          token,
+      })) as unknown as UserAttributes;
+      const token = await GenerateSignature({
+        id: newUser.id,
+        email: newUser.email,
+        verified: newUser.verified,
       });
-
-    }else{
-    //User already exists
-    return res.status(400).json({Error: "User already exists"})
+      return res.status(201).json({
+        message:
+          "User created successfully, check your email to activate you account",
+        token,
+      });
+    } else {
+      //User already exists
+      throw new Error("User already exists");
     }
   } catch (err) {
-    res.status(500).json({
-      Error: "Internal server error",
-  })
-}
+    next(err);
+  }
 };
 
-
-
-
-
 /* =============LOGIN=======================. */
-export const signin = async (req: Request, res: Response) => { 
+export const signin = async (req: Request, res: Response,next:NextFunction) => {
   const { email, password } = req.body;
   try {
-      
-      const User = (await UserInstance.findOne({
-          where: { email: email },
-      })) as unknown as UserAttributes;
+    const User = (await UserInstance.findOne({
+      where: { email: email },
+    })) as unknown as UserAttributes;
+  
 
-      if (!User) { 
-          res.status(400).send("Invalid email or password");
-      }
-      const validPassword = await validatePassword(password, User.password, User.salt);
-      if (!validPassword) { 
-          res.status(400).send("Invalid email or password");
-      }
+    if (!User) {
+      throw new Error("Invalid email or password");
+    } else {
+      //validate password
+      const validPassword = await validatePassword(
+        password,
+        User.password,
+        User.salt
+      )
+      console.log(validPassword)
+      if (!validPassword) throw new Error("Invalid email or password");
+  
       const payload = {
-          id: User.id,
-          email: User.email,
-      
-      }
+        id: User.id,
+        email: User.email,
+        verified: User.verified,
+      };
       const signature = await GenerateSignature(payload);
-      
-      return res.status(201).json({
-          message: "Login successful",
-          signature: signature,
-      })
 
+      return res.status(200).json({
+        message: "Login successful",
+        signature: signature,
+      });
+    }
+ 
   } catch (error) {
-      res.status(500).json({
-          Error: "Internal server error",
-          route: "/users/signin",
-        });
+    next(error)
+
   }
-}
+};
 
 /* =============UPDATE=======================. */
-export const update = async (req:JwtPayload, res: Response) => { 
-  const { firstName, lastName, country, password,} = req.body;
-  const id=req.user.id
-try {
+export const update = async (req: JwtPayload, res: Response) => {
+  const { firstName, lastName, country, password } = req.body;
+  const id = req.user.id;
+  try {
+    const User = (await UserInstance.findOne({
+      where: { id: id },
+    })) as unknown as UserAttributes;
 
-   const User = (await UserInstance.findOne({
-       where: { id: id},
-   })) as unknown as UserAttributes;
+    if (!User) {
+      res.status(400).json({
+        Error: "ou are not authorize to update your profile",
+      });
+    }
 
-   if (!User) {
-       res.status(400).json({
-           Error: "ou are not authorize to update your profile",
-       });
-   }
+    const updatedUser = (await UserInstance.update(
+      {
+        firstName,
+        lastName,
+        country,
+        password,
+      },
+      { where: { id: id } }
+    )) as unknown as UserAttributes;
 
-   const updatedUser = (await UserInstance.update(
-       {
-          firstName,
-          lastName,
-           country,
-           password
-       },
-       { where: { id: id } }
-   )) as unknown as UserAttributes;
+    if (updatedUser) {
+      const User = (await UserInstance.findOne({
+        where: { id: id },
+      })) as unknown as UserAttributes;
 
-   
-   if(updatedUser){
-       const User = (await UserInstance.findOne({
-         where: { id: id },
-       })) as unknown as UserAttributes;
- 
-       return res.status(200).json({
-         message:"You have successfully updated your profile",
-         User
-       })
-     }
-     return res.status(400).json({
-       Error: "Error occurred"
-     })
-} catch (error) { 
-   res.status(500).json({
-       Error: "Internal server error",
-       route: "/users/update",
-     });
-}
-}
+      return res.status(200).json({
+        message: "You have successfully updated your profile",
+        User,
+      });
+    }
+    return res.status(400).json({
+      Error: "Error occurred",
+    });
+  } catch (error) {
+    res.status(500).json({
+      Error: "Internal server error",
+      route: "/users/update",
+    });
+  }
+};
