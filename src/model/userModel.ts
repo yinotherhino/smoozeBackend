@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
-import {UserAttributes} from './interface/UserAttributes'
+import { UserAttributes } from "../interface/UserAttributes";
 export class UserInstance extends Model<UserAttributes> {}
 UserInstance.init(
   {
@@ -28,7 +28,7 @@ UserInstance.init(
       validate: {
         notNull: {
           msg: "Username is required",
-        }
+        },
       },
     },
     password: {
@@ -82,11 +82,10 @@ UserInstance.init(
           msg: "date of birth is required",
         },
       },
-      
     },
     isAceptedPrivacy: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
     },
     otp: {
       type: DataTypes.STRING,
@@ -125,25 +124,24 @@ UserInstance.init(
     },
     profileImage: {
       type: DataTypes.STRING,
-      allowNull: true  
+      allowNull: true,
+    },
+    lan: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    currency: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    isAceptedTerms: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    socials: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
   },
-  lan:{
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  currency: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  isAceptedTerms: {
-    type: DataTypes.BOOLEAN,
-    allowNull: true
-  },
-  socials: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-  },
-
-},
   {
     sequelize: db,
     tableName: "user",

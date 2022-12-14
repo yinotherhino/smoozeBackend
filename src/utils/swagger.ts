@@ -30,7 +30,7 @@ const options: swaggerJSDoc.Options = {
         bearerAuth: [],
       },
     ],
-    host: "localhost:3000",
+    host: "localhost:7000",
     basePath: "/",
   },
   apis: [playlist, music, user],
@@ -48,5 +48,3 @@ export const swaggerDocs = (app: Application) => {
 
   console.log(`Docs available at http://localhost:${config.port}/api-docs`);
 };
-
-
