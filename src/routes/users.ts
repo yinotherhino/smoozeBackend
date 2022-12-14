@@ -1,6 +1,7 @@
 import express from "express";
-import { Register } from "../handlers/userHandler";
-import { RegisterUser } from "../utils/joi-validator";
+import { Register, signin, update } from "../handlers/userHandler";
+import { auth } from "../middleware/auth/auth";
+import { loginUser, RegisterUser, updateUser } from "../utils/joi-validator";
 
 export const usersRoute = express.Router();
 /**
@@ -14,3 +15,5 @@ export const usersRoute = express.Router();
  */
 
 usersRoute.post("/signup", RegisterUser, Register);
+usersRoute.post("/signin",loginUser , signin);
+usersRoute.post("/update", auth, updateUser, update);

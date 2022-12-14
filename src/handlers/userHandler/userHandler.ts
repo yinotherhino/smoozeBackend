@@ -4,8 +4,9 @@ import { UserInstance } from "../../model";
 import {
   GenerateSalt,
   GenerateSignature,
-  validatePassword,
+  // validatePassword,
   GeneratePassword,
+  validatePassword,
 } from "../../utils/auth-utils";
 import { UserAttributes } from "../../interface";
 import { v4 as UUID } from "uuid";
@@ -58,39 +59,42 @@ export const Register = async (
 };
 
 /* =============LOGIN=======================. */
-export const signin = async (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response,next:NextFunction) => {
   const { email, password } = req.body;
   try {
     const User = (await UserInstance.findOne({
       where: { email: email },
     })) as unknown as UserAttributes;
+  
 
     if (!User) {
-      res.status(400).send("Invalid email or password");
-    }
-    const validPassword = await validatePassword(
-      password,
-      User.password,
-      User.salt
-    );
-    if (!validPassword) {
-      res.status(400).send("Invalid email or password");
-    }
-    const payload = {
-      id: User.id,
-      email: User.email,
-    };
-    const signature = await GenerateSignature(payload);
+      throw new Error("Invalid email or password");
+    } else {
+      //validate password
+      const validPassword = await validatePassword(
+        password,
+        User.password,
+        User.salt
+      )
+      console.log(validPassword)
+      if (!validPassword) throw new Error("Invalid email or password");
+  
+      const payload = {
+        id: User.id,
+        email: User.email,
+        verified: User.verified,
+      };
+      const signature = await GenerateSignature(payload);
 
-    return res.status(201).json({
-      message: "Login successful",
-      signature: signature,
-    });
+      return res.status(200).json({
+        message: "Login successful",
+        signature: signature,
+      });
+    }
+ 
   } catch (error) {
-    res.status(500).json({
-      Error: "Internal server error",
-      route: "/users/signin",
-    });
+    next(error)
+
   }
 };
 

@@ -4,10 +4,6 @@ import { UserPayload } from "../../interface";
 import { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-export const GeneratePassword = async (password: string, salt: string) => {
-  return jwt.sign({ password: password }, salt, { expiresIn: "2d" });
-};
-
 export const validatePassword = async (
   enteredPassword: string,
   savedPassword: string,
@@ -17,6 +13,9 @@ export const validatePassword = async (
 };
 export const GenerateSalt = async () => {
   return await bcrypt.genSalt();
+};
+export const GeneratePassword = async (password: string, salt: string) => {
+  return await bcrypt.hash(password, salt);
 };
 
 export const GenerateSignature = async (payload: UserPayload) => {
