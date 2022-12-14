@@ -18,7 +18,11 @@ export const updateUser = async (
   const updateSchema = joi.object().keys({
     firstName: joi.string(),
     lastName: joi.string(),
-    phone: joi.string(),
+    address: joi.string(),
+    country: joi.string(),
+    password: joi.string(),
+    currency: joi.string(),
+    
   });
   const check = updateSchema.validate(req.body, option);
   if (check.error) {
