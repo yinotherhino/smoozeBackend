@@ -59,13 +59,16 @@ export const Register = async (
 };
 
 /* =============LOGIN=======================. */
-export const signin = async (req: Request, res: Response,next:NextFunction) => {
+export const signin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { email, password } = req.body;
   try {
     const User = (await UserInstance.findOne({
       where: { email: email },
     })) as unknown as UserAttributes;
-  
 
     if (!User) {
       throw new Error("Invalid email or password");
@@ -75,10 +78,10 @@ export const signin = async (req: Request, res: Response,next:NextFunction) => {
         password,
         User.password,
         User.salt
-      )
-      console.log(validPassword)
+      );
+      console.log(validPassword);
       if (!validPassword) throw new Error("Invalid email or password");
-  
+
       const payload = {
         id: User.id,
         email: User.email,
@@ -91,28 +94,26 @@ export const signin = async (req: Request, res: Response,next:NextFunction) => {
         signature: signature,
       });
     }
- 
   } catch (error) {
-    next(error)
-
+    next(error);
   }
 };
 
 /* =============UPDATE=======================. */
-export const update = async (req: JwtPayload, res: Response, next:NextFunction) => {
-  const { firstName, lastName, country, password,address,currency} = req.body;
+export const update = async (
+  req: JwtPayload,
+  res: Response,
+  next: NextFunction
+) => {
+  const { firstName, lastName, country, password, address, currency } =
+    req.body;
   const id = req.user.id;
   try {
     const User = (await UserInstance.findOne({
       where: { id: id },
     })) as unknown as UserAttributes;
 
-    if (!User) {
-      res.status(400).json({
-        Error: "ou are not authorize to update your profile",
-      });
-    }
-
+    if (!User) throw new Error("not Authorised");
     const updatedUser = (await UserInstance.update(
       {
         firstName,
@@ -121,9 +122,6 @@ export const update = async (req: JwtPayload, res: Response, next:NextFunction) 
         password,
         address,
         currency,
-      
-     
-      
       },
       { where: { id: id } }
     )) as unknown as UserAttributes;
@@ -138,10 +136,8 @@ export const update = async (req: JwtPayload, res: Response, next:NextFunction) 
         User,
       });
     }
-    return res.status(400).json({
-      Error: "Error occurred",
-    });
+    throw new Error("Error occurred");
   } catch (error) {
-   next(error)
+    next(error);
   }
 };
