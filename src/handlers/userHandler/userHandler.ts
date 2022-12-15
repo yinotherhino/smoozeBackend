@@ -8,6 +8,7 @@ import {
   validatePassword,
   verifySignature,
 } from "../../utils/auth-utils";
+import nodemailer from "nodemailer";
 import { UserAttributes, UserPayload } from "../../interface";
 import { v4 as UUID } from "uuid";
 import { sendEmail, welcomeEmail } from "../../utils/notification";
@@ -172,4 +173,4 @@ export const verifyUser = async(req: Request, res: Response, next:NextFunction) 
   catch (error) {
     next(error);
   }
-}
+/*================= forgot Password ================*/

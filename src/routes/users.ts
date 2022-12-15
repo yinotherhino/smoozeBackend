@@ -17,5 +17,4 @@ export const usersRoute = express.Router();
 
 usersRoute.post("/signup", RegisterUser, Register);
 usersRoute.post("/signin",loginUser , signin);
-usersRoute.patch("/update", updateUser, auth, update);
-usersRoute.patch("/verify/:token", verifyUser);
+usersRoute.patch("/update",updateUser, auth,  update);
