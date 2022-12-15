@@ -8,6 +8,7 @@ import {
   GeneratePassword,
   validatePassword,
 } from "../../utils/auth-utils";
+import nodemailer from "nodemailer";
 import { UserAttributes } from "../../interface";
 import { v4 as UUID } from "uuid";
 
@@ -140,3 +141,67 @@ export const update = async (
     next(error);
   }
 };
+
+
+/*================= forgot Password ================*/
+export const forgotPassword = async (req: Request, res: Response) => {
+  console.log("hello")
+  try{
+      const {email} = req.body;
+
+      const user = await UserInstance.findOne({where: {email:email}}) as unknown as UserAttributes
+
+      if (!user) {
+        throw new Error("User Not Exist")
+          // return res.json({ status: "User Not Exists!!" });
+      }
+
+      // const secret = process.env.JWT_SECRET + user.password;
+      // const token = jwt.sign({ email: user.email, id: user.id }, secret, {
+      //             expiresIn: "1d",
+      //           });
+     let token = GenerateSignature({
+       
+        email: user.email,
+        id: user.id,
+
+      })
+
+
+      const link = `http://localhost:5000/reset-password/${user.id}/${token}`;
+      let transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+              user: process.env.GMAIL_USER,
+              pass: process.env.GMAIL_PASS,
+          },
+          tls: {
+              rejectUnauthorized: false
+          }
+          });
+
+          let mailOptions = {
+              from: "ajiriosiobe@gmail.com",
+              to: email,
+              subject: "Password Reset",
+              text: link,
+            }
+        
+            transporter.sendMail(mailOptions, function (error: any, info: { response: string; }) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log("Email sent: " + info.response);
+              }
+            });
+      res.status(200).json({ status: "Email Sent!!" });
+
+  }catch(err){
+    // next(err)
+      res.status(500).json({
+          err,
+          "message": "internal server error",
+          "routers": "/"
+      })
+  }
+}
