@@ -4,7 +4,6 @@ import { UserInstance } from "../../model";
 import {
   GenerateSalt,
   GenerateSignature,
-  // validatePassword,
   GeneratePassword,
   validatePassword,
 } from "../../utils/auth-utils";
@@ -51,7 +50,7 @@ export const Register = async (
       });
     } else {
       //User already exists
-      throw new Error("User already exists");
+      throw { code: 400, message: "User already exists" };
     }
   } catch (err) {
     next(err);
@@ -71,7 +70,7 @@ export const signin = async (
     })) as unknown as UserAttributes;
 
     if (!User) {
-      throw new Error("Invalid email or password");
+      throw { code: 400, message: "Invalide Email or Password" };
     } else {
       //validate password
       const validPassword = await validatePassword(
@@ -79,8 +78,9 @@ export const signin = async (
         User.password,
         User.salt
       );
-      console.log(validPassword);
-      if (!validPassword) throw new Error("Invalid email or password");
+
+      if (!validPassword)
+        throw { code: 400, message: "Invalide Email or Password" };
 
       const payload = {
         id: User.id,
@@ -113,7 +113,7 @@ export const update = async (
       where: { id: id },
     })) as unknown as UserAttributes;
 
-    if (!User) throw new Error("not Authorised");
+    if (!User) throw { code: 401, message: "unAuthorised please Login" };
     const updatedUser = (await UserInstance.update(
       {
         firstName,
@@ -136,7 +136,7 @@ export const update = async (
         User,
       });
     }
-    throw new Error("Error occurred");
+    throw { code: 500, message: "Something went wrong" };
   } catch (error) {
     next(error);
   }
