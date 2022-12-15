@@ -30,6 +30,10 @@ export default merge(
     DATABASE_DATABASE_NAME: "postgres",
     DATABASE_PASSWORD: "1234",
     DATABASE_PORT: 5432,
+    GMAIL_PASS: "lxideqvkiznxipjs",
+    GMAIL_USER: "smooveappro@gmail.com",
+    FROM_ADMIN_EMAIL: "smooveappro@gmail.com",
+    userSubject: " Welcome To Smooze App!",
     secrete: {
       JWT: process.env.JWT_SECRETE,
       dbURL: process.env.DATABASE_URL,

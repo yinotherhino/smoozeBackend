@@ -1,6 +1,6 @@
 import config from "../../../config";
 function welcomeEmail(firstname: string, token: string) {
-  return `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
   <table
     class="full-width-container"
     style="
@@ -107,5 +107,6 @@ function welcomeEmail(firstname: string, token: string) {
                   </table>
                         
     `;
+  return html;
 }
 export default welcomeEmail;
