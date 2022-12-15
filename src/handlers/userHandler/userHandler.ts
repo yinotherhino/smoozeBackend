@@ -6,9 +6,11 @@ import {
   GenerateSignature,
   GeneratePassword,
   validatePassword,
+  verifySignature,
 } from "../../utils/auth-utils";
 import { UserAttributes } from "../../interface";
 import { v4 as UUID } from "uuid";
+import { sendEmail, welcomeEmail } from "../../utils/notification";
 
 /* =============SIGNUP=======================. */
 
@@ -20,7 +22,7 @@ export const Register = async (
   try {
     const { email, userName, password, gender, date_birth } = req.body;
     const uuiduser = UUID();
-
+    
     const salt = await GenerateSalt();
     const userPassword = await GeneratePassword(password, salt);
     //check if user already exists using key value pairs in the object
@@ -42,6 +44,9 @@ export const Register = async (
         email: newUser.email,
         verified: newUser.verified,
       });
+      const temp = welcomeEmail(userName, token)
+      await sendEmail(email, "Signup success", temp)
+
       return res.status(201).json({
         message:
           "User created successfully, check your email to activate you account",
@@ -140,3 +145,29 @@ export const update = async (
     next(error);
   }
 };
+
+export const verifyUser = async(req: Request, res: Response, next:NextFunction) => {
+  
+  try {
+    const { token } = req.params;
+  if (token) {
+    const verified = verifySignature(token)
+    if (verified) {
+      await UserInstance.update({
+        verified: true
+      },
+        {
+        where:{id:verified.id }
+        })
+      return res.status(200).json({
+        message: "User verified"
+      })
+    }
+
+  }
+    throw { code: 401, message: "Unauthorized" };
+  }
+  catch (error) {
+    next(error);
+  }
+}
