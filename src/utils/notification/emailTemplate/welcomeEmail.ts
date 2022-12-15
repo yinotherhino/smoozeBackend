@@ -1,5 +1,6 @@
-function welcomeEmail(firstname:string, token:string) {
-    return `<!DOCTYPE html>
+import config from "../../../config";
+function welcomeEmail(firstname: string, token: string) {
+  const html = `<!DOCTYPE html>
   <table
     class="full-width-container"
     style="
@@ -31,7 +32,6 @@ function welcomeEmail(firstname:string, token:string) {
             <tbody>
               <tr>
                 <td valign="top" cellPadding="50" cellPadding="50" border="10">
-                  <!-- / Header -->
                   <table
                     class="container header"
                     style="background: #1a2155; width: 100%"
@@ -42,7 +42,7 @@ function welcomeEmail(firstname:string, token:string) {
                     <tbody>
                       <tr>
                         <td align="left">
-                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;">SMOOZE APP</h1>
+                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="./NavBar-Logo.svg" alt="Smooze"></h1>
                         </td>
                         <td align="right">
                           <b
@@ -96,8 +96,8 @@ function welcomeEmail(firstname:string, token:string) {
                           align="left"
                         >
                           Thank you for joining Snooze<br /><br />
-                         We’re so excited to have you on board and can’t wait to get to know and serve you.<br>
-                         <a href="localhost:3000/verify/${token}">click here to verify</a> or copy this (localhost:3000/verify/${token}) link and paste in your browser.
+                         We\’re so excited to have you on board and can\’t wait to get to know and serve you.<br>
+                         <a href="${config.BASE_URL}/verify/${token}">click here to verify</a> or copy this (${config.BASE_URL}/verify/${token}) link and paste in your browser.
                          <br>
                           Thank you. <br /><br />
                         </td>
@@ -106,5 +106,6 @@ function welcomeEmail(firstname:string, token:string) {
                   </table>
                         
     `;
+  return html;
 }
 export default welcomeEmail;

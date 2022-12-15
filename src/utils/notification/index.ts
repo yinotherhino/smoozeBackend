@@ -1,4 +1,5 @@
 import welcomeEmail from "./emailTemplate/welcomeEmail";
-import { sendEmail, emailHtml } from "./sendMail";
+import { passworTemplate } from "./ResetPassword/resetPassword";
+import { sendEmail } from "./sendMail";
 
-export {welcomeEmail, sendEmail,emailHtml}
+export { welcomeEmail, sendEmail, passworTemplate };

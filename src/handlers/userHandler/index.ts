@@ -1,1 +1,7 @@
-export {signin,update,Register} from './userHandler'
+export {
+  signin,
+  update,
+  Register,
+  requestPassword,
+  verifyUser,
+} from "./userHandler";

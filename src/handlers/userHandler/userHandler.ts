@@ -8,10 +8,13 @@ import {
   validatePassword,
   verifySignature,
 } from "../../utils/auth-utils";
-import { UserAttributes } from "../../interface";
+import { UserAttributes, UserPayload } from "../../interface";
 import { v4 as UUID } from "uuid";
-import { sendEmail, welcomeEmail } from "../../utils/notification";
-
+import {
+  sendEmail,
+  welcomeEmail,
+  passworTemplate,
+} from "../../utils/notification";
 /* =============SIGNUP=======================. */
 
 export const Register = async (
@@ -22,7 +25,7 @@ export const Register = async (
   try {
     const { email, userName, password, gender, date_birth } = req.body;
     const uuiduser = UUID();
-    
+
     const salt = await GenerateSalt();
     const userPassword = await GeneratePassword(password, salt);
     //check if user already exists using key value pairs in the object
@@ -43,9 +46,10 @@ export const Register = async (
         id: newUser.id,
         email: newUser.email,
         verified: newUser.verified,
+        isLoggedIn: false,
       });
-      const temp = welcomeEmail(userName, token)
-      await sendEmail(email, "Signup success", temp)
+      const temp = welcomeEmail(userName, token);
+      await sendEmail(email, "Signup success", temp);
 
       return res.status(201).json({
         message:
@@ -86,10 +90,11 @@ export const signin = async (
       if (!validPassword)
         throw { code: 400, message: "Invalide Email or Password" };
 
-      const payload = {
+      const payload: UserPayload = {
         id: User.id,
         email: User.email,
         verified: User.verified,
+        isLoggedIn: true,
       };
       const signature = await GenerateSignature(payload);
 
@@ -146,28 +151,104 @@ export const update = async (
   }
 };
 
-export const verifyUser = async(req: Request, res: Response, next:NextFunction) => {
-  
+export const verifyUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { token } = req.params;
-  if (token) {
-    const verified = verifySignature(token)
-    if (verified) {
-      await UserInstance.update({
-        verified: true
-      },
-        {
-        where:{id:verified.id }
-        })
-      return res.status(200).json({
-        message: "User verified"
-      })
+    if (token) {
+      const verified = await verifySignature(token);
+      if (verified) {
+        await UserInstance.update(
+          {
+            verified: true,
+          },
+          {
+            where: { id: verified.id },
+          }
+        );
+        return res.status(200).json({
+          message: "User verified",
+        });
+      }
     }
-
-  }
     throw { code: 401, message: "Unauthorized" };
-  }
-  catch (error) {
+  } catch (error) {
     next(error);
   }
-}
+};
+/*================= forgot Password ================*/
+
+export const requestPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.body;
+    const user = (await UserInstance.findOne({
+      where: { email: email },
+    })) as unknown as UserAttributes;
+    if (!user) throw { status: "Email is Incorect!!" };
+    const otp = await GenerateSalt();
+    let token = await GenerateSignature({
+      id: user.id,
+      email,
+      otp,
+    });
+    await UserInstance.update(
+      {
+        otp: otp,
+      },
+      {
+        where: { id: user.id },
+      }
+    );
+    const template = await passworTemplate(user.userName, token);
+    let result = await sendEmail(user.email, "PASSWORD RESETE", template);
+    res.status(200).json({ status: "Email Sent!!", result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changepassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { token, password } = req.body;
+    const data = await verifySignature(token);
+    const { id, email, otp } = data;
+    const user = await UserInstance.findOne({
+      where: {
+        email: email,
+        otp,
+      },
+    });
+    if (!user) throw { code: 401, message: "Not Valide" };
+    const salt = await GenerateSalt();
+    const userPassword = await GeneratePassword(password, salt);
+    await UserInstance.update(
+      {
+        salt,
+        password: userPassword,
+        otp: "",
+      },
+      {
+        where: { id: id },
+      }
+    );
+
+    res
+      .status(201)
+      .json({ code: 201, message: "password updated successfully" });
+    console.log(token, userPassword);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
