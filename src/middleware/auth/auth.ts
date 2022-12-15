@@ -1,12 +1,17 @@
-import { Response, NextFunction } from "express";
+import { Response, Request, NextFunction } from "express";
 
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { UserInstance } from "../../model";
 // import UserInstance  from "../../model";
 import { UserAttributes } from "../../interface/UserAttributes";
 import config from "../../config";
+import { UserPayload } from "../../interface";
 
-export const protect = async (req: any, res: any, next: any) => {
+export const protect = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     next();
   } catch (error) {
@@ -29,7 +34,10 @@ export const auth = async (
     }
 
     const token = authorization.slice(7, authorization.length);
-    let verified = jwt.verify(token, config.APP_SECRETE as string);
+    let verified = jwt.verify(
+      token,
+      config.APP_SECRETE as string
+    ) as UserPayload;
 
     if (!verified) throw { code: 401, message: "Not Authorised" };
 
@@ -39,11 +47,12 @@ export const auth = async (
       where: { id: id },
     })) as unknown as UserAttributes;
 
-    if (!user) throw { code: 400, message: "invalide Credentials" };
+    if (!user) throw { code: 400, message: "Invalide Credentials" };
+    if (!verified.isLoggedIn) throw { code: 400, message: "Not Authenticated" };
+    if (!user.verified) throw { code: 400, message: "Account Not Activated" };
     req.user = verified;
-
     next();
-  } catch (error) {
-    next({ code: 400, message: "invalide Credentials" });
+  } catch (error: Error | any) {
+    next({ code: 400, message: error.message });
   }
 };

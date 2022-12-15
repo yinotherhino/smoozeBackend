@@ -7,7 +7,7 @@ import {
   GeneratePassword,
   validatePassword,
 } from "../../utils/auth-utils";
-import { UserAttributes } from "../../interface";
+import { UserAttributes, UserPayload } from "../../interface";
 import { v4 as UUID } from "uuid";
 
 /* =============SIGNUP=======================. */
@@ -42,6 +42,7 @@ export const Register = async (
         id: newUser.id,
         email: newUser.email,
         verified: newUser.verified,
+        isLoggedIn: false,
       });
       return res.status(201).json({
         message:
@@ -82,10 +83,11 @@ export const signin = async (
       if (!validPassword)
         throw { code: 400, message: "Invalide Email or Password" };
 
-      const payload = {
+      const payload: UserPayload = {
         id: User.id,
         email: User.email,
         verified: User.verified,
+        isLoggedIn: true,
       };
       const signature = await GenerateSignature(payload);
 
