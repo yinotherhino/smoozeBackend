@@ -22,7 +22,6 @@ export const updateUser = async (
     country: joi.string(),
     password: joi.string(),
     currency: joi.string(),
-    
   });
   const check = updateSchema.validate(req.body, option);
   if (check.error) {
@@ -83,6 +82,40 @@ export const createUser = async (
   let schema = joi.object({
     username: joi.string().required().min(4),
     password: joi.string().min(4).required(),
+  });
+  const check = schema.validate(req.body, option);
+  if (check.error) {
+    return res.status(400).json({ code: 400, error: check.error.message });
+  } else {
+    next();
+  }
+};
+
+export const sendemailToken = async (
+  req: Request,
+  res: Response,
+  next: Function
+) => {
+  let schema = joi.object({
+    email: joi.string().email().required().min(8),
+  });
+  const check = schema.validate(req.body, option);
+  if (check.error) {
+    return res.status(400).json({ code: 400, error: check.error.message });
+  } else {
+    next();
+  }
+};
+
+
+export const changePasswordJoi = async (
+  req: Request,
+  res: Response,
+  next: Function
+) => {
+  let schema = joi.object({
+    password: joi.string().required().min(3),
+    token:joi.string().required().min(3),
   });
   const check = schema.validate(req.body, option);
   if (check.error) {

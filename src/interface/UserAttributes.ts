@@ -7,7 +7,7 @@ export interface UserAttributes {
   userName: string;
   salt: string;
   address?: string;
-  otp?: number;
+  otp?: string;
   otp_expiry?: Date;
   lng?: number;
   lat?: number;

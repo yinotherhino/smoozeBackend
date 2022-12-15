@@ -1,17 +1,14 @@
 export default {
-  port: process.env.PORT,
-  BASE_URL: process.env.BASE_URL,
-  DATABASE_URL: "",
+  port: 8000,
+  DATABASE_URL:
+    "postgres://rtajhzcb:vEUxVGeppmcvGoMPCxYsryRU76SGLzy4@ruby.db.elephantsql.com/rtajhzcb",
   APP_SECRETE: "blablabla",
   JWT_SECRETE: "blablabla",
-  DATABASE_USERNAME: "postgres",
-  DATABASE_HOST: "localhost",
-  DATABASE_DATABASE_NAME: "postgres",
-  DATABASE_PASSWORD: "1234",
+  BASE_URL: process.env.BASE_URL,
+  DATABASE_USERNAME: "rtajhzcb",
+  DATABASE_HOST: "ruby.db.elephantsql.com",
+  DATABASE_DATABASE_NAME: "rtajhzcb",
+  DATABASE_PASSWORD: "vEUxVGeppmcvGoMPCxYsryRU76SGLzy4",
   DATABASE_PORT: 5432,
-  GMAIL_PASS: "lxideqvkiznxipjs",
-  GMAIL_USER: "smooveappro@gmail.com",
-  FROM_ADMIN_EMAIL: "smooveappro@gmail.com",
-  userSubject: " Welcome To Smooze App!",
 };
-console.log("running production mode");
+console.log("running local mode");

@@ -14,7 +14,7 @@ import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
 
 // ::::initalise database:::
-db.sync({})
+db.sync({ force: true })
   .then(() => {
     console.log("connected to db");
   })
@@ -32,7 +32,6 @@ swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
 app.use("/api/user", usersRoute);
-
 app.use(errorRouterHandler);
 app.use(errorHandler);
 

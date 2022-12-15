@@ -1,3 +1,4 @@
+import config from "../../../config";
 export async function passworTemplate(firstname: string, token: string) {
   return `<!DOCTYPE html>
   <table
@@ -31,7 +32,6 @@ export async function passworTemplate(firstname: string, token: string) {
             <tbody>
               <tr>
                 <td valign="top" cellPadding="50" cellPadding="50" border="10">
-                  / Header
                   <table
                     class="container header"
                     style="background: #1a2155; width: 100%"
@@ -42,7 +42,7 @@ export async function passworTemplate(firstname: string, token: string) {
                     <tbody>
                       <tr>
                         <td align="left">
-                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="../assets/NavBar-Logo.svg" alt="Smooze" srcset=""></h1>
+                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="./NavBar-Logo.svg" alt="Smooze"></h1>
                         </td>
                         <td align="right">
                         </td>
@@ -88,7 +88,9 @@ export async function passworTemplate(firstname: string, token: string) {
                         >
                           A request has been received to change the password for your Snooze account<br /><br />
                           <div style="width: 20%;margin: 0 auto;">
+                          <a href=${config.BASE_URL}/verify/${token}>
                             <button style="color: white;background-color: #1a2155;padding: 7px;padding-left: 20px; padding-right:20px ;width: 150px;border:none">Reset Password</button>
+                            </a>
                           </div><br>
                          If you did not initiate this request, please contact us immediateky at <a href="">support@Snooze.com</a>.<br><br>
                           Thank you,<br>The Snooze Team <br /><br />

@@ -3,6 +3,7 @@ import config from "../../config";
 import { UserPayload } from "../../interface";
 import { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { PasswordPayload } from "../../interface/resetPassword.dto";
 
 export const validatePassword = async (
   enteredPassword: string,
@@ -18,10 +19,10 @@ export const GeneratePassword = async (password: string, salt: string) => {
   return await bcrypt.hash(password, salt);
 };
 
-export const GenerateSignature = async (payload: UserPayload) => {
+export const GenerateSignature = async (payload: UserPayload|PasswordPayload) => {
   return jwt.sign(payload, config.APP_SECRETE, { expiresIn: "2d" });
 };
 
-export const verifySignature = (signature: string) => {
+export const verifySignature = async (signature: string) => {
   return jwt.verify(signature, config.APP_SECRETE) as JwtPayload;
 };

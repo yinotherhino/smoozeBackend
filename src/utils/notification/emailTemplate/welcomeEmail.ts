@@ -32,7 +32,6 @@ function welcomeEmail(firstname: string, token: string) {
             <tbody>
               <tr>
                 <td valign="top" cellPadding="50" cellPadding="50" border="10">
-                  <!-- / Header -->
                   <table
                     class="container header"
                     style="background: #1a2155; width: 100%"
@@ -43,7 +42,7 @@ function welcomeEmail(firstname: string, token: string) {
                     <tbody>
                       <tr>
                         <td align="left">
-                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;">SMOOZE APP</h1>
+                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="./NavBar-Logo.svg" alt="Smooze"></h1>
                         </td>
                         <td align="right">
                           <b
