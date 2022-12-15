@@ -21,6 +21,7 @@ export default merge(
 
     stage,
     env: process.env.NODE_ENV,
+    BASE_URL: "http://localhost:7000",
     DATABASE_URL: "",
     APP_SECRETE: "blablabla",
     JWT_SECRETE: "blablabla",

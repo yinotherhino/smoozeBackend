@@ -8,11 +8,10 @@ import {
   validatePassword,
   verifySignature,
 } from "../../utils/auth-utils";
-import nodemailer from "nodemailer";
 import { UserAttributes, UserPayload } from "../../interface";
 import { v4 as UUID } from "uuid";
-import { sendEmail, welcomeEmail } from "../../utils/notification";
-
+import { sendEmail, welcomeEmail,passworTemplate } from "../../utils/notification";
+import config from "../../config";
 /* =============SIGNUP=======================. */
 
 export const Register = async (
@@ -174,3 +173,48 @@ export const verifyUser = async(req: Request, res: Response, next:NextFunction) 
     next(error);
   }
 /*================= forgot Password ================*/
+
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try{
+      const {email} = req.body;
+      const user = await UserInstance.findOne({where: {email:email}}) as unknown as UserAttributes
+      if (!user) throw{ status: "Email is Incorect!!" }
+      let token = await GenerateSignature({id:user.id,email,verified:user.verified,isLoggedIn:false})
+      const template =  await passworTemplate(user.userName,token)
+   await sendEmail(user.email,"PASSWORD RESETE",template)   
+  res.status(200).json({ status: "Email Sent!!" });
+
+  }catch(error){
+  next(error)
+  }
+
+
+}
+
+/** ========== ResetPassword ============ */
+
+export const resetPassword = async (req: Request, res: Response) => { 
+  try{
+      const {id, token} = req.params;
+      const {password} = req.body;
+      const user = await UserInstance.findOne({where: {id:id}}) as unknown as UserAttributes
+      if (!user) {
+          return res.json({ status: "User Not Exists!!" });
+      }
+      // const secret = process.env.JWT_SECRET + user.password;
+      // const payload = jwt.verify(token, secret) as unknown as UserAttributes;
+      // if (payload.id === user.id) {
+      //     const hashPassword = await bcrypt.hash(password, 10);
+      //     await UserInstance.update
+      //     ({password:hashPassword}, {where: {id:id}})
+      // }
+      res.status(200).json({ status: "Password Updated!!" });
+  }catch(err){
+      res.status(500).json({
+          err,
+          "message": "internal server error",
+          "routers": "/"
+      })
+  }
+}

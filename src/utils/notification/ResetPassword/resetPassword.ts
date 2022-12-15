@@ -1,5 +1,5 @@
-function requestApproval(firstname) {
-    return `<!DOCTYPE html>
+export async function passworTemplate(firstname: string, token: string) {
+  return `<!DOCTYPE html>
   <table
     class="full-width-container"
     style="
@@ -31,7 +31,7 @@ function requestApproval(firstname) {
             <tbody>
               <tr>
                 <td valign="top" cellPadding="50" cellPadding="50" border="10">
-                  <!-- / Header -->
+                  / Header
                   <table
                     class="container header"
                     style="background: #1a2155; width: 100%"
@@ -42,19 +42,9 @@ function requestApproval(firstname) {
                     <tbody>
                       <tr>
                         <td align="left">
-                          
                           <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="../assets/NavBar-Logo.svg" alt="Smooze" srcset=""></h1>
                         </td>
                         <td align="right">
-                          <b
-                            style="
-                              font-size: 18px;
-                              text-decoration: none;
-                              vertical-align: bottom;
-                              color: #fff;
-                            "
-                            >Welcome To Smooze App</b
-                          >
                         </td>
                       </tr>
                     </tbody>
@@ -82,7 +72,7 @@ function requestApproval(firstname) {
                           "
                           align="left"
                         >
-                          Dear ${firstname},
+                          Hello ${firstname},
                         </td>
                       </tr>
                       <tr style="padding: 0px">
@@ -96,14 +86,15 @@ function requestApproval(firstname) {
                           "
                           align="left"
                         >
-                          Thank you for joining Snooze<br /><br />
-                         We’re so excited to have you on board and can’t wait to get to know and serve you.<br><br>
-                          Thank you. <br /><br />
+                          A request has been received to change the password for your Snooze account<br /><br />
+                          <div style="width: 20%;margin: 0 auto;">
+                            <button style="color: white;background-color: #1a2155;padding: 7px;padding-left: 20px; padding-right:20px ;width: 150px;border:none">Reset Password</button>
+                          </div><br>
+                         If you did not initiate this request, please contact us immediateky at <a href="">support@Snooze.com</a>.<br><br>
+                          Thank you,<br>The Snooze Team <br /><br />
                         </td>
                       </tr>
                     </tbody>
                   </table>
-                        
-    `;
-    }
-  module.exports = requestApproval;
+                   `;
+}
