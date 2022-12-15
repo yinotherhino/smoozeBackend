@@ -11,6 +11,9 @@ src/config
 .AppleDouble
 .LSOverride
 
+*yarn.lock
+yarn.lock
+
 # Icon must end with two \r
 Icon
 
