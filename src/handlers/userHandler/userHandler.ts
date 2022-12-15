@@ -174,7 +174,7 @@ export const verifyUser = async(req: Request, res: Response, next:NextFunction) 
 /*================= forgot Password ================*/
 
 
- export const Userpassword = async (req: Request, res: Response,next:NextFunction) => {
+ export const requestPassword = async (req: Request, res: Response,next:NextFunction) => {
   try{
       const {email} = req.body;
       const user = await UserInstance.findOne({where: {email:email}}) as unknown as UserAttributes
