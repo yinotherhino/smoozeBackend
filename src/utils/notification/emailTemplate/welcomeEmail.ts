@@ -1,4 +1,4 @@
-function welcomeEmail(firstname:string) {
+function welcomeEmail(firstname:string, token:string) {
     return `<!DOCTYPE html>
   <table
     class="full-width-container"
@@ -96,7 +96,9 @@ function welcomeEmail(firstname:string) {
                           align="left"
                         >
                           Thank you for joining Snooze<br /><br />
-                         We’re so excited to have you on board and can’t wait to get to know and serve you.<br><br>
+                         We’re so excited to have you on board and can’t wait to get to know and serve you.<br>
+                         <a href="localhost:3000/verify/${token}">click here to verify</a> or copy this (localhost:3000/verify/${token}) link and paste in your browser.
+                         <br>
                           Thank you. <br /><br />
                         </td>
                       </tr>

@@ -4,12 +4,13 @@ import { UserInstance } from "../../model";
 import {
   GenerateSalt,
   GenerateSignature,
-  // validatePassword,
   GeneratePassword,
   validatePassword,
+  verifySignature,
 } from "../../utils/auth-utils";
 import { UserAttributes } from "../../interface";
 import { v4 as UUID } from "uuid";
+import { sendEmail, welcomeEmail } from "../../utils/notification";
 
 /* =============SIGNUP=======================. */
 
@@ -21,7 +22,7 @@ export const Register = async (
   try {
     const { email, userName, password, gender, date_birth } = req.body;
     const uuiduser = UUID();
-
+    
     const salt = await GenerateSalt();
     const userPassword = await GeneratePassword(password, salt);
     //check if user already exists using key value pairs in the object
@@ -43,6 +44,9 @@ export const Register = async (
         email: newUser.email,
         verified: newUser.verified,
       });
+      const temp = welcomeEmail(userName, token)
+      await sendEmail(email, "Signup success", temp)
+
       return res.status(201).json({
         message:
           "User created successfully, check your email to activate you account",
@@ -50,7 +54,7 @@ export const Register = async (
       });
     } else {
       //User already exists
-      throw new Error("User already exists");
+      throw { code: 400, message: "User already exists" };
     }
   } catch (err) {
     next(err);
@@ -70,7 +74,7 @@ export const signin = async (
     })) as unknown as UserAttributes;
 
     if (!User) {
-      throw new Error("Invalid email or password");
+      throw { code: 400, message: "Invalide Email or Password" };
     } else {
       //validate password
       const validPassword = await validatePassword(
@@ -78,8 +82,9 @@ export const signin = async (
         User.password,
         User.salt
       );
-      console.log(validPassword);
-      if (!validPassword) throw new Error("Invalid email or password");
+
+      if (!validPassword)
+        throw { code: 400, message: "Invalide Email or Password" };
 
       const payload = {
         id: User.id,
@@ -112,7 +117,7 @@ export const update = async (
       where: { id: id },
     })) as unknown as UserAttributes;
 
-    if (!User) throw new Error("not Authorised");
+    if (!User) throw { code: 401, message: "unAuthorised please Login" };
     const updatedUser = (await UserInstance.update(
       {
         firstName,
@@ -135,8 +140,34 @@ export const update = async (
         User,
       });
     }
-    throw new Error("Error occurred");
+    throw { code: 500, message: "Something went wrong" };
   } catch (error) {
     next(error);
   }
 };
+
+export const verifyUser = async(req: Request, res: Response, next:NextFunction) => {
+  
+  try {
+    const { token } = req.params;
+  if (token) {
+    const verified = verifySignature(token)
+    if (verified) {
+      await UserInstance.update({
+        verified: true
+      },
+        {
+        where:{id:verified.id }
+        })
+      return res.status(200).json({
+        message: "User verified"
+      })
+    }
+
+  }
+    throw { code: 401, message: "Unauthorized" };
+  }
+  catch (error) {
+    next(error);
+  }
+}

@@ -22,20 +22,16 @@ export const auth = async (
   try {
     const authorization = req.headers.authorization as string;
     if (!authorization) {
-      return res.status(401).json({
-        status: "fail",
-        message: "unauthorize request, kindly login",
-      });
+      throw {
+        code: 401,
+        message: "Not Authorised",
+      };
     }
 
     const token = authorization.slice(7, authorization.length);
     let verified = jwt.verify(token, config.APP_SECRETE as string);
 
-    if (!verified) {
-      return res.status(401).json({
-        Error: "unauthorize",
-      });
-    }
+    if (!verified) throw { code: 401, message: "Not Authorised" };
 
     const { id } = verified as JwtPayload;
 
@@ -43,17 +39,11 @@ export const auth = async (
       where: { id: id },
     })) as unknown as UserAttributes;
 
-    if (!user) {
-      return res.status(401).json({
-        Error: "Invalid credentials",
-      });
-    }
+    if (!user) throw { code: 400, message: "invalide Credentials" };
     req.user = verified;
 
     next();
   } catch (error) {
-    res.status(500).json({
-      Error: "Unauthorizsed",
-    });
+    next({ code: 400, message: "invalide Credentials" });
   }
 };
