@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 export default {
   GMAIL_PASS: "lxideqvkiznxipjs",
   GMAIL_USER: "smooveappro@gmail.com",
@@ -5,6 +7,7 @@ export default {
   userSubject: " Welcome To Smooze App!",
   port: 7000,
   BASE_URL: process.env.BASE_URL,
+  FRONTEND_BASE_URL: process.env.FRONTEND_BASE_URL,
   DATABASE_URL: "",
   APP_SECRETE: "blablabla",
   JWT_SECRETE: "blablabla",

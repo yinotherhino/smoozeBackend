@@ -1,2 +1,7 @@
 // export { createUser } from "./schema";
-export { updateUser, RegisterUser, loginUser, changePasswordJoi} from "./schema";
+export {
+  updateUserJoi,
+  RegisterUserJoi,
+  loginUserJoi,
+  changePasswordJoi,
+} from "./schema";

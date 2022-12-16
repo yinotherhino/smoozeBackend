@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import merge from "lodash.merge";
 //making sure NODE_ENV is set, defult is "developement"
 process.env.NODE_ENV = process.env.NODE_ENV || "developement";
@@ -23,7 +25,7 @@ export default merge(
       "postgres://rtajhzcb:vEUxVGeppmcvGoMPCxYsryRU76SGLzy4@ruby.db.elephantsql.com/rtajhzcb",
     APP_SECRETE: "blablabla",
     BASE_URL: process.env.BASE_URL,
-    FRONT_END_URL: "http://127.0.0.1:5173/",
+    FRONTEND_BASE_URL: process.env.FRONTEND_BASE_URL,
     JWT_SECRETE: "blablabla",
     DATABASE_USERNAME: "rtajhzcb",
     DATABASE_HOST: "ruby.db.elephantsql.com",
