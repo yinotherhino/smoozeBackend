@@ -151,14 +151,16 @@ export const update = async (
   }
 };
 
+/*================= verify User ================*/
 export const verifyUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { token } = req.params;
-    if (token) {
+    
+    const token = req.query.token;
+    if (typeof token=== "string") {
       const verified = await verifySignature(token);
       if (verified) {
         await UserInstance.update(
@@ -179,6 +181,7 @@ export const verifyUser = async (
     next(error);
   }
 };
+
 /*================= forgot Password ================*/
 
 export const requestPassword = async (
@@ -191,7 +194,8 @@ export const requestPassword = async (
     const user = (await UserInstance.findOne({
       where: { email: email },
     })) as unknown as UserAttributes;
-    if (!user) throw { status: "Email is Incorect!!" };
+    if (!user) {
+      throw { status: "Email is Incorect!!" };}
     const otp = await GenerateSalt();
     let token = await GenerateSignature({
       id: user.id,
@@ -207,8 +211,8 @@ export const requestPassword = async (
       }
     );
     const template = await passworTemplate(user.userName, token);
-    let result = await sendEmail(user.email, "PASSWORD RESETE", template);
-    res.status(200).json({ status: "Email Sent!!", result });
+    await sendEmail(user.email, "PASSWORD RESETE", template);
+    res.status(200).json({ message: "Email Sent!!" });
   } catch (error) {
     next(error);
   }

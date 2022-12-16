@@ -14,7 +14,7 @@ import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
 
 // ::::initalise database:::
-db.sync({ force: true })
+db.sync()
   .then(() => {
     console.log("connected to db");
   })

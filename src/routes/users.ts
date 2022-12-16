@@ -29,5 +29,5 @@ usersRoute.post("/signup", RegisterUser, Register);
 usersRoute.post("/signin", loginUser, signin);
 usersRoute.patch("/update", updateUser, auth, update);
 usersRoute.post("/resetpassword", sendemailToken, requestPassword);
-usersRoute.patch("/verify/:token", verifyUser);
+usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);

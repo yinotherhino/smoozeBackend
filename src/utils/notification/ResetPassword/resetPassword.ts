@@ -86,13 +86,13 @@ export async function passworTemplate(firstname: string, token: string) {
                           "
                           align="left"
                         >
-                          A request has been received to change the password for your Snooze account<br /><br />
+                          A request has been received to change the password for your Smooze account<br /><br />
                           <div style="width: 20%;margin: 0 auto;">
-                          <a href=${config.BASE_URL}/verify/${token}>
+                          <a href="${config.FRONT_END_URL}/resetpassword/?token=${token}">
                             <button style="color: white;background-color: #1a2155;padding: 7px;padding-left: 20px; padding-right:20px ;width: 150px;border:none">Reset Password</button>
                             </a>
                           </div><br>
-                         If you did not initiate this request, please contact us immediateky at <a href="">support@Snooze.com</a>.<br><br>
+                         If you did not initiate this request, please contact us immediateky at <a href="">support@Smooze.com</a>.<br><br>
                           Thank you,<br>The Snooze Team <br /><br />
                         </td>
                       </tr>
