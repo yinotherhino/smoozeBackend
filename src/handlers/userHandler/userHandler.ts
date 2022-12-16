@@ -76,7 +76,6 @@ export const signin = async (
     const User = (await UserInstance.findOne({
       where: { email: email },
     })) as unknown as UserAttributes;
-
     if (!User) {
       throw { code: 400, message: "Invalide Email or Password" };
     } else {
@@ -89,7 +88,7 @@ export const signin = async (
 
       if (!validPassword)
         throw { code: 400, message: "Invalide Email or Password" };
-
+      if (!User.verified) throw { code: 401, message: "Account Not Verified" };
       const payload: UserPayload = {
         id: User.id,
         email: User.email,
