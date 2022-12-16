@@ -7,12 +7,12 @@ import {
 } from "../handlers/userHandler/userHandler";
 import { auth } from "../middleware/auth/auth";
 import {
-  loginUser,
-  RegisterUser,
-  updateUser,
+  loginUserJoi,
+  RegisterUserJoi,
+  updateUserJoi,
   changePasswordJoi,
 } from "../utils/joi-validator";
-import { sendemailToken } from "../utils/joi-validator/schema";
+import { sendemailTokenJoi } from "../utils/joi-validator/schema";
 
 export const usersRoute = express.Router();
 /**
@@ -25,9 +25,9 @@ export const usersRoute = express.Router();
  *         description: Returns User Object
  */
 
-usersRoute.post("/signup", RegisterUser, Register);
-usersRoute.post("/signin", loginUser, signin);
-usersRoute.patch("/update", updateUser, auth, update);
-usersRoute.post("/resetpassword", sendemailToken, requestPassword);
+usersRoute.post("/signup", RegisterUserJoi, Register);
+usersRoute.post("/signin", loginUserJoi, signin);
+usersRoute.patch("/update", updateUserJoi, auth, update);
+usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify/:token", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);

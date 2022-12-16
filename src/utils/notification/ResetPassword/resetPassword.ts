@@ -42,7 +42,7 @@ export async function passworTemplate(firstname: string, token: string) {
                     <tbody>
                       <tr>
                         <td align="left">
-                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="./NavBar-Logo.svg" alt="Smooze"></h1>
+                          <h4 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="./NavBar-Logo.svg" alt="Smooze">Reset Password</h4>
                         </td>
                         <td align="right">
                         </td>
@@ -88,7 +88,7 @@ export async function passworTemplate(firstname: string, token: string) {
                         >
                           A request has been received to change the password for your Snooze account<br /><br />
                           <div style="width: 20%;margin: 0 auto;">
-                          <a href=${config.BASE_URL}/verify/${token}>
+                          <a href=${config.FRONTEND_BASE_URL}/verify/${token}>
                             <button style="color: white;background-color: #1a2155;padding: 7px;padding-left: 20px; padding-right:20px ;width: 150px;border:none">Reset Password</button>
                             </a>
                           </div><br>

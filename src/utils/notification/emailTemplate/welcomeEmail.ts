@@ -97,7 +97,7 @@ function welcomeEmail(firstname: string, token: string) {
                         >
                           Thank you for joining Snooze<br /><br />
                          We\’re so excited to have you on board and can\’t wait to get to know and serve you.<br>
-                         <a href="${config.BASE_URL}/verify/${token}">click here to verify</a> or copy this (${config.BASE_URL}/verify/${token}) link and paste in your browser.
+                         <a href="${config.FRONTEND_BASE_URL}/verify/${token}">click here to verify</a> or copy this ${config.FRONTEND_BASE_URL}/verify/${token} link and paste in your browser.
                          <br>
                           Thank you. <br /><br />
                         </td>

@@ -10,7 +10,7 @@ export const option = {
   },
 };
 
-export const updateUser = async (
+export const updateUserJoi = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -31,7 +31,7 @@ export const updateUser = async (
   }
 };
 
-export const loginUser = async (
+export const loginUserJoi = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -48,7 +48,7 @@ export const loginUser = async (
   }
 };
 
-export const RegisterUser = (
+export const RegisterUserJoi = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -74,7 +74,7 @@ export const RegisterUser = (
   }
 };
 
-export const createUser = async (
+export const createUserJoi = async (
   req: Request,
   res: Response,
   next: Function
@@ -91,7 +91,7 @@ export const createUser = async (
   }
 };
 
-export const sendemailToken = async (
+export const sendemailTokenJoi= async (
   req: Request,
   res: Response,
   next: Function
