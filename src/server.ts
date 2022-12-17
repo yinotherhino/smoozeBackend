@@ -12,7 +12,7 @@ import { musicRouter, playlistRoute, usersRoute } from "./routes/index";
 import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
-
+const googleoAuthentry = require("./utils/google-auth/googleAuth");
 // ::::initalise database:::
 db.sync()
   .then(() => {
@@ -29,9 +29,13 @@ app.use(express.urlencoded({ extended: true }));
 // :::: end globals::::
 
 swaggerDocs(app);
+
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
 app.use("/api/user", usersRoute);
+// Google(app);
+googleoAuthentry(app);
+
 app.use(errorRouterHandler);
 app.use(errorHandler);
 

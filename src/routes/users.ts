@@ -13,7 +13,6 @@ import {
   changePasswordJoi,
 } from "../utils/joi-validator";
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
-
 export const usersRoute = express.Router();
 /**
  * @swagger
@@ -31,3 +30,17 @@ usersRoute.patch("/update", updateUserJoi, auth, update);
 usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify/:token", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
+// usersRoute.get(
+//   "/auth/google",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
+
+// usersRoute.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", { failureRedirect: "/error" }),
+//   function (req, res) {
+//     // Successful authentication, redirect success.
+//     res.redirect("/success");
+//   }
+// );
+// // usersRoute.get("/auth/google",Google)
