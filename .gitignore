@@ -192,5 +192,5 @@ dist
 
 .history
 .ionide
-
+.package-lock.json
 
