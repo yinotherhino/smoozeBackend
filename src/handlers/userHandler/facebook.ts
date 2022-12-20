@@ -1,22 +1,3 @@
-// import {Strategy} from 'passport-facebook';
-// import passport from 'passport';
-// import { UserInstance } from '../../model';
-
-// const FacebookStrategy = Strategy;
-
-// passport.use(new FacebookStrategy({
-
-    // clientID: process.env.FACEBOOK_CLIENT_ID!,
-    // clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-    // callbackURL: process.env.FACEBOOK_CALLBACK_URL!,
-//   },
-//   function(accessToken: any, refreshToken: any, profile: { id: any; }, cb: (arg0: any, arg1: any) => any) {
-//     await UserInstance.findOne({ email: profile.email })
-//     await UserInstance.findOrCreate({ socials: profile.id })
-    
-  
-// ));
-
 import express from 'express'
 import passport from 'passport'
 import passportFacebook from 'passport-facebook'
@@ -46,7 +27,7 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'email']
   },
   function(accessToken:any, refreshToken:any, profile:any, done:any) {
- 		console.log(profile);
+ 		console.log(profile, accessToken, refreshToken);
  		return done(null,profile) 
 
     }
