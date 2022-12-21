@@ -31,3 +31,4 @@ usersRoute.patch("/update", updateUserJoi, auth, update);
 usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify/:token", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
+

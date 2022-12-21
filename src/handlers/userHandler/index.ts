@@ -5,3 +5,5 @@ export {
   requestPassword,
   verifyUser,
 } from "./userHandler";
+
+export { facebookRoute } from "./facebook";
