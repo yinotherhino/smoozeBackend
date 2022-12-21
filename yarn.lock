@@ -1046,6 +1046,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/express-session@npm:^1.17.5":
+  version: 1.17.5
+  resolution: "@types/express-session@npm:1.17.5"
+  dependencies:
+    "@types/express": "*"
+  checksum: f6995f7720a18546bcb10cc707cf8c9c92455eb4319c0c50c57e9b9b10ed20dc379d74d5e4c3323fe4e924238b75e13c97822c9d81a80fa064ddc71654c1059d
+  languageName: node
+  linkType: hard
+
 "@types/express@npm:*, @types/express@npm:^4.17.14":
   version: 4.17.14
   resolution: "@types/express@npm:4.17.14"
@@ -1205,7 +1214,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/passport@npm:^1.0.11":
+"@types/passport-google-oauth@npm:^1.0.42":
+  version: 1.0.42
+  resolution: "@types/passport-google-oauth@npm:1.0.42"
+  dependencies:
+    "@types/express": "*"
+    "@types/passport": "*"
+  checksum: db79928d9e11077cceaa760806bb51be24744e8272329d5a43853de1ec808f97c4b2194f181edeb0348d041e3508180654d686ef55969578839b583d6531b1a5
+  languageName: node
+  linkType: hard
+
+"@types/passport@npm:*, @types/passport@npm:^1.0.11":
   version: 1.0.11
   resolution: "@types/passport@npm:1.0.11"
   dependencies:
@@ -5543,6 +5562,7 @@ __metadata:
     "@types/cors": ^2.8.13
     "@types/dotenv": ^8.2.0
     "@types/express": ^4.17.14
+    "@types/express-session": ^1.17.5
     "@types/http-errors": ^2.0.1
     "@types/jest": ^29.2.4
     "@types/joi": ^17.2.3
@@ -5552,6 +5572,7 @@ __metadata:
     "@types/node": ^18.11.11
     "@types/nodemailer": ^6.4.6
     "@types/passport": ^1.0.11
+    "@types/passport-google-oauth": ^1.0.42
     "@types/passport-google-oauth2": ^0.1.5
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12

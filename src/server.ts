@@ -12,7 +12,7 @@ import { musicRouter, playlistRoute, usersRoute } from "./routes/index";
 import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
-const googleoAuthentry = require("./utils/google-auth/googleAuth");
+import { googleoAuthentry } from "./utils/google-auth/googleAuth";
 // ::::initalise database:::
 db.sync()
   .then(() => {

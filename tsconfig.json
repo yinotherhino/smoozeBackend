@@ -107,6 +107,6 @@
   "include": [
     "src/**/*.ts",
     "src/utils/google-auth/passport.js",
-    "src/utils/google-auth/googleAuth.js"
+    "src/utils/google-auth/googleAuth.ts"
   ]
 }

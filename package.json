@@ -12,8 +12,10 @@
     "compile": "tsc -w"
   },
   "dependencies": {
+    "@types/express-session": "^1.17.5",
     "@types/nodemailer": "^6.4.6",
     "@types/passport": "^1.0.11",
+    "@types/passport-google-oauth": "^1.0.42",
     "@types/passport-google-oauth2": "^0.1.5",
     "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
