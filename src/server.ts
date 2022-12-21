@@ -13,6 +13,8 @@ import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
 import { googleoAuthentry } from "./utils/google-auth/googleAuth";
+import { facebookRoute } from "./handlers/userHandler";
+
 // ::::initalise database:::
 db.sync()
   .then(() => {
@@ -37,6 +39,9 @@ app.use("/api/user", usersRoute);
 googleoAuthentry(app);
 
 app.use(errorRouterHandler);
+app.use("/facebook", facebookRoute);
+console.log(process.env.NODE_ENV);
+// app.use(errorRouterHandler);
 app.use(errorHandler);
 
 export default app;
