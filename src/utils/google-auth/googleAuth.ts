@@ -1,4 +1,4 @@
-import { Application, Request} from "express";
+import { Application } from "express";
 
 import passport from "passport";
 import dotenv from "dotenv";
@@ -25,23 +25,26 @@ export const googleoAuthentry = async (app: Application) => {
     })
   );
   let userProfile: any;
-  let signature: any = "";
+  var signature: any = "";
 
   app.use(passport.initialize());
   // app.use(passport.session());
 
   app.get("/googleUser/:user", (req, res) => {
     //set cookie
+    console.log(userProfile, signature);
     res.status(200).json({ code: 200, data: userProfile });
   });
 
   app.get("/error", (req, res) => res.send("error logging in"));
 
   passport.serializeUser(function (user, cb) {
+    console.log(user);
     cb(null, user);
   });
 
   passport.deserializeUser(function (obj, cb: any): void {
+    console.log(obj);
     cb(null, obj);
   });
 
@@ -66,27 +69,7 @@ export const googleoAuthentry = async (app: Application) => {
         userProfile = profile;
         console.log(accessToken, refreshToken, profile);
         const googleUser = profile._json;
-        const {
-          sub,
-          name,
-          given_name,
-          family_name,
-          picture,
-          email,
-          email_verified,
-          locale,
-        } = googleUser;
-
-        console.log(
-          sub,
-          name,
-          given_name,
-          family_name,
-          picture,
-          email,
-          email_verified,
-          locale
-        );
+        const { sub, name, picture, email, email_verified } = googleUser;
 
         //add user to db
         //check if user exists
@@ -127,6 +110,7 @@ export const googleoAuthentry = async (app: Application) => {
                 isLoggedIn: true,
               });
               // req.signature = token
+              signature = token;
               done(null, token);
               // const temp = welcomeEmail(userName, token);
               // await sendEmail(email, "Signup success", temp);
@@ -158,10 +142,7 @@ export const googleoAuthentry = async (app: Application) => {
     "/auth/google/callback",
     passport.authenticate("google", {
       failureRedirect: "/error",
-      successRedirect: `http://127.0.0.1:5173/user-dashboard/google/${signature}`,
-    }),
-    (req: Request | any, res) => {
-      console.log(req.passport);
-    }
+      successRedirect: `http://127.0.0.1:5173/user-dashboard/google/erwerwerweqrwe`,
+    })
   );
 };
