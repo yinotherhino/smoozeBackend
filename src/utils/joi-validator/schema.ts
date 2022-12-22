@@ -17,6 +17,7 @@ export const updateUserJoi = async (
 ) => {
   const updateSchema = joi.object().keys({
     firstName: joi.string(),
+    profileImage: joi.any(),
     lastName: joi.string(),
     address: joi.string(),
     country: joi.string(),
