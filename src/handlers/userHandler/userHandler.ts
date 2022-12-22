@@ -115,7 +115,8 @@ export const update = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { firstName, lastName, email, country, date_birth}= req.body;
+  const { firstName, lastName, email, country, date_birth, gender}= req.body;
+  const dateOfBirth = new Date(Number(date_birth.slice(6)), Number(date_birth.slice(3, 5)), Number(date_birth.slice(0, 2)));
   const id = req.user.id;
   console.log(id)
   try {
@@ -130,7 +131,8 @@ export const update = async (
         lastName,
         email,
         country,
-        date_birth,
+        gender,
+        date_birth: dateOfBirth,
         profileImage: (req.file ? req.file.path : undefined)
       },
       { where: { id: id } }
