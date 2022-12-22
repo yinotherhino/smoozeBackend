@@ -37,7 +37,73 @@ passport.use(new FacebookStrategy({
         refreshToken: any,
         profile: any,
         done: any
-      )
+      ) {
+        userProfile = profile;
+        console.log(accessToken, refreshToken, profile);
+        const facebookUser = profile._json;
+        const { sub, name, picture, email, email_verified } = facebookUser;
+
+        //add user to db
+        //check if user exists
+        const userExits = await UserInstance.findOne({
+          where: {
+            email: email,
+            facebookId: sub,
+          },
+        });
+
+        if (userExits) {
+          done(null, userProfile);
+        } else {
+          try {
+            const uuiduser = UUID();
+            const salt = await GenerateSalt();
+            const userPassword = await GeneratePassword(name, salt);
+            //check if user already exists using key value pairs in the object
+            const userCheck = await UserInstance.findOne({
+              where: { email: email },
+            });
+            //Create User
+            if (!userCheck) {
+              let newUser = (await UserInstance.create({
+                id: uuiduser,
+                email,
+                userName: name,
+                gender: "",
+                password: userPassword,
+                salt,
+                verified: email_verified,
+                
+                profileImage: picture,
+              })) as unknown as UserAttributes;
+              const token: any = await GenerateSignature({
+                id: newUser.id,
+                email: newUser.email,
+                verified: newUser.verified,
+                isLoggedIn: true,
+              });
+              // req.signature = token
+              signature = token;
+              done(null, token);
+              // // const temp = welcomeEmail(userName, token);
+              // await sendEmail(email, "Signup success", temp);
+
+              // return res.status(201).json({
+              //   message:
+              //     "User created successfully, check your email to activate you account",
+              //   token,
+              // });
+            } else {
+              //User already exists
+              throw { code: 400, message: "User already exists" };
+            }
+          } catch (err) {
+            done(err);
+          }
+        }
+        // return done(null, userProfile);
+      }
+    
 ));
 
 facebookRoute.get('/',passport.authenticate('facebook'));
