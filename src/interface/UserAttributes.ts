@@ -14,9 +14,9 @@ export interface UserAttributes {
   verified?: boolean;
   role?: string;
   profileImage?: string;
-  gender: string;
-  date_birth: Date;
-
+  gender?: string;
+  date_birth?: Date;
+  googleId?: string;
   country?: string;
   lan?: string;
   currency?: string;

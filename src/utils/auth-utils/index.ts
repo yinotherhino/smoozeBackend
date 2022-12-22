@@ -26,3 +26,4 @@ export const GenerateSignature = async (payload: UserPayload|PasswordPayload) =>
 export const verifySignature = async (signature: string) => {
   return jwt.verify(signature, config.APP_SECRETE) as JwtPayload;
 };
+

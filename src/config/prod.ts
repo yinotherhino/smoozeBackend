@@ -1,5 +1,5 @@
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 export default {
   GMAIL_PASS: "lxideqvkiznxipjs",
   GMAIL_USER: "smooveappro@gmail.com",
@@ -17,5 +17,9 @@ export default {
   DATABASE_DATABASE_NAME: "rtajhzcb",
   DATABASE_PASSWORD: "vEUxVGeppmcvGoMPCxYsryRU76SGLzy4",
   DATABASE_PORT: 5432,
+  GOOGLE_CLIENT_SECRET: "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",
+  GOOGLE_CALLBACK_URL: "http://localhost:7000/auth/google/callback",
+  GOOGLE_CLIENT_ID:
+    "584941865977-6latgkmn2p0mmpr93kgad8k1fr4h5stg.apps.googleusercontent.com",
 };
 console.log("running production mode");

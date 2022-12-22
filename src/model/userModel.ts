@@ -59,29 +59,16 @@ UserInstance.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     gender: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Gender is required",
-        },
-        notEmpty: {
-          msg: "Gender is required",
-        },
-      },
+      allowNull: true,
     },
     date_birth: {
       type: DataTypes.DATE,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "date of birth is required",
-        },
-        notEmpty: {
-          msg: "date of birth is required",
-        },
-      },
     },
     isAceptedPrivacy: {
       type: DataTypes.BOOLEAN,

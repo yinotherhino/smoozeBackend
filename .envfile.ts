@@ -8,7 +8,7 @@
 
 // GMAIL_USER="smooveappro@gmail.com"
 
-// FROM_ADMIN_EMAIL="smooveappro@gmail.com"
+// FROM_ADMIN_EMAIL="n"
 
 // userSubject =" Welcome To Smooze App!"
 // DATABASE_LOCALPASSWORD="12567"
@@ -22,3 +22,8 @@
 //   DATABASE_PASSWORD="vEUxVGeppmcvGoMPCxYsryRU76SGLzy4",
 //   BASE_URL="http://localhost:7000"
 //   FRONTEND_BASE_URL="http://localhost:5173"
+
+
+// FACEBOOK_CLIENT_ID="3326216000983496",
+// FACEBOOK_CLIENT_SECRET ="f609d97ad94e39e47666df6b7e487ca4"
+// CALL_BACK_kURL: "http://localhost:5173/auth/facebook/secrets"
