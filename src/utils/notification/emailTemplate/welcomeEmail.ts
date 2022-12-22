@@ -42,7 +42,7 @@ function welcomeEmail(firstname: string, token: string) {
                     <tbody>
                       <tr>
                         <td align="left">
-                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="./NavBar-Logo.svg" alt="Smooze"></h1>
+                          <h1 style="color:white;vertical-align: bottom;margin-bottom: 0;"><img src="https://asset.cloudinary.com/dcrpfxivl/86bb6e969e189748386c0e9aa5788c4a" alt="Smooze"></h1>
                         </td>
                         <td align="right">
                           <b

@@ -1,11 +1,12 @@
 import nodemailer from "nodemailer";
 import { response } from "express";
+import config from "../../config";
 
 const transport = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
+    user: config.GMAIL_USER,
+    pass: config.GMAIL_PASS,
   },
   tls: {
     rejectUnauthorized: false,
@@ -15,7 +16,7 @@ const transport = nodemailer.createTransport({
 export const sendEmail = async (to: string, subject: string, html: string) => {
   try {
     await transport.sendMail({
-      from: process.env.FROM_ADMIN_EMAIL,
+      from: config.FROM_ADMIN_EMAIL,
       to,
       subject,
       html,

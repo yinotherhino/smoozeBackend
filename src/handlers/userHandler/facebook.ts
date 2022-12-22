@@ -15,7 +15,7 @@ import {v4 as UUID} from 'uuid'
 export const facebookRoute = express.Router();
 facebookRoute.use(session({secret:"secret"}));
 let userProfile:any;
-var signature:any ;
+// var signature:any ;
 facebookRoute.use(passport.initialize())
 facebookRoute.use(passport.session())
 passport.serializeUser(function(user,cb){
@@ -83,7 +83,7 @@ passport.use(new FacebookStrategy({
                 isLoggedIn: true,
               });
               // req.signature = token
-              signature = token;
+              // let signature = token;
               done(null, token);
               // // const temp = welcomeEmail(userName, token);
               // await sendEmail(email, "Signup success", temp);

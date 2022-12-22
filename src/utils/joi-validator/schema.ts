@@ -115,7 +115,7 @@ export const changePasswordJoi = async (
   next: Function
 ) => {
   let schema = joi.object({
-    password: joi.string().required().min(3),
+    password: joi.string().regex(/^[a-z0-9]{3,30}$/),
     token:joi.string().required().min(3),
   });
   const check = schema.validate(req.body, option);
