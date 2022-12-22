@@ -15,6 +15,8 @@ import {
   welcomeEmail,
   passworTemplate,
 } from "../../utils/notification";
+
+
 /* =============SIGNUP=======================. */
 
 export const Register = async (
@@ -113,9 +115,10 @@ export const update = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { firstName, lastName, country, password, address, currency } =
-    req.body;
+  const { firstName, lastName, email, country, date_birth, gender}= req.body;
+  const dateOfBirth = new Date(Number(date_birth.slice(6)), Number(date_birth.slice(3, 5)), Number(date_birth.slice(0, 2)));
   const id = req.user.id;
+  console.log(id)
   try {
     const User = (await UserInstance.findOne({
       where: { id: id },
@@ -126,10 +129,11 @@ export const update = async (
       {
         firstName,
         lastName,
+        email,
         country,
-        password,
-        address,
-        currency,
+        gender,
+        date_birth: dateOfBirth,
+        profileImage: (req.file ? req.file.path : undefined)
       },
       { where: { id: id } }
     )) as unknown as UserAttributes;
@@ -146,6 +150,7 @@ export const update = async (
     }
     throw { code: 500, message: "Something went wrong" };
   } catch (error) {
+    console.log(error)
     next(error);
   }
 };
@@ -254,3 +259,21 @@ export const changepassword = async (
     next(error);
   }
 };
+
+
+export const getUser = async (
+  req: JwtPayload,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.user.id
+    const user = await UserInstance.findOne({where:{id}}) as unknown as UserAttributes;
+    res
+    .status(201)
+    .json({ code: 200, user });
+  }
+  catch(err){
+    next(err);
+  }
+}

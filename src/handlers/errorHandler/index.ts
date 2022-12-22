@@ -12,7 +12,7 @@ export const errorHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  // console.log(error);
+  console.log(error);
   res
     .status(error.code || 500)
     .json({
