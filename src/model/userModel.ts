@@ -63,6 +63,10 @@ UserInstance.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    facebookId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     gender: {
       type: DataTypes.STRING,
       allowNull: true,

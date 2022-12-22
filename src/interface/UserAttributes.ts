@@ -17,6 +17,7 @@ export interface UserAttributes {
   gender?: string;
   date_birth?: Date;
   googleId?: string;
+  facebookId?: string;
   country?: string;
   lan?: string;
   currency?: string;
