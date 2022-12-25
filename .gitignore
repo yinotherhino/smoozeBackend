@@ -5,6 +5,7 @@
 src/config
  *.vscode
  .vscode
+ src/config
 ### macOS ###
 # General
 .DS_Store

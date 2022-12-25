@@ -14,7 +14,7 @@ export default {
   DATABASE_USERNAME: "postgres",
   DATABASE_HOST: "localhost",
   DATABASE_DATABASE_NAME: "postgres",
-  DATABASE_PASSWORD: "1234",
+  DATABASE_PASSWORD: "12567",
   DATABASE_PORT: 5432,
   GOOGLE_CLIENT_SECRET: "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",
   GOOGLE_CALLBACK_URL: "http://localhost:7000/auth/google/callback",
