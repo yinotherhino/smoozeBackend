@@ -1,148 +1,104 @@
 import { Application } from "express";
-
-import passport from "passport";
+import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv";
 dotenv.config();
-import { OAuth2Strategy } from "passport-google-oauth";
-import session from "express-session";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { v4 as UUID } from "uuid";
 import config from "../../config";
 import { UserInstance } from "../../model";
+import { UserAttributes } from "../../interface";
 import {
-  GeneratePassword,
-  GenerateSalt,
+  // GeneratePassword,
+  // GenerateSalt,
   GenerateSignature,
 } from "../auth-utils";
-import { v4 as UUID } from "uuid";
-import { UserAttributes } from "../../interface/UserAttributes";
-// import { sendEmail } from "../notification/sendMail";
-
 export const googleoAuthentry = async (app: Application) => {
-  app.use(
-    session({
-      resave: false,
-      saveUninitialized: true,
-      secret: "SECRET",
-    })
-  );
-  let userProfile: any;
-  var signature: any = "";
-
-  app.use(passport.initialize());
-  // app.use(passport.session());
-
-  app.get("/googleUser/:user", (req, res) => {
-    //set cookie
-    console.log(userProfile, signature);
-    res.status(200).json({ code: 200, data: userProfile });
+  const client = new OAuth2Client({
+    clientId:
+      config.GOOGLE_CLIENT_ID || (process.env.GOOGLE_CLIENT_ID as string),
+    clientSecret:
+      config.GOOGLE_CLIENT_SECRET ||
+      (process.env.GOOGLE_CLIENT_SECRET as string),
+    redirectUri: config.GOOGLE_CALLBACK_URL || process.env.GOOGLE_CALLBACK_URL,
   });
-
-  app.get("/error", (req, res) => res.send("error logging in"));
-
-  passport.serializeUser(function (user, cb) {
-    console.log(user);
-    cb(null, user);
+  app.get("/auth/google", (req, res) => {
+    const redirect_uri =
+      config.GOOGLE_CALLBACK_URL || (process.env.GOOGLE_CALLBACK_URL as string);
+    const authUrl = client.generateAuthUrl({
+      access_type: "offline",
+      scope: [
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
+      ],
+      prompt: "consent",
+      redirect_uri,
+    });
+    res.redirect(authUrl);
   });
-
-  passport.deserializeUser(function (obj, cb: any): void {
-    console.log(obj);
-    cb(null, obj);
-  });
-
-  passport.use(
-    new OAuth2Strategy(
-      {
-        clientID:
-          config.GOOGLE_CLIENT_ID || (process.env.GOOGLE_CLIENT_ID as string),
-        clientSecret:
-          config.GOOGLE_CLIENT_SECRET ||
-          (process.env.GOOGLE_CLIENT_SECRET as string),
-        callbackURL:
-          config.GOOGLE_CALLBACK_URL ||
-          (process.env.GOOGLE_CALLBACK_URL as string),
+  app.get("/auth/google/callback", async (req: any, res: any, done) => {
+    const { code } = req.query;
+    const { tokens } = await client.getToken(code);
+    client.setCredentials(tokens);
+    const user = await client.credentials;
+    const { id_token } = user;
+    //  console.log(id_token)
+    const userDataReal = jwt.decode(id_token as string) as JwtPayload;
+    // res.json(userDataReal);
+    const {
+      picture,
+      // name,
+      email,
+      sub,
+      given_name,
+      email_verified,
+    } = JSON.parse(JSON.stringify(userDataReal)) as any;
+    // res.json(email)
+    let userExist = (await UserInstance.findOne({
+      where: {
+        email: email,
       },
-      async function (
-        accessToken: any,
-        refreshToken: any,
-        profile: any,
-        done: any
-      ) {
-        userProfile = profile;
-        console.log(accessToken, refreshToken, profile);
-        const googleUser = profile._json;
-        const { sub, name, picture, email, email_verified } = googleUser;
-
-        //add user to db
-        //check if user exists
-        const userExits = await UserInstance.findOne({
-          where: {
-            email: email,
-            googleId: sub,
-          },
-        });
-
-        if (userExits) {
-          done(null, userProfile);
-        } else {
-          try {
-            const uuiduser = UUID();
-            const salt = await GenerateSalt();
-            const userPassword = await GeneratePassword(name, salt);
-            //check if user already exists using key value pairs in the object
-            const userCheck = await UserInstance.findOne({
-              where: { email: email },
-            });
-            //Create User
-            if (!userCheck) {
-              let newUser = (await UserInstance.create({
-                id: uuiduser,
-                email,
-                userName: name,
-                gender: "",
-                password: userPassword,
-                salt,
-                verified: email_verified,
-                profileImage: picture,
-              })) as unknown as UserAttributes;
-              const token: any = await GenerateSignature({
-                id: newUser.id,
-                email: newUser.email,
-                verified: newUser.verified,
-                isLoggedIn: true,
-              });
-              // req.signature = token
-              signature = token;
-              done(null, token);
-              // const temp = welcomeEmail(userName, token);
-              // await sendEmail(email, "Signup success", temp);
-
-              // return res.status(201).json({
-              //   message:
-              //     "User created successfully, check your email to activate you account",
-              //   token,
-              // });
-            } else {
-              //User already exists
-              throw { code: 400, message: "User already exists" };
-            }
-          } catch (err) {
-            done(err);
-          }
-        }
-        // return done(null, userProfile);
-      }
-    )
-  );
-
-  app.get(
-    "/auth/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-  );
-
-  app.get(
-    "/auth/google/callback",
-    passport.authenticate("google", {
-      failureRedirect: "/error",
-      successRedirect: `http://127.0.0.1:5173/user-dashboard/google/erwerwerweqrwe`,
-    })
-  );
+    })) as unknown as UserAttributes;
+    // res.json({
+    //   userExist
+    // })
+    if (!userExist) {
+      // const salt = await GenerateSalt();
+      // const password = await GeneratePassword(name, salt);
+      const uuiduser = UUID();
+      let createdUser = (await UserInstance.create({
+        id: uuiduser,
+        salt: "Googlesalt",
+        email,
+        password: "Googlepass",
+        profileImage: picture,
+        googleId: sub,
+        userName: given_name,
+        verified: email_verified,
+      })) as JwtPayload;
+      // res.json({
+      //   user:createdUser
+      // })
+      const token = await GenerateSignature({
+        id: createdUser.id,
+        email: createdUser.email,
+        verified: createdUser.verified,
+        isLoggedIn: true,
+      });
+      // res.json(token);
+      res.redirect(`${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`);
+    } else {
+      const token = await GenerateSignature({
+        id: userExist.id,
+        email: userExist.email,
+        verified: userExist.verified,
+        isLoggedIn: true,
+      });
+      console.log("login the user if it exists");
+      res.redirect(`${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`)
+      // res.redirect("");
+    }
+    // console.log("info" + JSON.stringify(userDataReal));
+    // Save the user to your database and set a session cookie
+    // res.redirect("/");
+  });
 };

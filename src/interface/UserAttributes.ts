@@ -18,6 +18,8 @@ export interface UserAttributes {
   date_birth?: Date;
   googleId?: string;
   facebookId?: string;
+  googleToken?:number;
+  faceBookToken?:number;
   country?: string;
   lan?: string;
   currency?: string;

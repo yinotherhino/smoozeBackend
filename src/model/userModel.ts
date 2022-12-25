@@ -124,6 +124,18 @@ UserInstance.init(
     socials: {
       type: DataTypes.ARRAY(DataTypes.STRING),
     },
+    facebookId:{
+      type: DataTypes.STRING
+    },
+    googleId:{
+      type: DataTypes.STRING
+    },
+    googleToken:{
+      type: DataTypes.INTEGER
+    },
+    faceBookToken:{
+      type: DataTypes.INTEGER
+    }
   },
   {
     sequelize: db,
