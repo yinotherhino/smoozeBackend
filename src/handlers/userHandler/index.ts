@@ -4,7 +4,5 @@ export {
   Register,
   requestPassword,
   verifyUser,
-  getUser
+  getUser,
 } from "./userHandler";
-
-export { facebookRoute } from "./facebook";

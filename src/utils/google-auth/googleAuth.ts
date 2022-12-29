@@ -8,8 +8,8 @@ import config from "../../config";
 import { UserInstance } from "../../model";
 import { UserAttributes } from "../../interface";
 import {
-  // GeneratePassword,
-  // GenerateSalt,
+  GeneratePassword,
+  GenerateSalt,
   GenerateSignature,
 } from "../auth-utils";
 export const googleoAuthentry = async (app: Application) => {
@@ -41,43 +41,32 @@ export const googleoAuthentry = async (app: Application) => {
     client.setCredentials(tokens);
     const user = await client.credentials;
     const { id_token } = user;
-    //  console.log(id_token)
+
     const userDataReal = jwt.decode(id_token as string) as JwtPayload;
-    // res.json(userDataReal);
-    const {
-      picture,
-      // name,
-      email,
-      sub,
-      given_name,
-      email_verified,
-    } = JSON.parse(JSON.stringify(userDataReal)) as any;
-    // res.json(email)
+
+    const { picture, email, sub, given_name, email_verified } = JSON.parse(
+      JSON.stringify(userDataReal)
+    ) as any;
     let userExist = (await UserInstance.findOne({
       where: {
         email: email,
       },
     })) as unknown as UserAttributes;
-    // res.json({
-    //   userExist
-    // })
     if (!userExist) {
-      // const salt = await GenerateSalt();
-      // const password = await GeneratePassword(name, salt);
+      const salt = await GenerateSalt();
+      const Gen_password = await GeneratePassword(given_name, salt);
       const uuiduser = UUID();
       let createdUser = (await UserInstance.create({
         id: uuiduser,
-        salt: "Googlesalt",
+        salt,
         email,
-        password: "Googlepass",
+        password: Gen_password,
         profileImage: picture,
         googleId: sub,
         userName: given_name,
         verified: email_verified,
       })) as JwtPayload;
-      // res.json({
-      //   user:createdUser
-      // })
+
       const token = await GenerateSignature({
         id: createdUser.id,
         email: createdUser.email,
@@ -85,7 +74,9 @@ export const googleoAuthentry = async (app: Application) => {
         isLoggedIn: true,
       });
       // res.json(token);
-      res.redirect(`${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`);
+      res.redirect(
+        `${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`
+      );
     } else {
       const token = await GenerateSignature({
         id: userExist.id,
@@ -93,12 +84,9 @@ export const googleoAuthentry = async (app: Application) => {
         verified: userExist.verified,
         isLoggedIn: true,
       });
-      console.log("login the user if it exists");
-      res.redirect(`${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`)
-      // res.redirect("");
+      res.redirect(
+        `${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`
+      );
     }
-    // console.log("info" + JSON.stringify(userDataReal));
-    // Save the user to your database and set a session cookie
-    // res.redirect("/");
   });
 };
