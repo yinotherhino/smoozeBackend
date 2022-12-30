@@ -23,7 +23,6 @@
 //   BASE_URL="http://localhost:7000"
 //   FRONTEND_BASE_URL="http://localhost:5173"
 
-
-// FACEBOOK_CLIENT_ID="3326216000983496",
-// FACEBOOK_CLIENT_SECRET ="f609d97ad94e39e47666df6b7e487ca4"
-// CALL_BACK_kURL: "http://localhost:5173/auth/facebook/secrets"
+// FACEBOOK_CLIENT_ID= "469154135389223"#"3326216000983496"
+// FACEBOOK_CLIENT_SECRET ="23e965a0117b4d2b508f4624cbd70e7f" #"f609d97ad94e39e47666df6b7e487ca4"
+// CALL_BACK_kURL="http://localhost:7000/facebook/auth/secrets"
