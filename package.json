@@ -5,18 +5,13 @@
   "author": "group smoove",
   "license": "MIT",
   "scripts": {
-    "dev": " STAGE=testing nodemon src/index.ts",
+    "dev": " STAGE=local nodemon src/index.ts",
     "test": "jest",
     "build": "tsc -p  tsconfig.json",
     "start": "node dist/index.js",
     "compile": "tsc -w"
   },
   "dependencies": {
-    "@types/express-session": "^1.17.5",
-    "@types/nodemailer": "^6.4.6",
-    "@types/passport": "^1.0.11",
-    "@types/passport-google-oauth": "^1.0.42",
-    "@types/passport-google-oauth2": "^0.1.5",
     "axios": "^1.2.1",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.33.0",
@@ -53,6 +48,9 @@
     "yarn": "^1.22.19"
   },
   "devDependencies": {
+    "@types/passport": "^1.0.11",
+    "@types/passport-google-oauth": "^1.0.42",
+    "@types/passport-google-oauth2": "^0.1.5",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",

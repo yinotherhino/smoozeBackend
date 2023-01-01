@@ -106,7 +106,7 @@ UserInstance.init(
       allowNull: true,
     },
     profileImage: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING({ length: 1000 }),
       allowNull: true,
     },
     lan: {

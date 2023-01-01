@@ -11,11 +11,16 @@ import passport from "passport";
 import passportFacebook from "passport-facebook";
 const FacebookStrategy = passportFacebook.Strategy;
 import session from "express-session";
-import dotenv from "dotenv";
-dotenv.config();
+import config from "../../config";
 
 export const fboauthBackend = async (app: Application) => {
-  app.use(session({ secret: "secret" }));
+  app.use(
+    session({
+      secret: config.SESSION_SECRET as string,
+      saveUninitialized: false,
+      resave: false,
+    })
+  );
   app.use(passport.initialize());
   app.use(passport.session());
   passport.serializeUser(function (user, cb) {
@@ -29,9 +34,9 @@ export const fboauthBackend = async (app: Application) => {
   passport.use(
     new FacebookStrategy(
       {
-        clientID: process.env.FACEBOOK_CLIENT_ID!,
-        clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-        callbackURL: process.env.CALL_BACK_kURL || "",
+        clientID: config.FACEBOOK_CLIENT_ID!,
+        clientSecret: config.FACEBOOK_CLIENT_SECRET!,
+        callbackURL: config.CALL_BACK_kURL,
         authorizationURL: "https://www.facebook.com/v10.0/dialog/oauth",
         tokenURL: "https://graph.facebook.com/v10.0/oauth/access_token",
         profileFields: [
@@ -105,11 +110,11 @@ export const fboauthBackend = async (app: Application) => {
             isLoggedIn: true,
           });
           return res.redirect(
-            `${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`
+            `${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`
           );
         } else {
           return res.redirect(
-            `${process.env.FRONTEND_BASE_URL}/auth/google/?token=error`
+            `${config.FRONTEND_BASE_URL}/auth/social/?token=error`
           );
         }
       } else {
@@ -120,13 +125,13 @@ export const fboauthBackend = async (app: Application) => {
           isLoggedIn: true,
         });
         return res.redirect(
-          `${process.env.FRONTEND_BASE_URL}/auth/google/?token=${token}`
+          `${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`
         );
       }
     } catch (error) {
       console.log(error);
       return res.redirect(
-        `${process.env.FRONTEND_BASE_URL}/auth/google/?token=error`
+        `${config.FRONTEND_BASE_URL}/auth/social/?token=error`
       );
     }
   });

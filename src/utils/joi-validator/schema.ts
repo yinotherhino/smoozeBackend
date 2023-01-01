@@ -39,7 +39,7 @@ export const loginUserJoi = async (
 ) => {
   const loginSchema = joi.object().keys({
     email: joi.string().required(),
-    password: joi.string().regex(/^[a-z0-9]{3,30}$/),
+    password: joi.string().min(4),
   });
   const check = loginSchema.validate(req.body, option);
   if (check.error) {
@@ -92,7 +92,7 @@ export const createUserJoi = async (
   }
 };
 
-export const sendemailTokenJoi= async (
+export const sendemailTokenJoi = async (
   req: Request,
   res: Response,
   next: Function
@@ -108,15 +108,14 @@ export const sendemailTokenJoi= async (
   }
 };
 
-
 export const changePasswordJoi = async (
   req: Request,
   res: Response,
   next: Function
 ) => {
   let schema = joi.object({
-    password: joi.string().regex(/^[a-z0-9]{3,30}$/),
-    token:joi.string().required().min(3),
+    password: joi.string().min(4), //regex(/^[a-z0-9]{3,30}$/),
+    token: joi.string().required().min(3),
   });
   const check = schema.validate(req.body, option);
   if (check.error) {
