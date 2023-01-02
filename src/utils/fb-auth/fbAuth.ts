@@ -53,7 +53,6 @@ export const fboauthBackend = async (app: Application) => {
         profile: any,
         done: any
       ) {
-        console.log(accessToken, profile, refreshToken);
         profile.accessToken = accessToken;
         done(null, profile);
       }
@@ -78,6 +77,7 @@ export const fboauthBackend = async (app: Application) => {
   app.get("/facebook/profile", async (req: any, res: any) => {
     try {
       const { accessToken, email, displayName, id, gender, photos } = req.user;
+      let userName = displayName.split(" ")[0];
       const user = (await UserInstance.findOne({
         where: {
           facebookId: id,
@@ -86,13 +86,13 @@ export const fboauthBackend = async (app: Application) => {
       if (!user) {
         const uuiduser = UUID();
         const salt = await GenerateSalt();
-        const userPassword = await GeneratePassword(displayName, salt);
+        const userPassword = await GeneratePassword(userName, salt);
         //check if user already exists using key value pairs in the object
 
         const newUser = (await UserInstance.create({
           id: uuiduser,
           email: email || `${id}@gmail.com`,
-          userName: displayName,
+          userName,
           password: userPassword,
           salt,
           verified: true,
