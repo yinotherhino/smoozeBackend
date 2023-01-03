@@ -16,7 +16,6 @@ import {
   passworTemplate,
 } from "../../utils/notification";
 
-
 /* =============SIGNUP=======================. */
 
 export const Register = async (
@@ -81,7 +80,9 @@ export const signin = async (
     if (!User) {
       throw { code: 400, message: "Invalide Email or Password" };
     } else {
+      if (!User.verified) throw { code: 400, message: "Account Not Activated" };
       //validate password
+
       const validPassword = await validatePassword(
         password,
         User.password,
@@ -90,7 +91,6 @@ export const signin = async (
 
       if (!validPassword)
         throw { code: 400, message: "Invalide Email or Password" };
-      if (!User.verified) throw { code: 401, message: "Account Not Verified" };
       const payload: UserPayload = {
         id: User.id,
         email: User.email,
@@ -115,10 +115,14 @@ export const update = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { firstName, lastName, email, country, date_birth, gender}= req.body;
-  const dateOfBirth = new Date(Number(date_birth.slice(6)), Number(date_birth.slice(3, 5)), Number(date_birth.slice(0, 2)));
+  const { firstName, lastName, email, country, date_birth, gender } = req.body;
+  const dateOfBirth = new Date(
+    Number(date_birth.slice(6)),
+    Number(date_birth.slice(3, 5)),
+    Number(date_birth.slice(0, 2))
+  );
   const id = req.user.id;
-  console.log(id)
+  console.log(id);
   try {
     const User = (await UserInstance.findOne({
       where: { id: id },
@@ -133,7 +137,7 @@ export const update = async (
         country,
         gender,
         date_birth: dateOfBirth,
-        profileImage: (req.file ? req.file.path : undefined)
+        profileImage: req.file ? req.file.path : undefined,
       },
       { where: { id: id } }
     )) as unknown as UserAttributes;
@@ -150,7 +154,7 @@ export const update = async (
     }
     throw { code: 500, message: "Something went wrong" };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 };
@@ -162,9 +166,8 @@ export const verifyUser = async (
   next: NextFunction
 ) => {
   try {
-    
     const token = req.query.token;
-    if (typeof token=== "string") {
+    if (typeof token === "string") {
       const verified = await verifySignature(token);
       //check if user exits
       if (!verified) throw { code: 400, message: "Please Register An Account" };
@@ -201,7 +204,8 @@ export const requestPassword = async (
       where: { email: email },
     })) as unknown as UserAttributes;
     if (!user) {
-      throw { status: "Email is Incorect!!" };}
+      throw { status: "Email is Incorect!!" };
+    }
     const otp = await GenerateSalt();
     let token = await GenerateSignature({
       id: user.id,
@@ -218,7 +222,9 @@ export const requestPassword = async (
     );
     const template = await passworTemplate(user.userName, token);
     await sendEmail(user.email, "PASSWORD RESETE", template);
-    res.status(200).json({ code: 200, signature: token, message: "Email Sent!!" });
+    res
+      .status(200)
+      .json({ code: 200, signature: token, message: "Email Sent!!" });
   } catch (error) {
     next(error);
   }
@@ -260,21 +266,18 @@ export const changepassword = async (
   }
 };
 
-
 export const getUser = async (
   req: JwtPayload,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const id = req.user.id
-    const user = await UserInstance.findOne({where:{id}}) as unknown as UserAttributes;
-    res
-    .status(201)
-    .json({ code: 200, user });
-  }
-  catch(err){
+    const id = req.user.id;
+    const user = (await UserInstance.findOne({
+      where: { id },
+    })) as unknown as UserAttributes;
+    res.status(201).json({ code: 200, user });
+  } catch (err) {
     next(err);
   }
-}
-
+};

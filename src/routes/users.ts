@@ -12,7 +12,7 @@ import {
   changePasswordJoi,
 } from "../utils/joi-validator";
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
-import { upload } from '../utils/multer/multer'
+import { upload } from "../utils/multer/multer";
 
 export const usersRoute = express.Router();
 /**
@@ -27,7 +27,7 @@ export const usersRoute = express.Router();
 
 usersRoute.post("/signup", RegisterUserJoi, Register);
 usersRoute.post("/signin", loginUserJoi, signin);
-usersRoute.patch("/update", upload.single('profileImage'), auth, update);
+usersRoute.patch("/update", upload.single("profileImage"), auth, update);
 usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
