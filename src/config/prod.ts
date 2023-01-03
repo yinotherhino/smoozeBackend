@@ -1,25 +1,27 @@
 import dotenv from "dotenv";
 dotenv.config();
 export default {
-  GMAIL_PASS: "lxideqvkiznxipjs",
-  GMAIL_USER: "smooveappro@gmail.com",
-  FROM_ADMIN_EMAIL: "smooveappro@gmail.com",
-  userSubject: " Welcome To Smooze App!",
-  port: process.env.PORT || process.env.PORT || 7000,
-  BASE_URL: process.env.BASE_URL,
-  FRONTEND_BASE_URL: process.env.FRONTEND_BASE_URL,
-  DATABASE_URL:
-    "postgres://rtajhzcb:vEUxVGeppmcvGoMPCxYsryRU76SGLzy4@ruby.db.elephantsql.com/rtajhzcb",
-  APP_SECRETE: "blablabla",
-  JWT_SECRETE: "blablabla",
-  DATABASE_USERNAME: "rtajhzcb",
-  DATABASE_HOST: "ruby.db.elephantsql.com",
-  DATABASE_DATABASE_NAME: "rtajhzcb",
-  DATABASE_PASSWORD: "vEUxVGeppmcvGoMPCxYsryRU76SGLzy4",
-  DATABASE_PORT: 5432,
-  GOOGLE_CLIENT_SECRET: "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",
-  GOOGLE_CALLBACK_URL: "http://localhost:7000/auth/google/callback",
-  GOOGLE_CLIENT_ID:
-    "584941865977-6latgkmn2p0mmpr93kgad8k1fr4h5stg.apps.googleusercontent.com",
+  GMAIL_PASS: process.env.PROD_GMAIL_PASS,
+  GMAIL_USER: process.env.PROD_GMAIL_USER,
+  FROM_ADMIN_EMAIL: process.env.PROD_FROM_ADMIN_EMAIL,
+  userSubject: process.env.PROD_userSubject,
+  port: process.env.PROD_PORT,
+  BASE_URL: process.env.PROD_BASE_URL,
+  FRONTEND_BASE_URL: process.env.PROD_FRONTEND_BASE_URL,
+  DATABASE_URL: process.env.PROD_DATABASE_URL,
+  APP_SECRETE: process.env.PROD_APP_SECRETE,
+  JWT_SECRETE: process.env.PROD_JWT_SECRETE,
+  DATABASE_USERNAME: process.env.PROD_DATABASE_USERNAME,
+  DATABASE_HOST: process.env.PROD_DATABASE_HOST,
+  DATABASE_DATABASE_NAME: process.env.PROD_DATABASE_DATABASE_NAME,
+  DATABASE_PASSWORD: process.env.PROD_DATABASE_PASSWORD,
+  DATABASE_PORT: process.env.PROD_DATABASE_PORT,
+  GOOGLE_CLIENT_SECRET: process.env.PROD_GOOGLE_CLIENT_SECRET,
+  GOOGLE_CALLBACK_URL: process.env.PROD_GOOGLE_CALLBACK_URL,
+  GOOGLE_CLIENT_ID: process.env.PROD_GOOGLE_CLIENT_ID,
+  FACEBOOK_CLIENT_ID: process.env.PROD_FACEBOOK_CLIENT_ID,
+  FACEBOOK_CLIENT_SECRET: process.env.PROD_FACEBOOK_CLIENT_SECRET,
+  CALL_BACK_kURL: process.env.PROD_CALL_BACK_kURL,
+  SESSION_SECRET: process.env.PROD_SESSION_SECRET,
 };
-console.log("running production mode");
+console.log("running PRODUCTION mode");

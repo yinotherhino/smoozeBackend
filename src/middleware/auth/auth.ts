@@ -48,8 +48,8 @@ export const auth = async (
     })) as unknown as UserAttributes;
 
     if (!user) throw { code: 400, message: "Invalide Credentials" };
-    if (!verified.isLoggedIn) throw { code: 400, message: "Not Authenticated" };
     if (!user.verified) throw { code: 400, message: "Account Not Activated" };
+    if (!verified.isLoggedIn) throw { code: 400, message: "Not Authenticated" };
     req.user = verified;
     next();
   } catch (error: Error | any) {

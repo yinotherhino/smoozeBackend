@@ -106,7 +106,7 @@ UserInstance.init(
       allowNull: true,
     },
     profileImage: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING({ length: 1000 }),
       allowNull: true,
     },
     lan: {
@@ -124,18 +124,18 @@ UserInstance.init(
     socials: {
       type: DataTypes.ARRAY(DataTypes.STRING),
     },
-    facebookId:{
-      type: DataTypes.STRING
+    facebookId: {
+      type: DataTypes.STRING,
     },
-    googleId:{
-      type: DataTypes.STRING
+    googleId: {
+      type: DataTypes.STRING,
     },
-    googleToken:{
-      type: DataTypes.INTEGER
+    googleToken: {
+      type: DataTypes.STRING,
     },
-    faceBookToken:{
-      type: DataTypes.INTEGER
-    }
+    faceBookToken: {
+      type: DataTypes.STRING,
+    },
   },
   {
     sequelize: db,
