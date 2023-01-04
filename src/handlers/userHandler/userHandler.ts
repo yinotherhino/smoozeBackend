@@ -181,7 +181,7 @@ export const verifyUser = async (
           }
         );
         return res.status(200).json({
-          message: "User verified",
+          message: "Account verified Please Login !",
         });
       }
     }
@@ -204,7 +204,10 @@ export const requestPassword = async (
       where: { email: email },
     })) as unknown as UserAttributes;
     if (!user) {
-      throw { status: "Email is Incorect!!" };
+      throw {
+        code: 400,
+        message: "Check Your Email to Continue if Account Exist!!",
+      };
     }
     const otp = await GenerateSalt();
     let token = await GenerateSignature({
@@ -222,9 +225,11 @@ export const requestPassword = async (
     );
     const template = await passworTemplate(user.userName, token);
     await sendEmail(user.email, "PASSWORD RESETE", template);
-    res
-      .status(200)
-      .json({ code: 200, signature: token, message: "Email Sent!!" });
+    res.status(200).json({
+      code: 200,
+      signature: token,
+      message: "Check Your Email to Continue if Account Exist!!",
+    });
   } catch (error) {
     next(error);
   }
