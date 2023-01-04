@@ -181,7 +181,7 @@ export const verifyUser = async (
           }
         );
         return res.status(200).json({
-          message: "User verified",
+          message: "Account verified Please Login !",
         });
       }
     }
@@ -204,27 +204,33 @@ export const requestPassword = async (
       where: { email: email },
     })) as unknown as UserAttributes;
     if (!user) {
-      throw { status: "Email is Incorect!!" };
+      return res.status(200).json({
+        code: 200,
+        message: "Check Your Email to Continue !!",
+      });
+    } else {
+      const otp = await GenerateSalt();
+      let token = await GenerateSignature({
+        id: user.id,
+        email,
+        otp,
+      });
+      await UserInstance.update(
+        {
+          otp: otp,
+        },
+        {
+          where: { id: user.id },
+        }
+      );
+      const template = await passworTemplate(user.userName, token);
+      await sendEmail(user.email, "PASSWORD RESETE", template);
+      res.status(200).json({
+        code: 200,
+        signature: token,
+        message: "Check Your Email to Continue !!",
+      });
     }
-    const otp = await GenerateSalt();
-    let token = await GenerateSignature({
-      id: user.id,
-      email,
-      otp,
-    });
-    await UserInstance.update(
-      {
-        otp: otp,
-      },
-      {
-        where: { id: user.id },
-      }
-    );
-    const template = await passworTemplate(user.userName, token);
-    await sendEmail(user.email, "PASSWORD RESETE", template);
-    res
-      .status(200)
-      .json({ code: 200, signature: token, message: "Email Sent!!" });
   } catch (error) {
     next(error);
   }
