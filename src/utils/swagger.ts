@@ -7,14 +7,16 @@ import path from "path";
 const playlist = path.resolve(__dirname, "../../src/routes/playlist.ts");
 const music = path.resolve(__dirname, "../../src/routes/music.ts");
 const user = path.resolve(__dirname, "../../src/routes/users.ts");
+// const apiRoute = path.resolve(__dirname, "../../src/routes*.ts");
+const apiSchema = path.resolve(__dirname, "../../src/model/*.ts");
 
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Swagger API Documentation for Smoove App",
+      title: "Swagger API Documentation for Smooze App",
       version: "1.0.0",
-      description: "Documenting various apis for Smoove App",
+      description: "Documenting various apis for Smooze App",
     },
     components: {
       securitySchemas: {
@@ -33,7 +35,8 @@ const options: swaggerJSDoc.Options = {
     host: "localhost:7000",
     basePath: "/",
   },
-  apis: [playlist, music, user],
+  // apis: [apiRoute, apiSchema],
+  apis: [apiSchema, playlist, music, user],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

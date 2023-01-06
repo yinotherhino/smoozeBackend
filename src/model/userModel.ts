@@ -2,6 +2,82 @@ import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { UserAttributes } from "../interface/UserAttributes";
 export class UserInstance extends Model<UserAttributes> {}
+
+
+/**
+ * @openapi
+ * components:
+ *  schemas: 
+ *    CreateUserInput:
+ *      type: object
+ *      required:
+ *        - email
+ *        - userName
+ *        - gender
+ *        - date_birth
+ *        - password
+ *      properties: 
+ *        email:
+ *          type: string
+ *          default: omo@yahoo.com
+ *        userName:
+ *          type: string
+ *          default: omo ati
+ *        gender:
+ *          type: string
+ *          default: male
+ *        date_birth:
+ *          type: string
+ *          default: 7/2/1998
+ *        password:
+ *          type: string
+ *          default: omo12345678
+ *    CreateUserResponse:
+ *      type: object
+ *      required:
+ *        - email
+ *        - userName
+ *        - gender
+ *        - date_birth
+ *        - password
+ *      properties: 
+ *        email:
+ *          type: string
+ *        userName:
+ *          type: string
+ *        gender:
+ *          type: string
+ *        date_birth:
+ *          type: string
+ *        _id:
+ *          type: string
+ *    CreateLoginInput:
+ *      type: object
+ *      required:
+ *        - email
+ *        - password
+ *      properties: 
+ *        email:
+ *          type: string
+ *        password:
+ *          type: string
+ *    UpdateUserInput:
+ *      type: object
+ *      properties: 
+ *        firstName:
+ *          type: string
+ *        profileImage:
+ *          type: any
+ *        lastName:
+ *          type: string
+ *        address:
+ *          type: string
+ *        country:
+ *          type: string
+ *        password:
+ *          type: string
+ */
+
 UserInstance.init(
   {
     id: {

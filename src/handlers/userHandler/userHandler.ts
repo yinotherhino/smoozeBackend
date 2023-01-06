@@ -50,7 +50,7 @@ export const Register = async (
         isLoggedIn: false,
       });
       const temp = welcomeEmail(userName, token);
-      await sendEmail(email, "Signup success", temp);
+      await sendEmail(email, "Signup Success", temp);
 
       return res.status(201).json({
         message:
@@ -100,7 +100,7 @@ export const signin = async (
       const signature = await GenerateSignature(payload);
 
       return res.status(200).json({
-        message: "Login successful",
+        message: "Login Successful",
         signature: signature,
         user: User
       });

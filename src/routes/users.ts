@@ -15,18 +15,72 @@ import { sendemailTokenJoi } from "../utils/joi-validator/schema";
 import { upload } from "../utils/multer/multer";
 
 export const usersRoute = express.Router();
-/**
- * @swagger
- * /api/user:
- *   post:
- *     description: Testing for get api
- *     responses:
- *       200:
- *         description: Returns User Object
- */
+
+  /**
+   * @openapi
+   * '/api/user/signup':
+   *  post:
+   *     tags:
+   *     - User
+   *     summary: Register a user
+   *     requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/CreateUserInput'
+   *     responses:
+   *      200:
+   *        description: Success
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/CreateUserResponse'
+   *      409:
+   *        description: Conflict
+   *      400:
+   *        description: Bad request
+   */
 
 usersRoute.post("/signup", RegisterUserJoi, Register);
+
+  /**
+   * @openapi
+   * '/api/user/signin':
+   *  post:
+   *     tags:
+   *     - User
+   *     summary: Log in a user
+   *     requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/CreateLoginInput'
+   *     responses:
+   *      200:
+   *        description: Success
+   */
+
 usersRoute.post("/signin", loginUserJoi, signin);
+
+ /**
+   * @openapi
+   * '/api/user/update':
+   *  patch:
+   *     tags:
+   *     - User
+   *     summary: Log in a user
+   *     requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/UpdateUserInput'
+   *     responses:
+   *      200:
+   *        description: Successful Update
+   */
 usersRoute.patch("/update", upload.single("profileImage"), auth, update);
 usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify", verifyUser);
