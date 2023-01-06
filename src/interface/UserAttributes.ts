@@ -26,4 +26,5 @@ export interface UserAttributes {
   isAceptedPrivacy?: boolean;
   isAceptedTerms?: boolean;
   socials?: Array<String>;
+  is_premium:boolean;
 }

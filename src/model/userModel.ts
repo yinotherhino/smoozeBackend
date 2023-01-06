@@ -212,6 +212,9 @@ UserInstance.init(
     faceBookToken: {
       type: DataTypes.STRING,
     },
+    is_premium: {
+      type:DataTypes.BOOLEAN,
+    },
   },
   {
     sequelize: db,

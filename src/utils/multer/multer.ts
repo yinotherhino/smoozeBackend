@@ -19,5 +19,14 @@ const storage = new CloudinaryStorage({
       }
   },
 });
-
+const musicstorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async(req,file)=> {
+      return {
+           format:"mp3",
+          folder: "SMOOVEAPPMUSIC",
+      }
+  },
+});
+export const musicUpload = multer({storage:musicstorage})
 export const upload = multer({storage:storage})
