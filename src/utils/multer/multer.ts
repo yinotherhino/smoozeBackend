@@ -23,6 +23,7 @@ const musicstorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async(req,file)=> {
       return {
+           format:"mp3",
           folder: "SMOOVEAPPMUSIC",
       }
   },

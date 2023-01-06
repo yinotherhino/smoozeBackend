@@ -1,4 +1,3 @@
-import { ReadableStreamDefaultController } from "node:stream/web";
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { UserAttributes } from "../interface/UserAttributes";

@@ -100,6 +100,7 @@ export const fboauthBackend = async (app: Application) => {
           profileImage: photos[0].value,
           faceBookToken: accessToken,
           gender,
+          is_premium:false,
         })) as unknown as UserAttributes;
 
         if (newUser) {
