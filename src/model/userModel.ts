@@ -1,3 +1,4 @@
+import { ReadableStreamDefaultController } from "node:stream/web";
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { UserAttributes } from "../interface/UserAttributes";
@@ -135,6 +136,9 @@ UserInstance.init(
     },
     faceBookToken: {
       type: DataTypes.STRING,
+    },
+    is_premium: {
+      type:DataTypes.BOOLEAN,
     },
   },
   {

@@ -1,46 +1,42 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
-import { musicAttributes } from "../interface/musicAttributes";
+import { podcastAttributes } from "../interface/podcastAttributes";
 
-export class MusicInstance extends Model<musicAttributes> {}
-MusicInstance.init(
+export class PodcastInstance extends Model<podcastAttributes> {}
+PodcastInstance.init(
     {
-        id: {
+        id:{
             type:DataTypes.UUID,
             primaryKey:true,
-            allowNull:false
-        },
-        imageUrl: {
-            type:DataTypes.STRING,
             allowNull:false,
         },
-        songUrl: {
-            type:DataTypes.STRING,
-            allowNull:false,
-        },
-        title: {
+        imageUrl:{
             type:DataTypes.STRING,
             allowNull:false
         },
-        artist: {
-            type:DataTypes.STRING,
-            allowNull: false,
-        },
-        genre_id: {
+        episodeUrl:{
             type:DataTypes.STRING,
             allowNull:false,
         },
-        album: {
+        title:{
             type:DataTypes.STRING,
             allowNull:false,
         },
-        song_duration: {
+        name:{
+            type:DataTypes.STRING,
+            allowNull:false
+        },
+        category:{
+            type:DataTypes.STRING,
+            allowNull:false,
+        },
+        song_duration:{
             type:DataTypes.STRING,
             allowNull:false
         },
     },
     {
         sequelize:db,
-        tableName:"music"
+        tableName:"podcast",
     }
 )

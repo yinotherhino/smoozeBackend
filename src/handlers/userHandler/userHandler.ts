@@ -42,6 +42,7 @@ export const Register = async (
         password: userPassword,
         salt,
         verified: false,
+        is_premium:false
       })) as unknown as UserAttributes;
       const token = await GenerateSignature({
         id: newUser.id,
