@@ -103,6 +103,7 @@ export const signin = async (
       return res.status(200).json({
         message: "Login successful",
         signature: signature,
+        user: User
       });
     }
   } catch (error) {
