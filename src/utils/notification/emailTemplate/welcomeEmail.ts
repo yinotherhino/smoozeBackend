@@ -1,5 +1,9 @@
 import config from "../../../config";
 function welcomeEmail(firstname: string, token: string) {
+  if(firstname.length<1 || token.length<5){
+    const errMessage = firstname.length<1 ? "firstname is not specified" : "token is not specified"
+    throw new Error(errMessage)
+  }
   const html = `<!DOCTYPE html>
   <table
     class="full-width-container"
