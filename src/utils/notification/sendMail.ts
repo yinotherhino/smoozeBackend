@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { response } from "express";
 import config from "../../config";
 
 const transport = nodemailer.createTransport({
@@ -15,7 +14,7 @@ const transport = nodemailer.createTransport({
 
 export const sendEmail = async (to: string, subject: string, html: string) => {
   try {
-    await transport.sendMail({
+    const response = await transport.sendMail({
       from: config.FROM_ADMIN_EMAIL,
       to,
       subject,
