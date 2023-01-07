@@ -12,3 +12,4 @@ export const db = new Sequelize(
     logging: false,
   }
 );
+console.log(db)
