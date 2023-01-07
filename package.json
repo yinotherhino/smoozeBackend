@@ -49,9 +49,6 @@
     "yarn": "^1.22.19"
   },
   "devDependencies": {
-    "@types/passport": "^1.0.11",
-    "@types/passport-google-oauth": "^1.0.42",
-    "@types/passport-google-oauth2": "^0.1.5",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
@@ -67,7 +64,10 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^18.11.11",
     "@types/nodemailer": "^6.4.6",
+    "@types/passport": "^1.0.11",
     "@types/passport-facebook": "^2.1.11",
+    "@types/passport-google-oauth": "^1.0.42",
+    "@types/passport-google-oauth2": "^0.1.5",
     "@types/pg": "^8.6.5",
     "@types/request": "^2.48.8",
     "@types/supertest": "^2.0.12",
