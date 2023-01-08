@@ -9,6 +9,7 @@
     "dev": " STAGE=local nodemon --ignore __tests__/ --exec ts-node src/index.ts ",
     "test": "jest",
     "testWatch": "jest --watchAll",
+    "testFailures":"jest --only-failures",
     "build": "tsc -p  tsconfig.json",
     "start": "node dist/index.js",
     "compile": "tsc -w"
