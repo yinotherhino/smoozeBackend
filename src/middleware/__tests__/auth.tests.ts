@@ -221,6 +221,7 @@ describe("auth middleware unit tests",()=>{
         auth(req as JwtPayload, res as Response, next)
         expect(next).toBeCalledTimes(1);
         expect(next).toBeCalledWith();
+        expect(req.user).toBeDefined();
     })
     it("should call next with error if user is not verified", async()=>{
         token = await GenerateSignature({email:'unverified@gmail.com',id:id1,verified:true,isLoggedIn: true});
@@ -283,6 +284,7 @@ describe("auth middleware unit tests",()=>{
 //         adminauth(req as JwtPayload, res as Response, next)
 //         expect(next).toBeCalledTimes(1);
 //         expect(next).toBeCalledWith();
+// expect(req.user).toBeDefined()
 //     })
 //     it("should call next with error if user is not an admin", async()=>{
 //         token = await GenerateSignature({email:'unverified@gmail.com',id:id1,verified:true,isLoggedIn: true});
