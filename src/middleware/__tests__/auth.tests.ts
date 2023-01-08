@@ -15,7 +15,19 @@ const id3=UUID()
 let request:supertest.SuperTest<supertest.Test> = supertest(app)
 let token :string|null;
 let adminToken :string|null;
-
+export const testUser =   {
+    id:id2,
+    password:"1234abcd",
+    salt:"hello",
+    userName:"Smooze",
+    is_premium:false,
+    firstName:"SMOOZE",
+    lastName:"SMOOZE",
+    email,
+    country:"Nigeria",
+    gender:"male",
+    verified:true,
+}
 
 beforeAll(async()=>{
     try{
@@ -33,19 +45,7 @@ beforeAll(async()=>{
         gender:"male",
         verified:false,
     },
-    {
-        id:id2,
-        password:"1234abcd",
-        salt:"hello",
-        userName:"Smooze",
-        is_premium:false,
-        firstName:"SMOOZE",
-        lastName:"SMOOZE",
-        email,
-        country:"Nigeria",
-        gender:"male",
-        verified:true,
-    },
+  testUser,
     {
         id:id3,
         password:"1234abcd",
