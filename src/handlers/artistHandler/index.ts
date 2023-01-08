@@ -1,0 +1,1 @@
+export {CreateArtist} from "./artistHandler"

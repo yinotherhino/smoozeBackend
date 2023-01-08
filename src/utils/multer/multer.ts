@@ -1,5 +1,6 @@
 import multer from 'multer';
 
+
 const cloudinary = require('cloudinary').v2
 
 import { CloudinaryStorage } from 'multer-storage-cloudinary'
@@ -12,7 +13,7 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async(req,file)=> {
+  params: async(req, file)=> {
     
       return {
           folder: "SMOOVEAPP",
