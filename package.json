@@ -5,8 +5,8 @@
   "author": "group smoove",
   "license": "MIT",
   "scripts": {
-    "dev": " STAGE=local nodemon src/index.ts",
     "live": " STAGE=production nodemon src/index.ts",
+    "dev": " STAGE=local nodemon --ignore __tests__/ --exec ts-node src/index.ts ",
     "test": "jest",
     "testWatch": "jest --watchAll",
     "build": "tsc -p  tsconfig.json",

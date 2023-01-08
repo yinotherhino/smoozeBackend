@@ -122,29 +122,30 @@ export const update = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { firstName, lastName, email, country, date_birth, gender } = req.body;
-  const dateOfBirth = new Date(
-    Number(date_birth.slice(6)),
-    Number(date_birth.slice(3, 5)),
-    Number(date_birth.slice(0, 2))
-  );
-  const id = req.user.id;
-  console.log(id);
   try {
+    const id = req.user.id;
+
     const User = (await UserInstance.findOne({
       where: { id: id },
     })) as unknown as UserAttributes;
 
+    const { firstName, lastName, email, country, date_birth, gender } = req.body;
+    const dateOfBirth = date_birth ? new Date(
+      Number(date_birth.slice(6)),
+      Number(date_birth.slice(3, 5)),
+      Number(date_birth.slice(0, 2))
+    ) : User.date_birth;
+
     if (!User) throw { code: 401, message: "unAuthorised please Login" };
     const updatedUser = (await UserInstance.update(
       {
-        firstName,
-        lastName,
-        email,
-        country,
-        gender,
+        firstName: firstName || User.firstName,
+        lastName: lastName || User.lastName,
+        email: email || User.email,
+        country: country || User.country,
+        gender: gender || User.gender,
         date_birth: dateOfBirth,
-        profileImage: req.file ? req.file.path : undefined,
+        profileImage: req.file ? req.file.path : User.profileImage,
       },
       { where: { id: id } }
     )) as unknown as UserAttributes;
@@ -161,7 +162,6 @@ export const update = async (
     }
     throw { code: 500, message: "Something went wrong" };
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

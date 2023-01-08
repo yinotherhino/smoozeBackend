@@ -9,6 +9,6 @@ const options = {
   key: fs.readFileSync(process.env.HTTPS_KEY_PATH as string, "utf8"),
   cert: fs.readFileSync(process.env.HTTPS_CERT_PATH as string, "utf8"),
 };
-https.createServer(options, app).listen(config.port, () => {
+export default https.createServer(options, app).listen(config.port, () => {
   console.log(`Server running on port ${config.port}`);
 });
