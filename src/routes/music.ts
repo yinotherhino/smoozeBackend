@@ -19,7 +19,7 @@ export const musicRouter = express.Router();
  *         description: Returns hello music
  */
 
- musicRouter.post("/create",createMusicJoi, auth, restrictToAdmin("admin"), upload.single("imageUrl"), AdminMusic)
+ musicRouter.post("/create",createMusicJoi, auth, restrictToAdmin("admin"), upload.fields([{ name: 'songFile' }, { name: 'imageFile' }]), AdminMusic)
 
 musicRouter
   .get("/", (req, res) => {

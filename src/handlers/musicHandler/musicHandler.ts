@@ -3,11 +3,20 @@ import { MusicsAttributes, UserAttributes } from "../../interface";
 import { UserInstance } from "../../model";
 import { AllMusicInstance } from "../../model/musicModel";
 import { v4 as UUID } from "uuid";
+import * as cloudinary from 'cloudinary';
+import { JwtPayload } from "jsonwebtoken";
 
 
-
-export const AdminMusic = async (req: Request, res: Response, next: NextFunction) => { 
+export const AdminMusic = async (req: JwtPayload, res: Response, next: NextFunction) => { 
     try {
+
+    const songFile = req.files?.audioFile[0];
+    const imageFile = req.files?.imageFile[0];
+
+    const songResult = await cloudinary.uploader.upload(songFile.tempFilePath, { resource_type: 'auto' });
+    const imageResult = await cloudinary.uploader.upload(imageFile.tempFilePath, { resource_type: 'auto' })
+
+    res.send({ message: 'Music created successfully' });
         const uuiduser = UUID();
         const {
             title,
@@ -34,21 +43,21 @@ export const AdminMusic = async (req: Request, res: Response, next: NextFunction
                 albumId,
                 genreId,
                 year,
-                imageUrl:req.file ? req.file.path: "",
-                songUrl: req.file ? req.file.path: "",
+                imageUrl:imageResult.secure_url,
+                songUrl:songResult.secure_url,
                 createdAt: new Date(),
             })) as unknown as MusicsAttributes;
 
-       return res.status(201).json({
-            message: "All Songs",
-            music
-        })
+    //    return res.status(201).json({
+    //         message: "All Songs",
+    //         music
+    //     })
             
-        } else {
-            return res.status(404).json({
-                message: "You are not an admin"
-            })
-        }
+        // } else {
+        //     return res.status(404).json({
+        //         message: "You are not an admin"
+        //     })
+        // }
         
        
     } catch (error) {

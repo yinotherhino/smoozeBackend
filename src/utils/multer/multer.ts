@@ -12,7 +12,7 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async(req,file)=> {
+  params: async (req, file) => {
     
       return {
           folder: "SMOOVEAPP",
