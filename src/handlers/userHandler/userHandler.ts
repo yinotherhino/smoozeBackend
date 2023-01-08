@@ -24,7 +24,7 @@ export const Register = async (
   next: NextFunction
 ) => {
   try {
-    const { email, userName, password, gender, date_birth } = req.body;
+    const { email, userName, password, gender, date_birth,role} = req.body;
     const uuiduser = UUID();
 
     const salt = await GenerateSalt();
@@ -41,6 +41,7 @@ export const Register = async (
         date_birth,
         password: userPassword,
         salt,
+        role,
         verified: false,
       })) as unknown as UserAttributes;
       const token = await GenerateSignature({

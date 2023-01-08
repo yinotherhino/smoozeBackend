@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 
 //:::contollers:::
-import { protect } from "./middleware/auth/auth";
+import { protect} from "./middleware/auth/auth";
 import { musicRouter, playlistRoute, usersRoute } from "./routes/index";
 import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
