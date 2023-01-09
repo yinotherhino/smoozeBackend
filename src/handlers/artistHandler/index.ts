@@ -1,1 +1,2 @@
-export {CreateArtist} from "./artistHandler"
+export {CreateArtist, GetAllArtist, GetArtist} from "./artistHandler"
+

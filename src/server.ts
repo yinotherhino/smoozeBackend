@@ -35,7 +35,7 @@ swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
 app.use("/api/user", usersRoute);
-app.use("/api/create-artist", artistRoute);
+app.use("/api/artists", artistRoute);
 googleoAuthentry(app);
 fboauthBackend(app);
 app.use(errorRouterHandler);

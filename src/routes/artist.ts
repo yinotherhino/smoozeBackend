@@ -1,5 +1,5 @@
 import express from "express";
-import { CreateArtist} from "../handlers/artistHandler";
+import { CreateArtist, GetAllArtist, GetArtist, } from "../handlers/artistHandler";
 import { createArtistJoi, } from "../utils/joi-validator/schema";
 import { upload } from "../utils/multer/multer";
 // import { auth } from "../middleware/auth/auth";
@@ -8,6 +8,10 @@ import { upload } from "../utils/multer/multer";
 
 export const artistRoute = express.Router();
 
-artistRoute.post("/",  createArtistJoi, upload.single("imageUrl"),CreateArtist);
+artistRoute.post("/create-artist",  createArtistJoi, upload.single("imageUrl"),CreateArtist);
 
- 
+artistRoute.get("/get-all-artists",  GetAllArtist);
+
+artistRoute.get("/get-artist/:id",  GetArtist);
+
+
