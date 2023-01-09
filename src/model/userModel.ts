@@ -179,7 +179,20 @@ UserInstance.init(
     },
     role: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+      validate: {
+        notNull: { msg: "Genre is required" },
+        notEmpty: { msg: "Genre is required" },
+        customValidator(value: string) { 
+            const enums = ["admin", "user"];
+            if (!enums.includes(value)) { 
+                throw new Error("Genre is invalid");
+            }
+        },
+        default: "user",
+        
+    },
+      
     },
     profileImage: {
       type: DataTypes.STRING({ length: 1000 }),

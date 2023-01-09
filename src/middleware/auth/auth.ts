@@ -7,6 +7,16 @@ import { UserAttributes } from "../../interface/UserAttributes";
 import config from "../../config";
 import { UserPayload } from "../../interface";
 
+
+
+declare global { 
+  namespace Express {
+    interface Request {
+      user?: UserPayload;
+    }
+  }
+}
+
 export const protect = async (
   req: Request,
   res: Response,
@@ -51,8 +61,26 @@ export const auth = async (
     if (!user.verified) throw { code: 400, message: "Account Not Activated" };
     if (!verified.isLoggedIn) throw { code: 400, message: "Not Authenticated" };
     req.user = verified;
+
     next();
   } catch (error: Error | any) {
-    next({ code: 400, message: error.message });
+    next({ code: 400, message: error.message })
   }
 };
+
+
+
+
+export const restrictToAdmin = (...roles:string[]) => { 
+  return (req: JwtPayload, res: Response, next: NextFunction) => { 
+  
+    if (!roles.includes( req.user.role)) { 
+   
+     return res.status(403).json({ 
+       message: "You do not have permission to perform this action"
+     })
+   }
+    next()
+  }
+}
+
