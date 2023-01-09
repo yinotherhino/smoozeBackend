@@ -1,12 +1,12 @@
 import { Sequelize } from "sequelize";
-// import config from "./index";
-// const { DATABASE_DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD } = config;
+import config from "./index";
+const { DATABASE_DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD,DATABASE_HOST} = config;
 export const db = new Sequelize(
-  "rtajhzcb",
-  "rtajhzcb",
-  "vEUxVGeppmcvGoMPCxYsryRU76SGLzy4",
+  DATABASE_DATABASE_NAME,
+  DATABASE_USERNAME,
+  DATABASE_PASSWORD,
   {
-    host: "ruby.db.elephantsql.com",
+    host: DATABASE_HOST,
     port: 5432,
     dialect: "postgres",
     logging: false,
