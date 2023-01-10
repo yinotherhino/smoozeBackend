@@ -83,7 +83,7 @@ export const googleoAuthentry = async (app: Application) => {
           email: userExist.email,
           verified: userExist.verified,
           isLoggedIn: true,
-        }) ;
+        });
         res.redirect(`${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`);
       }
     } catch (error) {

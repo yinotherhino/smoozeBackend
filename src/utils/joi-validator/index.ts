@@ -4,5 +4,4 @@ export {
   RegisterUserJoi,
   loginUserJoi,
   changePasswordJoi,
-  createMusicJoi
 } from "./schema";
