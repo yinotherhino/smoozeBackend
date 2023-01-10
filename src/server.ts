@@ -17,7 +17,7 @@ import { fboauthBackend } from "./utils/fb-auth/fbAuth";
 // import { facebookRoute } from "./handlers/userHandler";
 
 // ::::initalise database:::
-db.sync({ force: true })
+db.sync()
   .then(() => {
     console.log("connected to db");
   })
