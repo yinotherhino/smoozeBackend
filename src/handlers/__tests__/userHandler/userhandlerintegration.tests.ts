@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from "../../../server"
 import { UserInstance } from '../../../model';
 import { testUser } from '../../../middleware/__tests__/auth.tests';
-import { GenerateSignature } from '../../../utils/auth-utils';
+import { GenerateSalt, GenerateSignature } from '../../../utils/auth-utils';
 
 const user = {
     email:"smooze@gmail.com",
@@ -145,6 +145,7 @@ describe("/api/user/update tests",()=>{
     })
 
     it('should update if one data is provided', async ()=>{
+        UserInstance.create(testUser)
         token = await GenerateSignature({email:testUser.email, id:testUser.id, verified:true, isLoggedIn:true})
         const{ statusCode, body } = await request(app)
         .post("/api/user/update")
@@ -192,22 +193,96 @@ describe("/api/user/update tests",()=>{
     })
 })
 
-describe("/api/user/update tests",()=>{
+describe("/api/user/restpassword tests",()=>{
 
-    it('should not update if no data is provided', async ()=>{
+    it('should not send token if user is not registered', async ()=>{
         const{ statusCode, body } = await request(app)
-        .post("/api/user/update")
-        .set("Authorization", `Bearer ${token}`)
-        expect(statusCode).toEqual(404);
+        .post("/api/user/restpassword")
+        .send({email:"fakeuser@email.com"})
+        expect(statusCode).toEqual(401);
         expect(body).toEqual(expect.objectContaining({
-            "code": 400
+            "code": 401,
+            "message":"you are not registered"
+        }));
+    })
+
+    it('should send token email but not in response to  if user is registered', async ()=>{
+        const{ statusCode, body } = await request(app)
+        .post("/api/user/restpassword")
+        .send({email:testUser.email})
+        expect(statusCode).toEqual(200);
+        expect(body).toEqual(expect.objectContaining({
+            "code": 200,
+            message: "Check Your Email to Continue !!"
         }));
     })
 })
+// id: user.id,
+// email,
+// otp,
 
-//changepassword
-// should be able to login after changing password
-// should be able to change password
+describe("/api/user/changepassword tests",()=>{
+    const userWithOtp={...testUser, otp:""};
+    let resetPwdToken = ""
+    let fakeToken = ""
+    beforeAll(async()=>{
+        userWithOtp.otp = await GenerateSalt()
+        await UserInstance.create(testUser)
+        resetPwdToken = await GenerateSignature({id:testUser.id, email:testUser.email, otp:userWithOtp.otp})
+        fakeToken = await GenerateSignature({id:"1234", email:"fake@gmail.com", otp:"1234"})
+    })
 
-//resetpassword
-// should not send token as response after forgot password request
+    afterAll(async()=>{
+        await UserInstance.destroy({where: {id:userWithOtp.id}})
+    })
+
+    it('should not change password if token is not valid', async ()=>{
+        const{ statusCode, body } = await request(app)
+        .post("/api/user/changepassword")
+        .send({token:fakeToken,password:"1234"})
+
+        const { statusCode:statusCode2, body:body2 } = await request(app)
+        .post("/api/user/changepassword")
+        .send({token:"wrontoken",password:"1234"})
+
+        expect(statusCode).toEqual(401);
+        expect(body).toEqual(expect.objectContaining({
+            "code": 401,
+            "message":"you are not registered"
+        }));
+
+        expect(statusCode2).toEqual(401);
+        expect(body2).toEqual(expect.objectContaining({
+            "code": 401,
+            "message":"you are not registered"
+        }));
+    })
+
+    it('should not change password if token is not specified', async ()=>{
+        const{ statusCode, body } = await request(app)
+        .post("/api/user/changepassword")
+        .send({token:"",passowrd:"1234"})
+        expect(statusCode).toEqual(401);
+        expect(body).toEqual(expect.objectContaining({
+            "code": 401,
+            "message":"you are not registered"
+        }));
+    })
+
+    it('should change password if user is registered and token is correct and should be able to log in after changing password', async ()=>{
+        const newPassword = "12345678"
+        const{ statusCode, body } = await request(app)
+        .post("/api/user/restpassword")
+        .send({token:resetPwdToken,password:newPassword})
+        const isLoggedIn = await request(app)
+        .post("/api/user/signin")
+        .send({email:userWithOtp.email, password:newPassword})
+
+        expect(statusCode).toEqual(200);
+        expect(body).toEqual(expect.objectContaining({
+            "code": 200,
+            message: "password updated successfully"
+        }));
+        expect(isLoggedIn.status).toBe(200)
+    })
+})

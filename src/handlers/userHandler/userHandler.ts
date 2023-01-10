@@ -211,11 +211,13 @@ export const requestPassword = async (
       where: { email: email },
     })) as unknown as UserAttributes;
     if (!user) {
+      // __TEST MESSAGE__ wrong message this should be an error
       return res.status(200).json({
         code: 200,
         message: "Check Your Email to Continue !!",
       });
-    } else {
+    } 
+    else {
       const otp = await GenerateSalt();
       let token = await GenerateSignature({
         id: user.id,
@@ -232,6 +234,7 @@ export const requestPassword = async (
       );
       const template = await passworTemplate(user.userName, token);
       await sendEmail(user.email, "PASSWORD RESETE", template);
+      // __TEST MESSAGE__ dont send token as response or user will be able to reset pwd without checking email
       res.status(200).json({
         code: 200,
         signature: token,
