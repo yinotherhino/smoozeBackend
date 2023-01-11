@@ -1,7 +1,11 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { UserAttributes } from "../interface/UserAttributes";
-export class UserInstance extends Model<UserAttributes> {}
+export class UserInstance extends Model<UserAttributes> {
+    static patch(arg0: { is_premium: boolean; }, arg1: { where: { id: any; }; }): unknown {
+        throw new Error("Method not implemented.");
+    }
+}
 
 
 /**
