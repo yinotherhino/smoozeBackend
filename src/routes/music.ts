@@ -1,8 +1,9 @@
 import express from "express";
-import { premium_create } from "../handlers/musicHandler/musicHandler";
+import { AdminMusic, premium_create } from "../handlers/musicHandler/musicHandler";
+import { restrictToAdmin } from "../middleware/admin/admin";
 import { auth } from "../middleware/auth/auth";
 import { is_premium } from "../middleware/is_premium/is_premium";
-import { musicUpload } from "../utils/multer/multer";
+import { musicUpload,upload } from "../utils/multer/multer";
 
 export const musicRouter = express.Router();
 /**
@@ -14,6 +15,8 @@ export const musicRouter = express.Router();
  *       200:
  *         description: Returns hello music
  */
+
+ musicRouter.post("/create-songs",auth, restrictToAdmin,  upload.fields([{ name: 'songFile' }, { name: 'imageFile' }]), AdminMusic)
 musicRouter
   .post("/create", () => {})
   .post(
@@ -24,4 +27,8 @@ musicRouter
     premium_create
   )
   .put("/update/:id", () => {})
-  .delete("/delete/:id", () => {});
+  .delete("/delete/:id", () => { });
+  
+  export default musicRouter;
+
+
