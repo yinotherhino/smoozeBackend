@@ -23,5 +23,9 @@ export default {
   FACEBOOK_CLIENT_SECRET: process.env.LOCAL_FACEBOOK_CLIENT_SECRET,
   CALL_BACK_kURL: process.env.LOCAL_CALL_BACK_kURL,
   SESSION_SECRET: process.env.LOCAL_SESSION_SECRET,
+  CLOUD_NAME: process.env.LOCAL_CLOUD_NAME,
+  CLOUD_API_KEY: process.env.LOCAL_CLOUD_API_KEY,
+  CLOUD_API_SECRET: process.env.LOCAL_CLOUD_API_SECRET,
 };
+
 console.log("running local mode");
