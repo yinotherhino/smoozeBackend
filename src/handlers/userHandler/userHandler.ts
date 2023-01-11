@@ -253,7 +253,7 @@ export const changepassword = async (
         otp,
       },
     });
-    if (!user) throw { code: 401, message: "Not Valide" };
+    if (!user) throw { code: 401, message: "Not Valid" };
     const salt = await GenerateSalt();
     const userPassword = await GeneratePassword(password, salt);
     await UserInstance.update(
