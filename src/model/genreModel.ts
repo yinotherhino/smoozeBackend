@@ -2,8 +2,6 @@ import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { genreAttributes } from "../interface/genreAttributes";
 import { MusicInstance } from "./musicModel";
-// import { MusicInstance } from "./musicModel";
-
 export class genreInstance extends Model<genreAttributes> {
     static findById(id: string) {
         throw new Error('Method not implemented.');
