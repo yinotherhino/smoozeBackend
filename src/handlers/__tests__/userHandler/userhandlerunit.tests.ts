@@ -1,1 +1,1 @@
-test("",()=>{expect(1+2).toBe(4)})
+test("",()=>{expect(1+2).toBe(3)})

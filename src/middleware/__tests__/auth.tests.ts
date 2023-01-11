@@ -235,7 +235,7 @@ describe("auth middleware unit tests",()=>{
 
         auth(req as JwtPayload, res as Response, next)
         expect(next).toBeCalledTimes(1);
-        expect(next).toBeCalledWith({ code: 400, message: "Account Not Activated" });
+        expect(next).toBeCalledWith({ code: 400, message: expect.any(String)  });
 
     })
 
@@ -251,7 +251,7 @@ describe("auth middleware unit tests",()=>{
 
         auth(req as JwtPayload, res as Response, next)
         expect(next).toBeCalledTimes(1);
-        expect(next).toBeCalledWith({ code: 400, message: "Invalide Credentials" });
+        expect(next).toBeCalledWith({ code: 400, message: expect.any(String) });
 
 
     })

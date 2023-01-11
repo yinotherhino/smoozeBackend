@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+// import { NextFunction, Request, Response } from "express";
 // import { any } from "joi";
 // import { JwtPayload } from "jsonwebtoken";
-import { codeError, errorHandler } from "../errorHandler"
+import { codeError } from "../errorHandler"
 
 
 const errors = {
