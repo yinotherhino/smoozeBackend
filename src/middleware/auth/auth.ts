@@ -7,6 +7,15 @@ import { UserAttributes } from "../../interface/UserAttributes";
 import config from "../../config";
 import { UserPayload } from "../../interface";
 
+
+declare global { 
+  namespace Express {
+    interface Request {
+      user?: UserPayload;
+    }
+  }
+}
+
 export const protect = async (
   req: Request,
   res: Response,

@@ -10,21 +10,22 @@ cloudinary.config({
   api_key: config.CLOUD_API_KEY,
   api_secret: config.CLOUD_API_SECRET,
 });
-
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
     return {
-      folder: "SMOOVEAPP",
+      folder: "ADMIINMUSIC",
+      resource_type: "auto",
     };
   },
 });
+
 const musicstorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
     return {
-      resourceType: "auto",
-      folder: "PREMIUMAPPMUSIC",
+      format: "mp3",
+      folder: "SMOOVEAPPMUSIC",
     };
   },
 });
