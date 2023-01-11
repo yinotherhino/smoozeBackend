@@ -2,6 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { playlistAttributes } from "../interface/playlistAttributes";
 
+
 export class PlaylistInstance extends Model<playlistAttributes> {}
 PlaylistInstance.init(
 {
