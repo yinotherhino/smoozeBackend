@@ -3,7 +3,7 @@ import { JwtPayload } from "jsonwebtoken";
 import { UserAttributes } from "../../interface";
 import { UserInstance } from "../../model";
 
-export const isPremium = async (
+export const is_premium = async (
   req: JwtPayload,
   res: Response,
   next: NextFunction
