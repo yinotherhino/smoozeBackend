@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": " STAGE=local nodemon src/index.ts",
+    "live": " STAGE=production nodemon src/index.ts",
     "test": "jest",
     "build": "tsc -p  tsconfig.json",
     "start": "node dist/index.js",

@@ -23,5 +23,8 @@ export default {
   FACEBOOK_CLIENT_SECRET: process.env.PROD_FACEBOOK_CLIENT_SECRET,
   CALL_BACK_kURL: process.env.PROD_CALL_BACK_kURL,
   SESSION_SECRET: process.env.PROD_SESSION_SECRET,
+  CLOUD_NAME: process.env.PRODL_CLOUD_NAME,
+  CLOUD_API_KEY: process.env.PROD_CLOUD_API_KEY,
+  CLOUD_API_SECRET: process.env.PROD_CLOUD_API_SECRET,
 };
 console.log("running PRODUCTION mode");
