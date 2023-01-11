@@ -29,5 +29,16 @@ const musicstorage = new CloudinaryStorage({
     };
   },
 });
+
+const genrestorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async(req,file)=> {
+      return {
+          folder: "GENREIMAGE",
+      }
+  },
+});
+
+export const genreUpload = multer({storage:genrestorage})
 export const musicUpload = multer({ storage: musicstorage });
 export const upload = multer({ storage: storage });
