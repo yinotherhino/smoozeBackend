@@ -19,7 +19,7 @@ export const paymentMethod = async(req: JwtPayload, res:Response, next: NextFunc
                 if(updatedUser){
                     const User = await UserInstance.findOne({where: {id: id}}) as unknown as UserAttributes
                     return res.status(200).json({
-                        Error:"Congratulations, you are now a Premium User",
+                        message:"Congratulations, you are now a Premium User",
                         User
                     })
                 }
