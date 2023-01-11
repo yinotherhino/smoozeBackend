@@ -34,14 +34,14 @@ export const auth = async (
     }
 
     const token = authorization.slice(7, authorization.length);
-    let verified = jwt.verify(
+    let verified: UserPayload = jwt.verify(
       token,
       config.APP_SECRETE as string
     ) as UserPayload;
 
     if (!verified) throw { code: 401, message: "Not Authorised" };
 
-    const { id } = verified as JwtPayload;
+    const { id } = verified as UserPayload;
 
     const user = (await UserInstance.findOne({
       where: { id: id },
