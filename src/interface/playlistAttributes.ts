@@ -4,7 +4,7 @@ export interface playlistAttributes{
     songUrl:string;
     title:string;
     artist:string;
-    genre_id:string;
+    genreId:string;
     album:string;
     song_duration:string;
 }

@@ -5,3 +5,4 @@ export {MusicInstance} from './musicModel';
 
 export {ArtistInstance} from './artistModel';
 
+

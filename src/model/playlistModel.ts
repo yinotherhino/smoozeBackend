@@ -27,7 +27,7 @@ PlaylistInstance.init(
         type:DataTypes.STRING,
         allowNull: false,
     },
-    genre_id: {
+    genreId: {
         type:DataTypes.STRING,
         allowNull:false,
     },

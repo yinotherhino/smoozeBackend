@@ -1,6 +1,6 @@
-import { getPlaylistSongs, addSongToPlaylist } from './../handlers/playlistHandler/playlistHandler';
+// import { getPlaylistSongs, addSongToPlaylist } from './../handlers/playlistHandler/playlistHandler';
 import { Router } from "express";
-import { auth } from "../middleware/auth/auth";
+// import { auth } from "../middleware/auth/auth";
 
 export const playlistRoute = Router();
 
@@ -14,10 +14,10 @@ export const playlistRoute = Router();
  *         description: Returns hello playlist
  */
 
-playlistRoute
-  .get("/getPlaylists", auth, getPlaylistSongs)
-  .post("/addToPlaylist/:songId", auth, addSongToPlaylist)
+// playlistRoute
+//   .get("/getPlaylists", auth, getPlaylistSongs)
+//   .post("/addToPlaylist/:songId", auth, addSongToPlaylist)
 
 
-  .put("/update/:id", () => {})
-  .delete("/delete/:id", () => {});
+  // .put("/update/:id", () => {})
+  // .delete("/delete/:id", () => {});
