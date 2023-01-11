@@ -31,10 +31,6 @@ PlaylistInstance.init(
         type:DataTypes.STRING,
         allowNull:false,
     },
-    album: {
-        type:DataTypes.STRING,
-        allowNull:false,
-    },
     song_duration: {
         type:DataTypes.STRING,
         allowNull:false

@@ -25,7 +25,7 @@ export const AdminMusic = async (
     console.log(imagePath, songPath, songName);
 
     const musicId = UUID();
-    const { title, artistId, genreId } = req.body as musicAttributes;
+    const { title, artistId, genreId ,song_duration,artist} = req.body as musicAttributes;
 
     const user = (await UserInstance.findOne({
       where: { email: req.user.email },
@@ -41,9 +41,11 @@ export const AdminMusic = async (
         id: musicId,
         title,
         artistId,
+        artist:artist,
         genreId,
         imageUrl: imagePath,
         songUrl: songPath,
+        song_duration:song_duration
       })) as unknown as musicAttributes;
 
       res.status(201).json({
@@ -79,14 +81,13 @@ export const premium_create = async (
     console.log(image_path, song_path, song_name);
 
     const music_id = UUID();
-    const { title, artistId, genreId, year, song_duration, artist } =
+    const { title, artistId, genreId, song_duration, artist } =
       req.body as musicAttributes;
     const createMusic = (await MusicInstance.create({
       id: music_id,
       title,
       artistId,
       genreId,
-      year,
       artist,
       imageUrl: image_path,
       songUrl: song_path,

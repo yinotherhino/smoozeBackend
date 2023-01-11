@@ -37,10 +37,7 @@ MusicInstance.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    year: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    }
+  
   },
   {
     sequelize: db,
