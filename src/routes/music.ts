@@ -1,6 +1,7 @@
 import express from "express";
-import { getAllMusic, premium_create } from "../handlers/musicHandler/musicHandler";
+import { premium_create } from "../handlers/musicHandler/musicHandler";
 import { auth } from "../middleware/auth/auth";
+import { is_premium } from "../middleware/is_premium/is_premium";
 import { musicUpload } from "../utils/multer/multer";
 
 export const musicRouter = express.Router();
@@ -14,8 +15,13 @@ export const musicRouter = express.Router();
  *         description: Returns hello music
  */
 musicRouter
-  .get("/get_song", auth, getAllMusic)
   .post("/create", () => {})
-  .post("/prem_create", musicUpload.single("song"), auth, premium_create)
+  .post(
+    "/prem_create",
+    auth,
+    musicUpload.fields([{ name: "song_file" }, { name: "image_file" }]),
+    is_premium,
+    premium_create
+  )
   .put("/update/:id", () => {})
   .delete("/delete/:id", () => {});
