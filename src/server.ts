@@ -8,7 +8,7 @@ const app = express();
 
 //:::contollers:::
 import { protect } from "./middleware/auth/auth";
-import { musicRouter, playlistRoute, usersRoute } from "./routes/index";
+import { genreRouter, musicRouter, playlistRoute, usersRoute } from "./routes/index";
 import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
@@ -35,6 +35,7 @@ swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
 app.use("/api/user", usersRoute);
+app.use("/api/genre", genreRouter);
 googleoAuthentry(app);
 fboauthBackend(app);
 app.use(errorRouterHandler);

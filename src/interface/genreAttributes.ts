@@ -1,4 +1,5 @@
 export interface genreAttributes{
-    genre_id:string;
+    id:string;
     name:string;
+    genreImage:string;
 }
