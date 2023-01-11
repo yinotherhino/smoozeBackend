@@ -10,6 +10,7 @@ cloudinary.config({
   api_key: config.CLOUD_API_KEY,
   api_secret: config.CLOUD_API_SECRET,
 });
+
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
