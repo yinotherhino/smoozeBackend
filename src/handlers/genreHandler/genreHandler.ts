@@ -70,10 +70,9 @@ export const getGenreById = async (req: Request, res: Response) => {
           as: "music",
           attributes: [
             "id",
-            "title:songName",
+            "title",
             "artistId",
             "genreId",
-            "year",
             "imageUrl",
             "songUrl",
           ],
