@@ -3,6 +3,4 @@ export { UserAttributes } from "./UserAttributes";
 
 export { musicAttributes } from "./musicAttributes";
 export { playlistAttributes } from "./playlistAttributes";
-
-// export { MusicsAttributes } from "./AdminMusicAttribute";
-
+export { podcastAttributes } from "./podcastAttributes";

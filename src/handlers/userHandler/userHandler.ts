@@ -41,13 +41,16 @@ export const Register = async (
         date_birth,
         password: userPassword,
         salt,
+        role: "user",
         verified: false,
-        is_premium:false
+        is_premium: false,
       })) as unknown as UserAttributes;
       const token = await GenerateSignature({
         id: newUser.id,
         email: newUser.email,
         verified: newUser.verified,
+        role: newUser.role,
+        is_premium: false,
         isLoggedIn: false,
       });
       const temp = welcomeEmail(userName, token);
@@ -97,13 +100,15 @@ export const signin = async (
         email: User.email,
         verified: User.verified,
         isLoggedIn: true,
+        role: User.role,
+        is_premium: User.is_premium,
       };
       const signature = await GenerateSignature(payload);
 
       return res.status(200).json({
         message: "Login Successful",
         signature: signature,
-        user: User
+        user: User,
       });
     }
   } catch (error) {

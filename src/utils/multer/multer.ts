@@ -21,7 +21,6 @@ const storage = new CloudinaryStorage({
   },
 });
 
-
 const musicstorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
@@ -34,13 +33,23 @@ const musicstorage = new CloudinaryStorage({
 
 const genrestorage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async(req,file)=> {
-      return {
-          folder: "GENREIMAGE",
-      }
+  params: async (req, file) => {
+    return {
+      folder: "GENREIMAGE",
+    };
   },
 });
 
-export const genreUpload = multer({storage:genrestorage})
+const podcaststorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async () => {
+    return {
+      resource_type: "auto",
+      folder: "SMOOVEPODCAST",
+    };
+  },
+});
+export const podcastUpload = multer({ storage: podcaststorage });
+export const genreUpload = multer({ storage: genrestorage });
 export const musicUpload = multer({ storage: musicstorage });
 export const upload = multer({ storage: storage });
