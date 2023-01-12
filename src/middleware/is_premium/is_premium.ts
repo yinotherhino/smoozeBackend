@@ -21,9 +21,13 @@ export const is_premium = async (
         email: email,
       },
     })) as unknown as UserAttributes;
-    if (!user.is_premium || user.role !== "admin")
+
+    console.log(user);
+    if (user.is_premium || user.role === "admin") {
+      next();
+    } else {
       throw { code: 401, message: "please upgrade to Premuim Account!! " };
-    next();
+    }
   } catch (error) {
     console.log(error);
     next({ code: 401, message: "Not Authorised" });
