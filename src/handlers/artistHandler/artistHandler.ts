@@ -56,23 +56,7 @@ export const GetAllArtist = async (
   next: NextFunction
 ) => {
   try {
-    let artists = await ArtistInstance.findAll({
-      include: [
-        {
-          model: MusicInstance,
-          as: "music",
-          attributes: [
-            "id",
-            "imageUrl",
-            "songUrl",
-            "title",
-            "artist",
-            "genreId",
-            "song_duration",
-          ],
-        },
-      ],
-    });
+    let artists = await ArtistInstance.findAll({ });
       return res.status(201).json({
         artists,
       });
