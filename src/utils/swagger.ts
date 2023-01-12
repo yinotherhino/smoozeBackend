@@ -49,5 +49,5 @@ export const swaggerDocs = (app: Application) => {
     res.send(swaggerSpec);
   });
 
-  console.log(`Docs available at http://localhost:${config.port}/api-docs`);
+  console.log(`Docs available at https://localhost:${config.port}/api-docs`);
 };
