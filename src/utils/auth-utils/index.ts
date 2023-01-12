@@ -21,11 +21,15 @@ export const GeneratePassword = async (password: string, salt: string) => {
   return await bcrypt.hash(password, salt);
 };
 
-export const GenerateSignature = async (payload: UserPayload|PasswordPayload | {[key:string]:string | number | undefined}) => {
+export const GenerateSignature = async (
+  payload:
+    | UserPayload
+    | PasswordPayload
+    | { [key: string]: string | number | undefined | boolean }
+) => {
   return jwt.sign(payload, config.APP_SECRETE, { expiresIn: "2d" });
 };
 
 export const verifySignature = async (signature: string) => {
   return jwt.verify(signature, config.APP_SECRETE) as JwtPayload;
 };
-

@@ -159,29 +159,26 @@ export const updatePodcast = async (req: Request, res: Response) => {
 
 //=====================  Delete Podcast =============================
 
-export const deletePodcast = async (req: Request, res: Response) => {
+export const deletePodcast = async (req: Request, res: Response,next:NextFunction) => {
   try {
-    const id = req.body.id;
-    const podcastid = req.params.podcastid;
+    const podcastid = req.params.id;
+    console.log(req.params.podcastid);
     // check if podcast exist
 
-    const Podcast = (await PodcastInstance.findOne({
-      where: { id: id },
-    })) as unknown as podcastAttributes;
-
-    if (Podcast) {
-      const deletePodcast = await PodcastInstance.destroy({
-        where: { id: podcastid },
-      });
-      return res.status(200).json({
-        message: "You have successfully deleted a podcast",
-        deletePodcast,
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      Error: "Internal server error",
-      route: "/api/podcast podcasts",
+    // const Podcast = (await PodcastInstance.find({
+    //   where: { id: podcastid},
+    // })) as unknown as podcastAttributes;
+    //
+    const deletePodcast = await PodcastInstance.destroy({
+      where: { id: podcastid },
     });
+
+    if (!deletePodcast) throw { code: 400, message: "Id not found" };
+    return res.status(200).json({
+      message: "You have successfully deleted a podcast",
+      deletePodcast,
+    });
+  } catch (error) {
+    next(error)
   }
 };

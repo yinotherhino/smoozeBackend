@@ -12,7 +12,7 @@ export interface UserAttributes {
   lng?: number;
   lat?: number;
   verified?: boolean;
-  role?: string;
+  role: string;
   profileImage?: string;
   gender?: string;
   date_birth?: Date;
@@ -26,5 +26,5 @@ export interface UserAttributes {
   isAceptedPrivacy?: boolean;
   isAceptedTerms?: boolean;
   socials?: Array<String>;
-  is_premium:boolean;
+  is_premium: boolean;
 }
