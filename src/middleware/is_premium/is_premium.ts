@@ -9,7 +9,7 @@ export const is_premium = async (
   next: NextFunction
 ) => {
   try {
-    const isPremium = req.user?.is_premium;
+    const isPremium = req.user?.is_premium || req.user.role === "admin";
     const { email, id } = req.user;
 
     if (!isPremium)

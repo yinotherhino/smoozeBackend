@@ -5,13 +5,12 @@ import {
   createPodcast,
   getAllPodcast,
   getPodcastById,
-  podcast_premium_create,
   getAllCategory,
   deletePodcast,
   updatePodcast,
 } from "../handlers/podcastHandler";
 import { auth } from "../middleware/auth/auth";
-import { restrictToAdmin } from "../middleware/admin/admin";
+import { is_premium } from "../middleware/is_premium/is_premium";
 
 export const PodcastRoute = Router();
 
@@ -27,23 +26,15 @@ export const PodcastRoute = Router();
 
 PodcastRoute.post(
   "/create",
-
-  // auth, restrictToAdmin("admin"),
+  auth,
+  is_premium,
   podcastUpload.fields([
     {
       name: "podcastFile",
     },
     { name: "imageFile" },
   ]),
-  auth,
-  restrictToAdmin,
   createPodcast
-);
-
-PodcastRoute.post(
-  "/podcast_premuim_create",
-  podcastUpload.single("podcast"),
-  podcast_premium_create
 );
 
 PodcastRoute.get("/podcasts", getAllPodcast);

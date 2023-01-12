@@ -12,7 +12,6 @@ export const createPodcast = async (
   try {
     const getFileData = async () => {
       const { podcastFile, imageFile } = req.files as any;
-      console.log(req.file);
       const dataPath = {
         imagePath: imageFile[0].path,
         podcastName: podcastFile[0].originalname,
@@ -41,19 +40,10 @@ export const createPodcast = async (
       code: 201,
     });
   } catch (error: any) {
-    console.log(error);
     next({ code: 400, message: "unable to create please try Again" });
   }
 };
 
-export const podcast_premium_create = async (req: Request, res: Response) => {
-  try {
-    const podcast = req.file ? req.file.path : undefined;
-    console.log(podcast);
-  } catch (error) {
-    res.status(400).send({ success: false, msg: "error" });
-  }
-};
 //========================== Get all Podcast================
 export const getAllPodcast = async (req: Request, res: Response) => {
   try {
