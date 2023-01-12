@@ -85,11 +85,11 @@ export const getPodcastById = async (req: Request, res: Response) => {
 export const getAllCategory = async (req: Request, res: Response) => {
   try {
     const category = req.params.category;
-    const Podcast = await PodcastInstance.findAndCountAll({
+    const Podcast = await PodcastInstance.findAll({
       where: { category: category },
     });
     return res.status(200).json({
-      categories: Podcast.rows,
+      categories: Podcast,
     });
   } catch (error) {
     res.status(500).json({

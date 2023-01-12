@@ -39,7 +39,7 @@ PodcastRoute.post(
 
 PodcastRoute.get("/podcasts", getAllPodcast);
 PodcastRoute.get("/podcast/:id", getPodcastById);
-PodcastRoute.get("/podcast/:category", getAllCategory);
+PodcastRoute.get("/:category", getAllCategory);
 
 PodcastRoute.patch("/update/:id", updatePodcast);
 PodcastRoute.delete("/delete/:id", deletePodcast);
