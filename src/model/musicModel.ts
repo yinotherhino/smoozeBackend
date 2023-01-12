@@ -30,7 +30,7 @@ MusicInstance.init(
       allowNull: false,
     },
     genreId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: false,
     },
     song_duration: {
