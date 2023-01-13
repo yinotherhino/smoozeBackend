@@ -13,6 +13,7 @@ export const paymentMethod = async (
     const paystackResponse = req.body;
 
     if (paystackResponse === "success") {
+
       const updatedUser = (await UserInstance.patch(
         {
           is_premium: true,
@@ -29,6 +30,9 @@ export const paymentMethod = async (
           User,
         });
       }
+
+      
+
 
       return res.status(400).json({
         Error: "Error occured",

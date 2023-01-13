@@ -30,6 +30,17 @@ export const GenerateSignature = async (
   return jwt.sign(payload, config.APP_SECRETE, { expiresIn: "2d" });
 };
 
+export const PremiumSignature = async (
+  payload:
+    | UserPayload
+    | PasswordPayload
+    | { [key: string]: string | number | undefined | boolean }
+) => {
+  return jwt.sign(payload, config.APP_SECRETE, { expiresIn: "30d" });
+};
+
+
+
 export const verifySignature = async (signature: string) => {
   return jwt.verify(signature, config.APP_SECRETE) as JwtPayload;
 };
