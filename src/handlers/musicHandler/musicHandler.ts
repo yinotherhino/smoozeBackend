@@ -1,12 +1,11 @@
 import { Response, NextFunction, Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { v4 as UUID } from "uuid";
+import { UserAttributes } from "../../interface";
 import { musicAttributes } from "../../interface/musicAttributes";
 import { UserInstance } from "../../model";
 import { MusicInstance } from "../../model/musicModel";
-import { ArtistInstance } from "../../model/artistModel";
-import { genreInstance } from "../../model/genreModel";
-import { UserAttributes } from "../../interface";
+
 export const AdminMusic = async (
   req: JwtPayload,
   res: Response,
@@ -22,64 +21,39 @@ export const AdminMusic = async (
       };
       return dataPath;
     };
-    const { imagePath, songPath } = await getFileData();
+    const { imagePath, songPath, songName } = await getFileData();
+    console.log(imagePath, songPath, songName);
 
     const musicId = UUID();
-    const { title, artist, genre } = req.body;
+    const { title, artistId, genreId, song_duration, artist } =
+      req.body as musicAttributes;
 
     const user = (await UserInstance.findOne({
       where: { email: req.user.email },
     })) as unknown as UserAttributes;
-    console.log(2);
 
-    if (!user) {
+    if (!user)
       return res.status(400).json({
-        error: "You are not a registered user ",
+        message: "You are not a registered user ",
       });
-    }
+
     if (user.role === "admin") {
-      let song_duration = req.body.song_duration;
-      song_duration = song_duration || "0:00";
-      console.log(req.body);
-
-      const artistData = (await ArtistInstance.findOrCreate({
-        where: { name: artist },
-        defaults: {
-          id: UUID(),
-          instagramUrl: "null",
-          imageUrl: "null",
-          twitterUrl: "null",
-          name: artist,
-        },
-      })) as unknown as any;
-      const genreId = UUID();
-      const genreData = (await genreInstance.findOrCreate({
-        where: { name: genre },
-        defaults: {
-          id: genreId,
-          name: genre,
-          genreImage: "null",
-        },
-      })) as unknown as any;
-
       const music = (await MusicInstance.create({
         id: musicId,
         title,
-        artistId: artistData[0].dataValues.id,
+        artistId,
         artist: artist,
-        genreId: genreData[0].dataValues.id,
+        genreId,
         imageUrl: imagePath,
         songUrl: songPath,
         song_duration: song_duration,
       })) as unknown as musicAttributes;
 
-      return res.status(201).json({
+      res.status(201).json({
         message: "Music created successfully",
         music,
         code: 201,
       });
-    } else {
-      throw { code: 401, message: "You are not an admin!" };
     }
   } catch (error) {
     console.log(error);
