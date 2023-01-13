@@ -3,7 +3,7 @@ import { AdminMusic, premium_create } from "../handlers/musicHandler/musicHandle
 // import { restrictToAdmin } from "../middleware/admin/admin";
 import { auth } from "../middleware/auth/auth";
 import { is_premium } from "../middleware/is_premium/is_premium";
-import { musicUpload,upload } from "../utils/multer/multer";
+import { musicUpload, upload } from "../utils/multer/multer";
 
 export const musicRouter = express.Router();
 /**
