@@ -1,5 +1,9 @@
 import config from "../../../config";
-export async function passworTemplate(firstname: string, token: string) {
+export function passworTemplate(firstname: string, token: string) {
+  if(firstname.length<1 || token.length<5){
+    const errMessage = firstname.length<1 ? "firstname is not specified" : "token is not specified"
+    throw new Error(errMessage)
+  }
   return `<!DOCTYPE html>
   <table
     class="full-width-container"
