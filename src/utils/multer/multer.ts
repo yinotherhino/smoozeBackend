@@ -3,15 +3,15 @@ import multer from "multer";
 const cloudinary = require("cloudinary").v2;
 
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-// import config from "../../config";
+import config from "../../config";
 
 
 
 
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET,
+  cloud_name: config.CLOUD_NAME,
+  api_key: config.CLOUD_API_KEY,
+  api_secret: config.CLOUD_API_SECRET,
 });
 
 
