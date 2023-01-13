@@ -1,6 +1,6 @@
 import express from "express";
 import { AdminMusic, premium_create } from "../handlers/musicHandler/musicHandler";
-import { restrictToAdmin } from "../middleware/admin/admin";
+// import { restrictToAdmin } from "../middleware/admin/admin";
 import { auth } from "../middleware/auth/auth";
 import { is_premium } from "../middleware/is_premium/is_premium";
 import { musicUpload,upload } from "../utils/multer/multer";
@@ -16,7 +16,7 @@ export const musicRouter = express.Router();
  *         description: Returns hello music
  */
 
- musicRouter.post("/create-songs",auth, restrictToAdmin,  upload.fields([{ name: 'songFile' }, { name: 'imageFile' }]), AdminMusic)
+ musicRouter.post("/create-songs",auth,  upload.fields([{ name: 'songFile' }, { name: 'imageFile' }]), AdminMusic)
 musicRouter
   .post("/create", () => {})
   .post(

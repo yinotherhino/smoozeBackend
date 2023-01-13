@@ -184,9 +184,9 @@ UserInstance.init(
     role: {
       type: DataTypes.STRING,
       allowNull: true,
-      validate: {
-        default: "user", 
-     } 
+    //   validate: {
+    //     default: "user", 
+    //  } 
     },
     profileImage: {
       type: DataTypes.STRING({ length: 1000 }),
