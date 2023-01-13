@@ -1,2 +1,2 @@
-export { addGenre, getAllGenres, getGenreById, editGenre, deleteGenre } from "./genreHandler";
+export { addGenre, getAllGenres, getGenreById, editGenre, deleteGenre, getAllGenresLimit } from "./genreHandler";
 
