@@ -8,6 +8,8 @@ const app = express();
 
 //:::handlers:::
 import { protect } from "./middleware/auth/auth";
+import { genreRouter, musicRouter, playlistRoute, usersRoute, artistRoute, playedMusicRoute} from "./routes/index";
+
 import {
   genreRouter,
   musicRouter,
@@ -58,6 +60,8 @@ swaggerDocs(app);
 app.use("/api/music", protect, musicRouter);
 app.use("/api/playlist", protect, playlistRoute);
 app.use("/api/user", usersRoute);
+app.use("/api/artists", artistRoute);
+app.use("/api/recent", playedMusicRoute);
 app.use("/api/genre", genreRouter);
 app.use("/api/podcast",PodcastRoute);
 googleoAuthentry(app);
