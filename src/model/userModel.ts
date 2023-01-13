@@ -184,6 +184,7 @@ UserInstance.init(
     role: {
       type: DataTypes.STRING,
       allowNull: true,
+
     },
     profileImage: {
       type: DataTypes.STRING({ length: 1000 }),

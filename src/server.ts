@@ -26,10 +26,27 @@ import { PodcastRoute } from "./routes/podcast";
 db.sync()
   .then(() => {
     console.log("connected to db");
+// void createNewAdmin()
+
   })
   .catch((error: HttpError) => {
     console.log(error);
   });
+
+//   const createNewAdmin = async()=>{
+//     const salt = await GenerateSalt()
+//     await UserInstance.create({
+//     id: require('uuid').v4(),
+//     email: "admintest23@gmail.com",
+//     verified:true,
+//     userName:"adminuser2",
+//     password: await GeneratePassword("admin1234",salt),
+//     salt: salt,
+//     role:"admin",
+//     is_premium:true
+//   })
+// }
+
 // ::::globals::::
 app.use(morgan("dev"));
 app.use(express.json());
