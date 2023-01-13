@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { response } from "express";
 import config from "../../config";
 
 const transport = nodemailer.createTransport({
@@ -15,7 +14,11 @@ const transport = nodemailer.createTransport({
 
 export const sendEmail = async (to: string, subject: string, html: string) => {
   try {
-    await transport.sendMail({
+    if(to.length<5 || subject.length<1 || html.length<1){
+      const errorMessage = to.length<5 ? "recipient(to) not specified" : subject.length<1  ? "subject not specified" : "html template not specified"
+      throw new Error(errorMessage)
+    }
+    const response = await transport.sendMail({
       from: config.FROM_ADMIN_EMAIL,
       to,
       subject,
@@ -23,6 +26,6 @@ export const sendEmail = async (to: string, subject: string, html: string) => {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    throw(error);
   }
 };
