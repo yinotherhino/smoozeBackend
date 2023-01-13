@@ -1,9 +1,7 @@
-// import { musicAttributes } from "./../../interface/musicAttributes";
 import { NextFunction, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { MusicInstance, UserInstance } from "../../model";
 import { PlaylistInstance } from "../../model";
-// import { MusicInstance } from "../../model";
 import { UserAttributes } from "../../interface";
 import { musicAttributes } from "../../interface/musicAttributes";
 
@@ -24,7 +22,6 @@ export const getPlaylistSongs = async (
       });
       res.status(200).json({ code: 200, playlist });
     } else {
-      //User status isn't premium
       throw { code: 400, message: "User is not a premium user" };
     }
   } catch (err) {
@@ -50,7 +47,7 @@ export const addSongToPlaylist = async (
     })) as unknown as musicAttributes;
 
     if (user.is_premium) {
-      let newPlaylistSong = await PlaylistInstance.create({
+      let newPlaylistSong = (await PlaylistInstance.create({
         id: song.id,
         title: song.title,
         artist: song.artist,
@@ -58,7 +55,7 @@ export const addSongToPlaylist = async (
         genreId: song.genreId,
         songUrl: song.songUrl,
         imageUrl: song.imageUrl,
-      }) as unknown as musicAttributes
+      })) as unknown as musicAttributes;
 
       return res.status(201).json({
         message: "Song successfully added to playlist",

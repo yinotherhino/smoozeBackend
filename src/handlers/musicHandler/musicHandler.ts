@@ -30,6 +30,7 @@ export const AdminMusic = async (
     const musicId = UUID();
     const { title, artist, genre } = req.body;
 
+
     const user = (await UserInstance.findOne({
       where: { email: req.user.email },
     })) as unknown as UserAttributes;
@@ -78,6 +79,7 @@ export const AdminMusic = async (
         imageUrl: imagePath,
         songUrl: songPath,
         song_duration: song_duration
+
       })) as unknown as musicAttributes;
 
       return res.status(201).json({
@@ -134,6 +136,7 @@ export const premium_create = async (
       createMusic,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       message: "something went wrong",
     });

@@ -41,13 +41,16 @@ export const Register = async (
         date_birth,
         password: userPassword,
         salt,
+        role: "user",
         verified: false,
-        is_premium:false
+        is_premium: false,
       })) as unknown as UserAttributes;
       const token = await GenerateSignature({
         id: newUser.id,
         email: newUser.email,
         verified: newUser.verified,
+        role: newUser.role,
+        is_premium: false,
         isLoggedIn: false,
       });
       const temp = welcomeEmail(userName, token);
@@ -97,13 +100,15 @@ export const signin = async (
         email: User.email,
         verified: User.verified,
         isLoggedIn: true,
+        role: User.role,
+        is_premium: User.is_premium,
       };
       const signature = await GenerateSignature(payload);
 
       return res.status(200).json({
         message: "Login Successful",
         signature: signature,
-        user: User
+        user: User,
       });
     }
   } catch (error) {
@@ -117,29 +122,30 @@ export const update = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { firstName, lastName, email, country, date_birth, gender } = req.body;
-  const dateOfBirth = new Date(
-    Number(date_birth.slice(6)),
-    Number(date_birth.slice(3, 5)),
-    Number(date_birth.slice(0, 2))
-  );
-  const id = req.user.id;
-  console.log(id);
   try {
+    const id = req.user.id;
+
     const User = (await UserInstance.findOne({
       where: { id: id },
     })) as unknown as UserAttributes;
 
+    const { firstName, lastName, email, country, date_birth, gender } = req.body;
+    const dateOfBirth = date_birth ? new Date(
+      Number(date_birth.slice(6)),
+      Number(date_birth.slice(3, 5)),
+      Number(date_birth.slice(0, 2))
+    ) : User.date_birth;
+
     if (!User) throw { code: 401, message: "unAuthorised please Login" };
     const updatedUser = (await UserInstance.update(
       {
-        firstName,
-        lastName,
-        email,
-        country,
-        gender,
+        firstName: firstName || User.firstName,
+        lastName: lastName || User.lastName,
+        email: email || User.email,
+        country: country || User.country,
+        gender: gender || User.gender,
         date_birth: dateOfBirth,
-        profileImage: req.file ? req.file.path : undefined,
+        profileImage: req.file ? req.file.path : User.profileImage,
       },
       { where: { id: id } }
     )) as unknown as UserAttributes;
@@ -156,7 +162,6 @@ export const update = async (
     }
     throw { code: 500, message: "Something went wrong" };
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
@@ -206,11 +211,13 @@ export const requestPassword = async (
       where: { email: email },
     })) as unknown as UserAttributes;
     if (!user) {
+      // __TEST MESSAGE__ wrong message this should be an error
       return res.status(200).json({
         code: 200,
         message: "Check Your Email to Continue !!",
       });
-    } else {
+    } 
+    else {
       const otp = await GenerateSalt();
       let token = await GenerateSignature({
         id: user.id,
@@ -227,6 +234,7 @@ export const requestPassword = async (
       );
       const template = await passworTemplate(user.userName, token);
       await sendEmail(user.email, "PASSWORD RESETE", template);
+      // __TEST MESSAGE__ dont send token as response or user will be able to reset pwd without checking email
       res.status(200).json({
         code: 200,
         signature: token,

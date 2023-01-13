@@ -7,8 +7,7 @@ import { UserAttributes } from "../../interface/UserAttributes";
 import config from "../../config";
 import { UserPayload } from "../../interface";
 
-
-declare global { 
+declare global {
   namespace Express {
     interface Request {
       user?: UserPayload;
@@ -47,15 +46,14 @@ export const auth = async (
       token,
       config.APP_SECRETE as string
     ) as UserPayload;
-
     if (!verified) throw { code: 401, message: "Not Authorised" };
+    console.log(token)
 
     const { id } = verified as UserPayload;
 
     const user = (await UserInstance.findOne({
       where: { id: id },
     })) as unknown as UserAttributes;
-
     if (!user) throw { code: 400, message: "Invalide Credentials" };
     if (!user.verified) throw { code: 400, message: "Account Not Activated" };
     if (!verified.isLoggedIn) throw { code: 400, message: "Not Authenticated" };
@@ -65,3 +63,9 @@ export const auth = async (
     next({ code: 400, message: error.message });
   }
 };
+
+export const Premium = (
+  req: JwtPayload,
+  res: Response,
+  next: NextFunction
+) => {};

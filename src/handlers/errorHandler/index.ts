@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 export const codeError: any = {
   404: "End Of Page",
   401: "Not Authorised",
-  500: "Something Went Wronge",
+  500: "Something Went Wrong",
   400: "",
 };
 export const errorHandler = async (
