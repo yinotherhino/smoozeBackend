@@ -36,6 +36,7 @@ const genrestorage = new CloudinaryStorage({
   params: async (req, file) => {
     return {
       folder: "GENREIMAGE",
+      resource_type: "auto",
     };
   },
 });
