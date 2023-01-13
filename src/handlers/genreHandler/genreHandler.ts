@@ -45,7 +45,33 @@ export const addGenre = async(req:Request, res:Response)=>{
 
 export const getAllGenres = async(req:Request, res:Response) => {
     try{
-        const allGenre = await genreInstance.findAll({})
+        const allGenre = await genreInstance.findAll({
+            order: [["createdAt", "DESC"]]
+        })
+        if (allGenre){
+            res.status(200).json({
+                message: "All genre gotten successfully",
+                allGenre
+            })
+        }else{
+            res.status(400).json({
+                message:"Failed to retrieve genres"
+            })
+        }
+    }catch(err){
+        res.status(500).json({
+            err: "Internal Sever Error",
+            route:"/api/genre/genres"
+        })
+    }
+}
+
+export const getAllGenresLimit = async(req:Request, res:Response) => {
+    try{
+        const allGenre = await genreInstance.findAll({
+            limit: 6,
+            order: [["createdAt", "DESC"]]
+        })
         if (allGenre){
             res.status(200).json({
                 message: "All genre gotten successfully",
@@ -73,10 +99,9 @@ export const getGenreById = async(req:Request, res:Response) => {
                 as: "music",
                 attributes:[
                     "id",
-                    "title:songName",
+                    "title",
                     "artistId",
                     "genreId",
-                    "year",
                     "imageUrl",
                     "songUrl"
                 ]
