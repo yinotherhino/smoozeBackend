@@ -7,8 +7,7 @@ import { UserAttributes } from "../../interface/UserAttributes";
 import config from "../../config";
 import { UserPayload } from "../../interface";
 
-
-declare global { 
+declare global {
   namespace Express {
     interface Request {
       user?: UserPayload;
@@ -65,3 +64,9 @@ export const auth = async (
     next({ code: 400, message: error.message });
   }
 };
+
+export const Premium = (
+  req: JwtPayload,
+  res: Response,
+  next: NextFunction
+) => {};

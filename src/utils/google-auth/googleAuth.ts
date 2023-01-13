@@ -66,7 +66,8 @@ export const googleoAuthentry = async (app: Application) => {
           googleId: sub,
           userName: given_name,
           verified: email_verified,
-          is_premium:false
+          is_premium: false,
+          role: "user",
         })) as JwtPayload;
 
         const token = await GenerateSignature({
