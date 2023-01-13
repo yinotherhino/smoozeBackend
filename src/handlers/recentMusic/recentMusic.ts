@@ -1,8 +1,8 @@
 import { Response, NextFunction } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { v4 as UUID } from "uuid";
-import { musicAttributes } from "../../interface/musicAttributes";
-import { RecentMusicAttributes } from "../../interface/RecentMusicAttribute";
+// import { musicAttributes } from "../../interface/musicAttributes";
+// import { RecentMusicAttributes } from "../../interface/RecentMusicAttribute";
 // import { musicAttributes, RecentMusicAttributes } from "../../interface";
 import { PlayedMusicInstance,  } from "../../model";
 import { MusicInstance } from "../../model/musicModel";
@@ -15,21 +15,21 @@ export const CreatePlayedMusic = async (
   next: NextFunction
 ) => {
   try {
-    const uuidplayedmusic = UUID();
-    let id = req.params.id
-    
-    const fetchMusic = await MusicInstance.findByPk(id) as unknown as musicAttributes
-console.log(fetchMusic)
-
-    const musicProp =  await PlayedMusicInstance.create({
-     id: uuidplayedmusic,
-    title: fetchMusic.title,
-    genreId: fetchMusic.genreId,
-    imageUrl: fetchMusic.imageUrl,
-    songUrl: fetchMusic.songUrl,
-    createdAt: new Date(),
-    }) as unknown as RecentMusicAttributes
-
+    const songId = req.params.id
+    const userId = req.user.id
+    const recentlyPlayed = await PlayedMusicInstance.findOne({where:{songId, userId }})
+    if(recentlyPlayed){
+      recentlyPlayed.updatedAt = new Date()
+      const result = await recentlyPlayed.save()
+      return res.status(200).json({
+        message: "Music added succesfully",
+        recentlyPlayed:result})
+    }
+    const newlyPlayed = await PlayedMusicInstance.create({
+      id: UUID(),
+      songId,
+      userId,
+    }) 
     return res.status(201).json({
         message: "Music added to recently played music",
         recentlyPlayed:newlyPlayed
