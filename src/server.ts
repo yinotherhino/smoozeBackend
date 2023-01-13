@@ -10,12 +10,6 @@ const app = express();
 import { protect } from "./middleware/auth/auth";
 import { genreRouter, musicRouter, playlistRoute, usersRoute, artistRoute, playedMusicRoute} from "./routes/index";
 
-import {
-  genreRouter,
-  musicRouter,
-  playlistRoute,
-  usersRoute,
-} from "./routes/index";
 import { errorHandler, errorRouterHandler } from "./handlers/errorHandler";
 import { db } from "./config/db";
 import { swaggerDocs } from "./utils/swagger";
