@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../../config";
 import { UserPayload } from "../../interface";
+import { PremiumPayload } from "../../interface";
 import { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { PasswordPayload } from "../../interface/resetPassword.dto";
@@ -33,7 +34,7 @@ export const GenerateSignature = async (
 export const PremiumSignature = async (
   payload:
     | UserPayload
-    | PasswordPayload
+    | PremiumPayload
     | { [key: string]: string | number | undefined | boolean }
 ) => {
   return jwt.sign(payload, config.APP_SECRETE, { expiresIn: "30d" });

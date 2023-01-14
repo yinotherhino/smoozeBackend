@@ -13,7 +13,7 @@ import {
 } from "../utils/joi-validator";
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
 import { upload } from "../utils/multer/multer";
-import {paymentMethod} from '../handlers/paymentHandler';
+import { paymentMethod } from '../handlers/paymentHandler';
 
 export const usersRoute = express.Router();
 
