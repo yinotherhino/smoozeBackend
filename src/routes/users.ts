@@ -12,9 +12,8 @@ import {
   changePasswordJoi,
 } from "../utils/joi-validator";
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
-import { updateProfile } from "../utils/multer/multer"
+import { updateProfile,upload } from "../utils/multer/multer"
 import {paymentMethod} from '../handlers/paymentHandler';
-
 export const usersRoute = express.Router();
 
   /**
@@ -87,4 +86,4 @@ usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
 usersRoute.get("/get-user", auth, getUser);
-usersRoute.post('/paystack-response', auth, paymentMethod);
+usersRoute.post('/paystack-response', paymentMethod);

@@ -1,7 +1,8 @@
 import { Response, NextFunction } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { UserInstance } from "../../model";
-import { UserAttributes } from "../../interface";
+import { UserAttributes, PremiumPayload } from "../../interface";
+import { PremiumSignature } from "../../utils/auth-utils";
 
 export const paymentMethod = async (
   req: JwtPayload,
@@ -13,7 +14,8 @@ export const paymentMethod = async (
     const paystackResponse = req.body;
 
     if (paystackResponse === "success") {
-      const updatedUser = (await UserInstance.patch(
+
+      const updatedUser = (await UserInstance.update(
         {
           is_premium: true,
         },
@@ -24,8 +26,18 @@ export const paymentMethod = async (
         const User = (await UserInstance.findOne({
           where: { id: id },
         })) as unknown as UserAttributes;
-        return res.status(200).json({
+
+        const payload: PremiumPayload = {
+          id: User.id,
+          email: User.email,
+          userName:User.userName,
+          is_premium: User.is_premium
+        };
+
+        const signature = await PremiumSignature(payload);
+        return res.status(201).json({
           message: "Congratulations, you are now a Premium User",
+          signature: signature,
           User,
         });
       }
