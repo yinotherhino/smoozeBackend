@@ -14,7 +14,6 @@ import {
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
 import { updateProfile } from "../utils/multer/multer"
 import {paymentMethod} from '../handlers/paymentHandler';
-import { restrictToAdmin } from "../middleware/admin/admin";
 
 export const usersRoute = express.Router();
 
