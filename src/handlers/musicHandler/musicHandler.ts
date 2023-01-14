@@ -7,6 +7,8 @@ import { MusicInstance } from "../../model/musicModel";
 import { ArtistInstance } from "../../model/artistModel";
 import { genreInstance } from "../../model/genreModel";
 import { UserAttributes } from "../../interface";
+import { artistAttributes } from "../../interface/artistAttributes";
+import { genreAttributes } from "../../interface/genreAttributes";
 export const AdminMusic = async (
   req: JwtPayload,
   res: Response,
@@ -25,7 +27,7 @@ export const AdminMusic = async (
     const { imagePath, songPath } = await getFileData();
 
     const musicId = UUID();
-    const { title, artist, genre } = req.body;
+    const { title, artist, genreId } = req.body;
 
     const user = (await UserInstance.findOne({
       where: { email: req.user.email },
@@ -42,32 +44,27 @@ export const AdminMusic = async (
       song_duration = song_duration || "0:00";
       console.log(req.body);
 
-      const artistData = (await ArtistInstance.findOrCreate({
-        where: { name: artist },
-        defaults: {
-          id: UUID(),
-          instagramUrl: "null",
-          imageUrl: "null",
-          twitterUrl: "null",
-          name: artist,
-        },
-      })) as unknown as any;
-      const genreId = UUID();
+      const artistData = (await ArtistInstance.findOne({
+        where: { name: artist }
+      })) as unknown as artistAttributes;
+      if(!artistData){
+      throw { code: 404, message: "Artist does not exist" };
+      }
+
       const genreData = (await genreInstance.findOrCreate({
-        where: { name: genre },
-        defaults: {
-          id: genreId,
-          name: genre,
-          genreImage: "null",
-        },
-      })) as unknown as any;
+        where: { id: genreId },
+      })) as unknown as genreAttributes;
+      if(!genreData){
+        throw { code: 404, message: "genre does not exist" };
+        }
+      
 
       const music = (await MusicInstance.create({
         id: musicId,
         title,
-        artistId: artistData[0].dataValues.id,
+        artistId: artistData.id,
         artist: artist,
-        genreId: genreData[0].dataValues.id,
+        genreId,
         imageUrl: imagePath,
         songUrl: songPath,
         song_duration: song_duration,
