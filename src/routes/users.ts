@@ -89,4 +89,4 @@ usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
 usersRoute.get("/get-user", auth, getUser);
 usersRoute.post('/paystack-response', auth, paymentMethod);
-usersRoute.get('/health-check', (req:Request,res:Response)=>{res.status(200).end()})
+usersRoute.get('/health-check', (req:Request,res:Response)=>{res.status(200).send('ping')})
