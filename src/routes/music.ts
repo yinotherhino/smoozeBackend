@@ -1,9 +1,10 @@
 import express from "express";
-import { AdminMusic, premium_create } from "../handlers/musicHandler/musicHandler";
+import { AdminMusic, premium_create, getAllMusic } from "../handlers/musicHandler/musicHandler";
 // import { restrictToAdmin } from "../middleware/admin/admin";
+// import { getAllMusic, premium_create } from "../handlers/musicHandler/musicHandler";
 import { auth } from "../middleware/auth/auth";
 import { is_premium } from "../middleware/is_premium/is_premium";
-import { musicUpload,upload } from "../utils/multer/multer";
+import { musicUpload, upload } from "../utils/multer/multer";
 
 export const musicRouter = express.Router();
 /**
@@ -18,6 +19,7 @@ export const musicRouter = express.Router();
 
  musicRouter.post("/create-songs",auth,  upload.fields([{ name: 'songFile' }, { name: 'imageFile' }]), AdminMusic)
 musicRouter
+  .get("/get_song", auth, getAllMusic)
   .post("/create", () => {})
   .post(
     "/prem_create",

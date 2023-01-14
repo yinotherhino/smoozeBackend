@@ -12,9 +12,8 @@ import {
   changePasswordJoi,
 } from "../utils/joi-validator";
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
-import { upload } from "../utils/multer/multer";
-import { paymentMethod } from '../handlers/paymentHandler';
-
+import { updateProfile,upload } from "../utils/multer/multer"
+import {paymentMethod} from '../handlers/paymentHandler';
 export const usersRoute = express.Router();
 
   /**
@@ -82,7 +81,7 @@ usersRoute.post("/signin", loginUserJoi, signin);
    *      200:
    *        description: Successful Update
    */
-usersRoute.patch("/update", upload.single("profileImage"), auth, update);
+usersRoute.patch("/update", updateProfile.single("profileImage"), auth, update);
 usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);

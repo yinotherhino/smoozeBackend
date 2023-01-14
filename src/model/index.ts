@@ -5,4 +5,5 @@ export {MusicInstance} from './musicModel';
 
 export {ArtistInstance} from './artistModel';
 
+export {PlayedMusicInstance} from './RecentMusicModel';
 

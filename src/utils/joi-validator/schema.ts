@@ -124,3 +124,22 @@ export const changePasswordJoi = async (
     next();
   }
 };
+
+export const createArtistJoi = async (
+  req: Request,
+  res: Response,
+  next: Function
+) => {
+  let schema = joi.object({
+    name: joi.string(),
+    imageUrl: joi.string(),
+    instagramUrl: joi.string(),
+    twitterUrl: joi.string(),
+  });
+  const check = schema.validate(req.body, option);
+  if (check.error) {
+    return res.status(400).json({ code: 400, error: check.error.message });
+  } else {
+    next();
+  }
+};

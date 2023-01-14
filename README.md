@@ -23,3 +23,35 @@ both server should run on https
 for google please request for developer test account as this cannot be auto generated
 
 
+    =============================test-admin-user======================
+    email: "admintest23@gmail.com",
+    verified:true,
+    userName:"adminuser2",
+    password: await GeneratePassword("admin1234",salt),
+    salt: salt,
+    role:"admin",
+    is_premium:true
+
+    =========================test-db===================================
+    LOCAL_DATABASE_USERNAME= "jxcffllw" 
+
+    LOCAL_DATABASE_HOST= "mel.db.elephantsql.com" 
+
+    LOCAL_DATABASE_DATABASE_NAME= "jxcffllw" 
+
+    LOCAL_DATABASE_PASSWORD= "6zJahnp4PGQwIluWjHw7eDAcsaBrw_9l" 
+
+====================create test admin====================
+//   const createNewAdmin = async()=>{
+//     const salt = await GenerateSalt()
+//     await UserInstance.create({
+//     id: require('uuid').v4(),
+//     email: "admintest23@gmail.com",
+//     verified:true,
+//     userName:"adminuser2",
+//     password: await GeneratePassword("admin1234",salt),
+//     salt: salt,
+//     role:"admin",
+//     is_premium:true
+//   })
+// }

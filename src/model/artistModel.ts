@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { artistAttributes } from "../interface/artistAttributes";
+import { MusicInstance } from "./musicModel";
 
 export class ArtistInstance extends Model<artistAttributes> {}
 ArtistInstance.init(
@@ -29,5 +30,13 @@ ArtistInstance.init(
     },
     {
         sequelize:db,
-        tableName:"artist"
+        tableName:"artists"
+    })
+
+    ArtistInstance.hasMany(MusicInstance,{
+        foreignKey: "artistId", as: "music"
+    })
+   
+    MusicInstance.belongsTo(ArtistInstance,{
+        foreignKey: "artistId", as: 'artists'
     })

@@ -1,11 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-
-export const codeError: any = {
-  404: "End Of Page",
-  401: "Not Authorised",
-  500: "Something Went Wrong",
-  400: "",
-};
 export const errorHandler = async (
   error: any,
   req: Request,
@@ -13,14 +6,10 @@ export const errorHandler = async (
   next: NextFunction
 ) => {
   console.log(error);
-  res
-    .status(error.code || 500)
-    .json({
-      code: error.code,
-      error: codeError[`${error.code}`]
-        ? codeError[`${error.code}`]
-        : error.message,
-    });
+  res.status(error.code || 500).json({
+    code: error.code || 500,
+    error: error.message || "Something Went Wrong",
+  });
 };
 
 export const errorRouterHandler = express.Router();

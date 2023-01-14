@@ -23,7 +23,7 @@ MusicInstance.init(
       allowNull: false,
     },
     artistId: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
     },
     artist: {
       type: DataTypes.STRING,
