@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-const port = process.env.PORT;
+const port = process.env.PORT
 dotenv.config();
 export default {
   GMAIL_PASS: process.env.LOCAL_GMAIL_PASS,
