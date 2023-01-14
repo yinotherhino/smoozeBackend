@@ -1,4 +1,4 @@
-+import { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
+import { JsonWebTokenError, JwtPayload } from "jsonwebtoken";
 import { GeneratePassword,GenerateSalt, GenerateSignature, validatePassword, verifySignature } from "../auth-utils"
 // import { GenerateSalt, GeneratePassword } from "../auth-utils";
 
