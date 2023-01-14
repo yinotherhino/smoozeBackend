@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import { Register, signin, update, getUser } from "../handlers/userHandler";
 import {
   requestPassword,
@@ -14,6 +14,7 @@ import {
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
 import { updateProfile } from "../utils/multer/multer"
 import {paymentMethod} from '../handlers/paymentHandler';
+import { restrictToAdmin } from "../middleware/admin/admin";
 
 export const usersRoute = express.Router();
 
@@ -88,3 +89,4 @@ usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
 usersRoute.get("/get-user", auth, getUser);
 usersRoute.post('/paystack-response', auth, paymentMethod);
+usersRoute.get('/health-check', (req:Request,res:Response)=>{res.status(200).end()})
