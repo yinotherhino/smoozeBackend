@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../../config";
 import { UserPayload } from "../../interface";
+
 import { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { PasswordPayload } from "../../interface/resetPassword.dto";
