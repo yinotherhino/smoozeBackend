@@ -1,8 +1,8 @@
 import { Response, NextFunction } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { UserInstance } from "../../model";
-import { UserAttributes, PremiumPayload } from "../../interface";
-import { PremiumSignature } from "../../utils/auth-utils";
+import { UserAttributes, UserPayload } from "../../interface";
+import { GenerateSignature } from "../../utils/auth-utils";
 
 export const paymentMethod = async (
   req: JwtPayload,
@@ -27,14 +27,16 @@ export const paymentMethod = async (
           where: { id: id },
         })) as unknown as UserAttributes;
 
-        const payload: PremiumPayload = {
+        const payload: UserPayload = {
           id: User.id,
           email: User.email,
-          userName:User.userName,
-          is_premium: User.is_premium
+          verified: true,
+          isLoggedIn: true,
+          role: User.role,
+          is_premium: User.is_premium,
         };
 
-        const signature = await PremiumSignature(payload);
+        const signature = await GenerateSignature(payload);
         return res.status(201).json({
           message: "Congratulations, you are now a Premium User",
           signature: signature,

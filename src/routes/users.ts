@@ -12,8 +12,8 @@ import {
   changePasswordJoi,
 } from "../utils/joi-validator";
 import { sendemailTokenJoi } from "../utils/joi-validator/schema";
-import { updateProfile,upload } from "../utils/multer/multer"
-import {paymentMethod} from '../handlers/paymentHandler';
+import { updateProfile } from "../utils/multer/multer"
+import { paymentMethod } from '../handlers/paymentHandler';
 export const usersRoute = express.Router();
 
   /**
