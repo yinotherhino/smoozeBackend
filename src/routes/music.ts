@@ -1,5 +1,9 @@
 import express from "express";
-import { AdminMusic, premium_create, getAllMusic } from "../handlers/musicHandler/musicHandler";
+import {
+  AdminMusic,
+  premium_create,
+  getAllMusic,
+} from "../handlers/musicHandler/musicHandler";
 import { restrictToAdmin } from "../middleware/admin/admin";
 // import { restrictToAdmin } from "../middleware/admin/admin";
 // import { getAllMusic, premium_create } from "../handlers/musicHandler/musicHandler";
@@ -18,20 +22,26 @@ export const musicRouter = express.Router();
  *         description: Returns hello music
  */
 
- musicRouter.post("/create-songs",auth,  restrictToAdmin,upload.fields([{ name: 'songFile' }, { name: 'imageFile' }]), AdminMusic)
+musicRouter.post(
+  "/create-songs",
+  auth,
+  restrictToAdmin,
+  upload.fields([{ name: "songFile" }, { name: "imageFile" }]),
+  AdminMusic
+);
+
 musicRouter
   .get("/get_song", auth, getAllMusic)
   .post("/create", () => {})
   .post(
     "/prem_create",
     auth,
-    musicUpload.fields([{ name: "song_file" }, { name: "image_file" }]),
     is_premium,
+    musicUpload.fields([{ name: "song_file" }, { name: "image_file" }]),
+
     premium_create
   )
   .put("/update/:id", () => {})
-  .delete("/delete/:id", () => { });
-  
-  export default musicRouter;
+  .delete("/delete/:id", () => {});
 
-
+export default musicRouter;
