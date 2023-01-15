@@ -39,7 +39,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use( (req, res, next)=> {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
+  res.setHeader('Access-Control-Allow-Origin', 'https://smooze.netlify.app');
   next();
   });
 app.use(express.urlencoded({ extended: true }));
