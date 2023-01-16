@@ -44,6 +44,7 @@ export const Register = async (
         role: "user",
         verified: false,
         is_premium: false,
+        isLoggedIn: false,
       })) as unknown as UserAttributes;
       const token = await GenerateSignature({
         id: newUser.id,
@@ -51,7 +52,7 @@ export const Register = async (
         verified: newUser.verified,
         role: newUser.role,
         is_premium: false,
-        isLoggedIn: false,
+        isLoggedIn: newUser.isLoggedIn,
       });
       const temp = welcomeEmail(userName, token);
       await sendEmail(email, "Signup Success", temp);
@@ -95,13 +96,27 @@ export const signin = async (
 
       if (!validPassword)
         throw { code: 400, message: "Invalide Email or Password" };
+      //updated loggedin status
+      (await UserInstance.update(
+        {
+          isLoggedIn: true,
+        },
+        {
+          where: {
+            email: email,
+          },
+        }
+      )) as unknown as UserPayload | UserAttributes;
+      const loggedinUser = (await UserInstance.findOne({
+        where: { email: email },
+      })) as unknown as UserAttributes;
       const payload: UserPayload = {
-        id: User.id,
-        email: User.email,
-        verified: User.verified,
-        isLoggedIn: true,
-        role: User.role,
-        is_premium: User.is_premium,
+        id: loggedinUser.id,
+        email: loggedinUser.email,
+        verified: loggedinUser.verified,
+        isLoggedIn: loggedinUser.isLoggedIn,
+        role: loggedinUser.role,
+        is_premium: loggedinUser.is_premium,
       };
       const signature = await GenerateSignature(payload);
 
@@ -129,12 +144,15 @@ export const update = async (
       where: { id: id },
     })) as unknown as UserAttributes;
 
-    const { firstName, lastName, email, country, date_birth, gender } = req.body;
-    const dateOfBirth = date_birth ? new Date(
-      Number(date_birth.slice(6)),
-      Number(date_birth.slice(3, 5)),
-      Number(date_birth.slice(0, 2))
-    ) : User.date_birth;
+    const { firstName, lastName, email, country, date_birth, gender } =
+      req.body;
+    const dateOfBirth = date_birth
+      ? new Date(
+          Number(date_birth.slice(6)),
+          Number(date_birth.slice(3, 5)),
+          Number(date_birth.slice(0, 2))
+        )
+      : User.date_birth;
 
     if (!User) throw { code: 401, message: "unAuthorised please Login" };
     const updatedUser = (await UserInstance.update(
@@ -198,6 +216,25 @@ export const verifyUser = async (
   }
 };
 
+/*================= logout======================*/
+export const logout = async (
+  req: JwtPayload,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.user;
+  await UserInstance.update(
+    {
+      isLoggedIn: false,
+    },
+    {
+      where: { id: id },
+    }
+  );
+  return res.status(200).json({
+    message: "Successfuly Loggedout",
+  });
+};
 /*================= forgot Password ================*/
 
 export const requestPassword = async (
@@ -216,8 +253,7 @@ export const requestPassword = async (
         code: 200,
         message: "Check Your Email to Continue !!",
       });
-    } 
-    else {
+    } else {
       const otp = await GenerateSalt();
       let token = await GenerateSignature({
         id: user.id,

@@ -4,7 +4,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { v4 as UUID } from "uuid";
 import config from "../../config";
 import { UserInstance } from "../../model";
-import { UserAttributes } from "../../interface";
+import { UserAttributes, UserPayload } from "../../interface";
 import {
   GeneratePassword,
   GenerateSalt,
@@ -67,25 +67,55 @@ export const googleoAuthentry = async (app: Application) => {
           userName: given_name,
           verified: email_verified,
           is_premium: false,
+          isLoggedIn: true,
           role: "user",
         })) as JwtPayload;
 
-        const token = await GenerateSignature({
+        const token: any = (await GenerateSignature({
           id: createdUser.id,
           email: createdUser.email,
           verified: createdUser.verified,
-          isLoggedIn: true,
-        });
+          isLoggedIn: createdUser.isLoggedIn,
+          role: createdUser.role,
+          is_premium: createdUser.is_premium,
+        })) as unknown as UserPayload;
         // res.json(token);
         res.redirect(`${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`);
       } else {
-        const token = await GenerateSignature({
-          id: userExist.id,
-          email: userExist.email,
-          verified: userExist.verified,
-          isLoggedIn: true,
-        });
-        res.redirect(`${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`);
+        //update the exp aand logedIn
+        //update the logged in property
+        (await UserInstance.update(
+          {
+            isLoggedIn: true,
+            verified: true,
+          },
+
+          {
+            where: {
+              googleId: sub,
+            },
+            returning: true,
+          }
+        )) as unknown as UserPayload | UserAttributes | any;
+
+        const loggedinUser = (await UserInstance.findOne({
+          where: {
+            googleId: sub,
+          },
+        })) as unknown as UserAttributes;
+        const payload: UserPayload = {
+          id: loggedinUser.id,
+          email: loggedinUser.email,
+          verified: loggedinUser.verified,
+          isLoggedIn: loggedinUser.isLoggedIn,
+          role: loggedinUser.role,
+          is_premium: loggedinUser.is_premium,
+        };
+        const token = await GenerateSignature(payload);
+
+        return res.redirect(
+          `${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`
+        );
       }
     } catch (error) {
       res.redirect(`${config.FRONTEND_BASE_URL}/auth/social/?token=error`);

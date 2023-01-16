@@ -1,6 +1,6 @@
 import { Application, Request, Response } from "express";
 import { v4 as UUID } from "uuid";
-import { UserAttributes } from "../../interface";
+import { UserAttributes, UserPayload } from "../../interface";
 import { UserInstance } from "../../model";
 import {
   GeneratePassword,
@@ -70,8 +70,7 @@ export const fboauthBackend = async (app: Application) => {
   );
 
   app.get("/failed", (req: Request, res: Response) => {
-    res.send("YOUR FAILED LOGIN !!!");
-    //
+    return res.redirect(`${config.FRONTEND_BASE_URL}/auth/social/?token=error`);
   });
 
   app.get("/facebook/profile", async (req: any, res: any) => {
@@ -87,8 +86,6 @@ export const fboauthBackend = async (app: Application) => {
         const uuiduser = UUID();
         const salt = await GenerateSalt();
         const userPassword = await GeneratePassword(userName, salt);
-        //check if user already exists using key value pairs in the object
-
         const newUser = (await UserInstance.create({
           id: uuiduser,
           email: email || `${id}@gmail.com`,
@@ -102,30 +99,52 @@ export const fboauthBackend = async (app: Application) => {
           gender,
           role: "user",
           is_premium: false,
+          isLoggedIn: true,
         })) as unknown as UserAttributes;
 
-        if (newUser) {
-          const token: any = await GenerateSignature({
-            id: newUser.id,
-            email: newUser.email,
-            verified: newUser.verified,
-            isLoggedIn: true,
-          });
-          return res.redirect(
-            `${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`
-          );
-        } else {
-          return res.redirect(
-            `${config.FRONTEND_BASE_URL}/auth/social/?token=error`
-          );
-        }
+        const token: any = (await GenerateSignature({
+          id: newUser.id,
+          email: newUser.email,
+          verified: newUser.verified,
+          isLoggedIn: newUser.isLoggedIn,
+          role: newUser.role,
+          is_premium: newUser.is_premium,
+        })) as unknown as UserPayload;
+
+        return res.redirect(
+          `${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`
+        );
       } else {
-        const token: any = await GenerateSignature({
-          id: user.id,
-          email: user.email,
-          verified: user.verified,
-          isLoggedIn: true,
-        });
+        //update the exp aand logedIn
+        //update the logged in property
+        (await UserInstance.update(
+          {
+            isLoggedIn: true,
+          },
+
+          {
+            where: {
+              facebookId: id,
+            },
+            returning: true,
+          }
+        )) as unknown as UserPayload | UserAttributes | any;
+
+        const loggedinUser = (await UserInstance.findOne({
+          where: {
+            facebookId: id,
+          },
+        })) as unknown as UserAttributes;
+        const payload: UserPayload = {
+          id: loggedinUser.id,
+          email: loggedinUser.email,
+          verified: loggedinUser.verified,
+          isLoggedIn: loggedinUser.isLoggedIn,
+          role: loggedinUser.role,
+          is_premium: loggedinUser.is_premium,
+        };
+        const token = await GenerateSignature(payload);
+
         return res.redirect(
           `${config.FRONTEND_BASE_URL}/auth/social/?token=${token}`
         );
