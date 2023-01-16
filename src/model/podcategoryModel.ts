@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
-import { podCategoryAttributes} from "../interface/podcategoryAttribute"
+import { podCategoryAttributes} from "../interface/podCategoryAttribute"
 
 export class PodcategoryInstance extends Model<podCategoryAttributes> {}
 PodcategoryInstance.init(

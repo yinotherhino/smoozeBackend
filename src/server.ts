@@ -5,8 +5,6 @@ import { HttpError } from "http-errors";
 import * as dotenv from "dotenv";
 dotenv.config();
 const app = express();
-
-//:::handlers:::
 import { protect } from "./middleware/auth/auth";
 import { genreRouter, musicRouter, playlistRoute, usersRoute, artistRoute, playedMusicRoute} from "./routes/index";
 
@@ -30,13 +28,20 @@ db.sync()
     console.log(error);
   });
 
-
+  var corsOptions = {
+    origin: 'https://smooze.netlify.app',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 
 
 // ::::globals::::
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
+app.use( (req, res, next)=> {
+  res.setHeader('Access-Control-Allow-Origin', 'https://smooze.netlify.app');
+  next();
+  });
 app.use(express.urlencoded({ extended: true }));
 // :::: end globals::::
 

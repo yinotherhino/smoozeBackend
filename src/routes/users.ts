@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import { Register, signin, update, getUser } from "../handlers/userHandler";
 import {
   requestPassword,
@@ -87,3 +87,4 @@ usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
 usersRoute.get("/get-user", auth, getUser);
 usersRoute.post('/paystack-response', paymentMethod);
+usersRoute.get('/health-check', (req:Request,res:Response)=>{res.status(200).send('ping')})

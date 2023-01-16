@@ -1,11 +1,12 @@
 import dotenv from "dotenv";
+const port = process.env.PORT
 dotenv.config();
 export default {
   GMAIL_PASS: process.env.LOCAL_GMAIL_PASS,
   GMAIL_USER: process.env.LOCAL_GMAIL_USER,
   FROM_ADMIN_EMAIL: process.env.LOCAL_FROM_ADMIN_EMAIL,
   userSubject: process.env.LOCAL_userSubject,
-  port: process.env.LOCAL_PORT,
+  port,
   BASE_URL: process.env.LOCAL_BASE_URL,
   FRONTEND_BASE_URL: process.env.LOCAL_FRONTEND_BASE_URL,
   DATABASE_URL: process.env.LOCAL_DATABASE_URL,
