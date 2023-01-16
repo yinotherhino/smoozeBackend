@@ -45,7 +45,7 @@ export const AdminMusic = async (
       console.log(req.body);
 
       const artistData = (await ArtistInstance.findOne({
-        where: { name: artist },
+        where: { id: artist },
       })) as unknown as artistAttributes;
       if (!artistData) {
         throw { code: 404, message: "Artist does not exist" };
@@ -62,14 +62,13 @@ export const AdminMusic = async (
         id: musicId,
         title,
         artistId: artistData.id,
-        artist: artist,
+        artist: artistData.name,
         genreId,
         imageUrl: imagePath,
         songUrl: songPath,
         song_duration: song_duration,
       })) as unknown as musicAttributes;
-
-      return res.status(201).json({
+        return res.status(201).json({
         message: "Music created successfully",
         music,
         code: 201,
