@@ -22,7 +22,7 @@ export const CreateArtist = async (
     // }) as unknown as UserAttributes
 
     //   CHECK IF THE ID IS FOR AN EXISTING ADMIN
-    // if (authorizer.role === "admin") {
+    if (req.user.role === "admin") {
     let artist = await ArtistInstance.create({
       id: uuidartist,
       name,
@@ -39,10 +39,10 @@ export const CreateArtist = async (
     return res.status(400).json({
       Error: "Error Occured",
     });
-    // }
-    // return res.status(400).json({
-    //   Error: "Unauthorised",
-    // });
+    }
+    return res.status(400).json({
+      Error: "Unauthorised",
+    });
   } catch (err) {
     next(err);
   }

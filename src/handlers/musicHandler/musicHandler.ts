@@ -45,32 +45,30 @@ export const AdminMusic = async (
       console.log(req.body);
 
       const artistData = (await ArtistInstance.findOne({
-        where: { name: artist }
+        where: { id: artist },
       })) as unknown as artistAttributes;
-      if(!artistData){
-      throw { code: 404, message: "Artist does not exist" };
+      if (!artistData) {
+        throw { code: 404, message: "Artist does not exist" };
       }
 
       const genreData = (await genreInstance.findOrCreate({
         where: { id: genreId },
       })) as unknown as genreAttributes;
-      if(!genreData){
+      if (!genreData) {
         throw { code: 404, message: "genre does not exist" };
-        }
-      
+      }
 
       const music = (await MusicInstance.create({
         id: musicId,
         title,
         artistId: artistData.id,
-        artist: artist,
+        artist: artistData.name,
         genreId,
         imageUrl: imagePath,
         songUrl: songPath,
         song_duration: song_duration,
       })) as unknown as musicAttributes;
-
-      return res.status(201).json({
+        return res.status(201).json({
         message: "Music created successfully",
         music,
         code: 201,
@@ -92,7 +90,7 @@ export const premium_create = async (
   try {
     const getMusicData = async () => {
       const { song_file, image_file } = req.files;
-      console.log(req.files);
+      console.log(req.files, req.body);
       const data_path = {
         image_path: image_file[0].path,
         song_name: song_file[0].originalName,

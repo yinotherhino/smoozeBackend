@@ -22,7 +22,6 @@ import { PodcastRoute } from "./routes/podcast";
 db.sync()
   .then(() => {
     console.log("connected to db");
-    // void createNewAdmin()
 
   })
   .catch((error: HttpError) => {
@@ -33,6 +32,7 @@ db.sync()
     origin: 'https://smooze.netlify.app',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
+
 
 // ::::globals::::
 app.use(morgan("dev"));
