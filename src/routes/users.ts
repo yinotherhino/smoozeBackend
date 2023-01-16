@@ -87,5 +87,5 @@ usersRoute.post("/resetpassword", sendemailTokenJoi, requestPassword);
 usersRoute.patch("/verify", verifyUser);
 usersRoute.post("/changepassword", changePasswordJoi, changepassword);
 usersRoute.get("/get-user", auth, getUser);
-usersRoute.post("/paystack-response", paymentMethod);
+usersRoute.post("/paystack-response", auth, paymentMethod);
 usersRoute.get("/logout", auth, logout);

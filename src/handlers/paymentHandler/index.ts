@@ -13,16 +13,19 @@ export const paymentMethod = async (
 ) => {
   try {
     const id = req.user.id;
-    const paystackResponse = req.body;
+    const { paystackResponse, transactionref } = req.body;
+    console.log(transactionref);
 
     if (paystackResponse === "success") {
-      const updatedUser = (await UserInstance.update(
+      (await UserInstance.update(
         {
           is_premium: true,
         },
         { where: { id: id } }
       )) as unknown as UserAttributes;
-
+      const updatedUser = (await UserInstance.findOne({
+        where: { id: id },
+      })) as unknown as UserAttributes;
       if (updatedUser.is_premium) {
         const payload: UserPayload = {
           id: updatedUser.id,
