@@ -7,7 +7,6 @@ dotenv.config();
 const app = express();
 
 //:::handlers:::
-import { protect } from "./middleware/auth/auth";
 import {
   genreRouter,
   musicRouter,
@@ -40,8 +39,8 @@ app.use(express.urlencoded({ extended: true }));
 // :::: end globals::::
 
 swaggerDocs(app);
-app.use("/api/music", protect, musicRouter);
-app.use("/api/playlist", protect, playlistRoute);
+app.use("/api/music", musicRouter);
+app.use("/api/playlist", playlistRoute);
 app.use("/api/user", usersRoute);
 app.use("/api/artists", artistRoute);
 app.use("/api/recent", playedMusicRoute);
