@@ -51,6 +51,7 @@ export const addSongToPlaylist = async (
         id: song.id,
         title: song.title,
         artist: song.artist,
+        artistId: song.artistId,
         song_duration: song.song_duration,
         genreId: song.genreId,
         songUrl: song.songUrl,
