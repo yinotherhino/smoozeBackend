@@ -28,7 +28,6 @@ import { PodcastRoute } from "./routes/podcast";
 db.sync()
   .then(() => {
     console.log("connected to db");
-    //  await createNewAdmin()
   })
   .catch((error: HttpError) => {
     console.log(error);
