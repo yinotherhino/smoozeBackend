@@ -27,5 +27,5 @@ export interface UserAttributes {
   isAceptedTerms?: boolean;
   socials?: Array<String>;
   is_premium: boolean;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
 }
