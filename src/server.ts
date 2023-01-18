@@ -22,14 +22,32 @@ import { swaggerDocs } from "./utils/swagger";
 import { googleoAuthentry } from "./utils/google-auth/googleAuth";
 import { fboauthBackend } from "./utils/fb-auth/fbAuth";
 import { PodcastRoute } from "./routes/podcast";
+// import { GeneratePassword, GenerateSalt } from "./utils/auth-utils";
+// import { UserInstance } from "./model";
 // ::::initalise database:::
 db.sync()
-  .then(() => {
+  .then(async() => {
     console.log("connected to db");
+    //  await createNewAdmin()
   })
   .catch((error: HttpError) => {
     console.log(error);
   });
+
+//     const createNewAdmin = async()=>{
+//     const salt = await GenerateSalt()
+//     await UserInstance.create({
+//     id: require('uuid').v4(),
+//     email: "admintest23@gmail.com",
+//     verified:true,
+//     userName:"adminuser2",
+//     password: await GeneratePassword("admin1234",salt),
+//     salt: salt,
+//     role:"admin",
+//     is_premium:true,
+//     isLoggedIn:false
+//   })
+// }
 
 // ::::globals::::
 app.use(morgan("dev"));
