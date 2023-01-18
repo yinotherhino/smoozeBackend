@@ -23,6 +23,9 @@ PlaylistInstance.init(
         type:DataTypes.STRING,
         allowNull:false
     },
+    artistId: {
+        type: DataTypes.UUID,
+      },
     artist: {
         type:DataTypes.STRING,
         allowNull: false,
