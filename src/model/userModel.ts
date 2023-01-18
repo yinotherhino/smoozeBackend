@@ -135,7 +135,7 @@ UserInstance.init(
     },
     isLoggedIn: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
     },
     salt: {
       type: DataTypes.STRING,
