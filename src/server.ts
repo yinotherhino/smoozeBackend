@@ -22,8 +22,6 @@ import { swaggerDocs } from "./utils/swagger";
 import { googleoAuthentry } from "./utils/google-auth/googleAuth";
 import { fboauthBackend } from "./utils/fb-auth/fbAuth";
 import { PodcastRoute } from "./routes/podcast";
-// import { GeneratePassword, GenerateSalt } from "./utils/auth-utils";
-// import { UserInstance } from "./model";
 // ::::initalise database:::
 db.sync()
   .then(() => {
@@ -32,7 +30,6 @@ db.sync()
   .catch((error: HttpError) => {
     console.log(error);
   });
-
 
 // ::::globals::::
 app.use(morgan("dev"));
