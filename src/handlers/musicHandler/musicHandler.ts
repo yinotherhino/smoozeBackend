@@ -68,8 +68,7 @@ export const AdminMusic = async (
         songUrl: songPath,
         song_duration: song_duration,
       })) as unknown as musicAttributes;
-
-      return res.status(201).json({
+        return res.status(201).json({
         message: "Music created successfully",
         music,
         code: 201,

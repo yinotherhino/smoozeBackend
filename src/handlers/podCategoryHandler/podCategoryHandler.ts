@@ -2,7 +2,7 @@ import{Request, Response} from "express";
 import {PodcategoryInstance} from "../../model/podcategoryModel";
 import{v4 as uuid} from "uuid";
 import {PodcastInstance } from "../../model/podcastModel";
-import { podCategoryAttributes } from "../../interface/podcategoryAttribute";
+import {podCategoryAttributes} from "../../interface/podCategoryAttribute";
 
 
 export const addCategory = async(req: Request, res: Response)=>{
