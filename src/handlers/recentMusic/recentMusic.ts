@@ -18,9 +18,14 @@ export const CreatePlayedMusic = async (
     const songId = req.params.id
     const userId = req.user.id
     const recentlyPlayed = await PlayedMusicInstance.findOne({where:{songId, userId }})
+    console.log('rcent',recentlyPlayed)
     if(recentlyPlayed){
+      console.log('recent played music')
+      recentlyPlayed.changed('updatedAt', true)
       recentlyPlayed.updatedAt = new Date()
+
       const result = await recentlyPlayed.save()
+      console.log('result', result)
       return res.status(200).json({
         message: "Music added succesfully",
         recentlyPlayed:result})

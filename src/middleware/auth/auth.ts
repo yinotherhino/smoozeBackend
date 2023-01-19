@@ -47,8 +47,6 @@ export const auth = async (
       config.APP_SECRETE as string
     ) as UserPayload;
     if (!verified) throw { code: 401, message: "Not Authorised" };
-    console.log(token)
-
     const { id } = verified as UserPayload;
 
     const user = (await UserInstance.findOne({

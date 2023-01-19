@@ -2,16 +2,18 @@ import { DataTypes, Model } from "sequelize";
 import { db } from "../config/db";
 import { UserAttributes } from "../interface/UserAttributes";
 export class UserInstance extends Model<UserAttributes> {
-    static patch(arg0: { is_premium: boolean; }, arg1: { where: { id: any; }; }): unknown {
-        throw new Error("Method not implemented.");
-    }
+  static patch(
+    arg0: { is_premium: boolean },
+    arg1: { where: { id: any } }
+  ): unknown {
+    throw new Error("Method not implemented.");
+  }
 }
-
 
 /**
  * @openapi
  * components:
- *  schemas: 
+ *  schemas:
  *    CreateUserInput:
  *      type: object
  *      required:
@@ -20,7 +22,7 @@ export class UserInstance extends Model<UserAttributes> {
  *        - gender
  *        - date_birth
  *        - password
- *      properties: 
+ *      properties:
  *        email:
  *          type: string
  *          default: omo@yahoo.com
@@ -44,7 +46,7 @@ export class UserInstance extends Model<UserAttributes> {
  *        - gender
  *        - date_birth
  *        - password
- *      properties: 
+ *      properties:
  *        email:
  *          type: string
  *        userName:
@@ -60,14 +62,14 @@ export class UserInstance extends Model<UserAttributes> {
  *      required:
  *        - email
  *        - password
- *      properties: 
+ *      properties:
  *        email:
  *          type: string
  *        password:
  *          type: string
  *    UpdateUserInput:
  *      type: object
- *      properties: 
+ *      properties:
  *        firstName:
  *          type: string
  *        profileImage:
@@ -129,6 +131,10 @@ UserInstance.init(
     },
     lastName: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    isLoggedIn: {
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     salt: {
@@ -217,7 +223,7 @@ UserInstance.init(
       type: DataTypes.STRING,
     },
     is_premium: {
-      type:DataTypes.BOOLEAN,
+      type: DataTypes.BOOLEAN,
     },
   },
   {

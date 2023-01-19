@@ -11,7 +11,7 @@ export interface UserAttributes {
   otp_expiry?: Date;
   lng?: number;
   lat?: number;
-  verified?: boolean;
+  verified: boolean;
   role: string;
   profileImage?: string;
   gender?: string;
@@ -27,4 +27,5 @@ export interface UserAttributes {
   isAceptedTerms?: boolean;
   socials?: Array<String>;
   is_premium: boolean;
+  isLoggedIn?: boolean;
 }

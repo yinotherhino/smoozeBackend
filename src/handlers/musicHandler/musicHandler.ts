@@ -61,7 +61,7 @@ export const AdminMusic = async (
       const music = (await MusicInstance.create({
         id: musicId,
         title,
-        artistId: artistData.id,
+        artistId: artist,
         artist: artistData.name,
         genreId,
         imageUrl: imagePath,
